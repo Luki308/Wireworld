@@ -80,6 +80,10 @@ public class WorldEditor extends JPanel {
      * @param editorManager
      */
     public WorldEditor(ActionListener editorManager) {
+        setBounds(0, 0, Window.screenWidth / 4, Window.screenHeight);
+
+        setBorder(Window.border);
+
         // TODO implement here
     }
 

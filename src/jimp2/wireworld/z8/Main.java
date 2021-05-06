@@ -5,31 +5,54 @@ import jimp2.wireworld.z8.wireworldlogic.Wireworld;
 import jimp2.wireworld.z8.datamangment.DataManager;
 import jimp2.wireworld.z8.datamangment.Element;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class Main {
-
-    private Wireworld wireWorld;
-    private DataManager dataManager;
-    private Window window;
-
-    private List<Element> elementsOnWorld;
-
-    private ActionListener mainEventManager;
-    private int iterationsNumber;
-    private boolean isAutomationOn;
-    private boolean shouldIterateOnce;
-
-//              OPTIONAL FEATURE
-//    private ActionListener editorEventManager;
-//    private MouseAdapter canvasEventManager;
-//    private Point lastClicked;
-//    private Point previouslyClicked;
-//    private Element drawableElement;
-
-
     public static void main(String[] args) {
+        Wireworld wireWorld;
+        DataManager dataManager;
+
+        List<Element> elementsOnWorld;
+
+        int iterationsNumber;
+        boolean isAutomationOn;
+        boolean shouldIterateOnce;
+
+        ActionListener mainEventManager = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        };
+//              OPTIONAL FEATURE
+        ActionListener editorEventManager = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        };
+        MouseAdapter canvasEventManager = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+            }
+        };
+//        Point lastClicked;
+//        Point previouslyClicked;
+//        Element drawableElement;
+
+        Window window = new Window(mainEventManager, editorEventManager, canvasEventManager);
+
+        // END OF INITIALIZATION
+
+
+
+
         System.out.println("Good morning World!");
     }
 

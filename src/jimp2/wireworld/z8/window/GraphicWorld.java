@@ -10,32 +10,18 @@ import java.awt.event.MouseAdapter;
 public class GraphicWorld extends JLayeredPane {
 
     private Canvas world;
-
-    /**
-     * 
-     */
     private Canvas grid;
 
-    /**
-     * 
-     */
-    private int squareSize;
-
-    /**
-     * 
-     */
     private int maxHeight;
-
-    /**
-     * 
-     */
     private int maxWidth;
 
+    private int squareSize;
 
-    /**
-     * @param canvasManager
-     */
+
     public GraphicWorld(MouseAdapter canvasManager) {
+        setBounds(Window.screenWidth / 4, Window.screenHeight / 4, Window.screenWidth * 3 / 4, Window.screenHeight - (Window.screenHeight / 4));
+        setBorder(Window.border);
+
         // TODO implement here
     }
 
