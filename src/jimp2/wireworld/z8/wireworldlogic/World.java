@@ -8,9 +8,8 @@ public class World {
 
     public CellsContainer cellsContainer;
 
-
     public World(int width, int height) {
-
+        this.cellsContainer= new CellsContainer(width,height);
     }
 
     /*

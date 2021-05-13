@@ -6,6 +6,7 @@ import jimp2.wireworld.z8.wireworldlogic.State;
 import jimp2.wireworld.z8.wireworldlogic.Wireworld;
 import jimp2.wireworld.z8.datamangment.DataManager;
 import jimp2.wireworld.z8.datamangment.Element;
+import jimp2.wireworld.z8.wireworldlogic.World;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -56,9 +57,14 @@ public class Main {
 
 
         System.out.println("Good morning World!");
-        CellsContainer container = new CellsContainer(3,3);
-        container.cells[1][1].setState(State.CONDUCTOR);
-        System.out.println(container.cells[1][1].getState());
+        World world = new World(3,3);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                world.cellsContainer.cells[i][j].setState(State.HEAD);
+                System.out.println(world.cellsContainer.cells[i][j].getState());
+            }
+        }
+        System.out.println(world.cellsContainer.cells[1][1].countNeighbouringHeads(world));
     }
 
 

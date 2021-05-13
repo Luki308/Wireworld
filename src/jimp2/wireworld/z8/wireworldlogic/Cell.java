@@ -22,8 +22,17 @@ public class Cell {
     }
 
     public int countNeighbouringHeads(World world) {
-        // TODO implement here
-        return 0;
+        int x = position.x;
+        int y = position.y;
+        int numberOfHeads = 0;
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (i >= 0 && i < world.cellsContainer.height && j >= 0 && j < world.cellsContainer.width && (i != x || j != y) )
+                    if(world.cellsContainer.cells[i][j].getState() == State.HEAD)
+                        numberOfHeads++;
+            }
+        }
+        return numberOfHeads;
     }
 
 }

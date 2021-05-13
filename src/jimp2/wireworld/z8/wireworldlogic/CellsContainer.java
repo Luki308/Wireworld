@@ -14,10 +14,10 @@ public class CellsContainer {
     public CellsContainer(int width, int height) {
         this.height = height;
         this.width = width;
-        this.cells = new Cell[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Point p = new Point(2,3);
+        this.cells = new Cell[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Point p = new Point(i,j);
                 cells[i][j]= new Cell(p,State.EMPTY);
                 cells[i][j].setState(State.EMPTY);
             }
@@ -25,8 +25,8 @@ public class CellsContainer {
     }
 
     private void makeEmpty() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 cells[i][j].setState(State.EMPTY);
             }
         }
