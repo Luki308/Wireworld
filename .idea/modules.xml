@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Wireworld.iml" filepath="$PROJECT_DIR$/Wireworld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Wireworld.iml" filepath="$PROJECT_DIR$/.idea/Wireworld.iml" />
     </modules>
   </component>
 </project>

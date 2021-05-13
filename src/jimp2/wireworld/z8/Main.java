@@ -1,6 +1,8 @@
 package jimp2.wireworld.z8;
 
 import jimp2.wireworld.z8.window.Window;
+import jimp2.wireworld.z8.wireworldlogic.CellsContainer;
+import jimp2.wireworld.z8.wireworldlogic.State;
 import jimp2.wireworld.z8.wireworldlogic.Wireworld;
 import jimp2.wireworld.z8.datamangment.DataManager;
 import jimp2.wireworld.z8.datamangment.Element;
@@ -54,6 +56,9 @@ public class Main {
 
 
         System.out.println("Good morning World!");
+        CellsContainer container = new CellsContainer(3,3);
+        container.cells[1][1].setState(State.CONDUCTOR);
+        System.out.println(container.cells[1][1].getState());
     }
 
 

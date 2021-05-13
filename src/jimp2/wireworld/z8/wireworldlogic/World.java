@@ -10,10 +10,10 @@ public class World {
 
 
     public World(int width, int height) {
-        // TODO implement here
+
     }
 
-    /**
+    /*
      * @param width 
      * @param height 
      * @param elements

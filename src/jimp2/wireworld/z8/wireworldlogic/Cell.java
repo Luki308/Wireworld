@@ -6,36 +6,21 @@ import java.awt.*;
 public class Cell {
 
     private State state;
-
-    /**
-     * 
-     */
     private Point position;
 
-
     public Cell(Point position, State state) {
-        // TODO implement here
+        this.position=position;
+        this.state=state;
     }
 
-    /**
-     * @return
-     */
     public State getState() {
-        // TODO implement here
-        return null;
+        return state;
     }
 
-    /**
-     * 
-     */
-    public void setState() {
-        // TODO implement here
+    public void setState(State state) {
+        this.state=state;
     }
 
-    /**
-     * @param world 
-     * @return
-     */
     public int countNeighbouringHeads(World world) {
         // TODO implement here
         return 0;
