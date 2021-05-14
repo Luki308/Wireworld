@@ -21,11 +21,17 @@ public class World {
         // TODO implement here
     }
 
-    /**
-     * @param world
-     */
-    public void copyCells(World world) {
-        // TODO implement here
+    public World copyCells(World world) {
+        int width = world.cellsContainer.width;
+        int height = world.cellsContainer.height;
+
+        World worldTo = new World(width,height);
+        for (int i = 0; i <= width; i++) {
+            for (int j = 0; j <= height; j++) {
+                worldTo.cellsContainer.cells[i][j] = world.cellsContainer.cells[i][j];
+            }
+        }
+        return worldTo;
     }
 
 }

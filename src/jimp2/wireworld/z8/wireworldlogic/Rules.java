@@ -5,40 +5,31 @@ public class Rules {
 
     private int[] nearbyHeadsToBecomeHead;
 
-
-    /**
-     * @param cell
-     */
     private void tailRule(Cell cell) {
-        // TODO implement here
+        if(cell.getState()==State.TAIL)
+            cell.setState(State.CONDUCTOR);
     }
 
-    /**
-     * @param cell
-     */
     private void headRule(Cell cell) {
-        // TODO implement here
+        if(cell.getState()==State.HEAD)
+            cell.setState(State.TAIL);
     }
 
-    /**
-     * @param cell 
-     * @param neighbouringHeads
-     */
     private void conductorRule(Cell cell, int neighbouringHeads) {
-        // TODO implement here
+        if(cell.getState()==State.CONDUCTOR)
+        for(int i : nearbyHeadsToBecomeHead)
+        {
+            if(neighbouringHeads == i)
+            {
+                cell.setState(State.HEAD);
+            }
+        }
     }
 
-    /**
-     * @param cell
-     */
     public void apply(Cell cell) {
-        // TODO implement here
+        ;
     }
 
-    /**
-     * @param cell 
-     * @param neighbouringHeads
-     */
     public void apply(Cell cell, int neighbouringHeads) {
         // TODO implement here
     }
