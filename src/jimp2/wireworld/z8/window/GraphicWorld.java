@@ -19,8 +19,8 @@ public class GraphicWorld extends JLayeredPane {
 
 
     public GraphicWorld(MouseAdapter canvasManager) {
-        setBounds(Window.LEFT_PANEL_WIDTH, Window.UPPER_PANEL_HEIGHT, Window.RIGHT_PANELS_WIDTH, Window.LOWER_PANEL_HEIGHT);
-        setBorder(Window.STANDARD_BORDER);
+        setBounds(GUI.LEFT_PANEL_WIDTH, GUI.UPPER_PANEL_HEIGHT, GUI.RIGHT_PANELS_WIDTH, GUI.LOWER_PANEL_HEIGHT);
+        setBorder(GUI.STANDARD_BORDER);
 
         // TODO implement here
     }

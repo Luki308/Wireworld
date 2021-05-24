@@ -3,13 +3,9 @@ package jimp2.wireworld.z8.window;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 
 public class Menu extends JPanel {
-
-    // this one probably won't be used due to better file choosing method
-    //private JTextField inputName = new JTextField();
 
     // first row
     private final StandardButton auto = new StandardButton("Auto");
@@ -20,32 +16,36 @@ public class Menu extends JPanel {
     // second row
     private final JLabel iterationsLabel = new StandardLabel("Iterations:", JLabel.RIGHT);
     private final JTextField iterations = new StandardTextField("0");
+    private final JButton chooseInputFile = new StandardButton("Choose input .json file");
     private final JButton start = new StandardButton("Start");
     private final JButton abort = new StandardButton("Abort");
 
 
     public Menu(ActionListener mainManager) {
-        setBounds(Window.LEFT_PANEL_WIDTH, Window.ORIGIN_POINT, Window.RIGHT_PANELS_WIDTH, Window.UPPER_PANEL_HEIGHT);
-        setBorder(Window.STANDARD_BORDER);
+        setBounds(GUI.LEFT_PANEL_WIDTH, GUI.ORIGIN_POINT, GUI.RIGHT_PANELS_WIDTH, GUI.UPPER_PANEL_HEIGHT);
+        setBorder(GUI.STANDARD_BORDER);
 
-        add(auto);
-        auto.setActionCommand("AUTO");
-        add(stop);
-        stop.setActionCommand("STOP");
         add(next);
-        next.setActionCommand("NEXT");
+        next.setActionCommand(GUI.NEXT);
+        add(auto);
+        auto.setActionCommand(GUI.AUTO);
+        add(stop);
+        stop.setActionCommand(GUI.STOP);
         add(saveAsInputFile);
-        saveAsInputFile.setActionCommand("SAVE_AS_FILE");
+        saveAsInputFile.setActionCommand(GUI.SAVE_AS_FILE);
         add(saveAsCustomElement);
-        saveAsCustomElement.setActionCommand("SAVE_AS_ELEMENT");
-        add(start);
-        start.setActionCommand("START");
-        add(abort);
-        abort.setActionCommand("ABORT");
+        saveAsCustomElement.setActionCommand(GUI.SAVE_AS_ELEMENT);
+
         add(iterationsLabel);
         add(iterations);
+        add(chooseInputFile);
+        chooseInputFile.setActionCommand(GUI.CHOOSE_FILE);
+        add(start);
+        start.setActionCommand(GUI.START);
+        add(abort);
+        abort.setActionCommand(GUI.ABORT);
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, Window.STANDARD_LAYOUT_GAP ,Window.STANDARD_LAYOUT_GAP));
+        setLayout(new FlowLayout(FlowLayout.CENTER, GUI.STANDARD_LAYOUT_GAP ,GUI.STANDARD_LAYOUT_GAP));
 
         for (Component component : getComponents()){
             if(component instanceof JButton){
@@ -54,47 +54,62 @@ public class Menu extends JPanel {
         }
     }
 
-/* PROBABLY USELESS NOW
-    public HashMap<String, JButton> getAllButtons() {
-        // TODO implement here
-        return null;
-    }
-*/
-
-    private void ensureFileIsJson(String fileName) {
-        // TODO implement here
-    }
-
-
-    public String getInputFileName() {
-        // TODO implement here
-        return "";
-    }
-
-
     public int getIterationNumber() {
-        // TODO implement here
-        return 0;
+        int iterationNumber = 0;
+        String textValue = iterations.getText();
+
+        if(textValue.matches("\\d+")){
+            iterationNumber = Integer.parseInt(textValue);
+        }
+        else{
+            JOptionPane.showMessageDialog(getParent(), "Number of iterations must be a positive integer!.");
+        }
+
+        return iterationNumber;
     }
 
-
-    public void setIterationNumber() {
-        // TODO implement here
+    public void setIterationNumber(int remainingIterations) {
+        if(remainingIterations >= 0){
+            iterations.setText(Integer.toString(remainingIterations));
+        }
     }
-
 
     public void unlockStartingFields() {
-        // TODO implement here
-    }
+        start.setEnabled(true);
+        iterations.setEnabled(true);
+        chooseInputFile.setEnabled(true);
 
+        auto.setEnabled(false);
+        stop.setEnabled(false);
+        next.setEnabled(false);
+        saveAsInputFile.setEnabled(false);
+        saveAsCustomElement.setEnabled(false);
+        abort.setEnabled(false);
+    }
 
     public void unlockNavigationFields() {
-        // TODO implement here
-    }
+        auto.setEnabled(true);
+        next.setEnabled(true);
+        abort.setEnabled(true);
+        saveAsInputFile.setEnabled(true);
+        saveAsCustomElement.setEnabled(true);
 
+        stop.setEnabled(false);
+        chooseInputFile.setEnabled(false);
+        iterations.setEnabled(false);
+        start.setEnabled(false);
+    }
 
     public void unlockStop() {
-        // TODO implement here
-    }
+        stop.setEnabled(true);
+        abort.setEnabled(true);
 
+        auto.setEnabled(false);
+        next.setEnabled(false);
+        saveAsInputFile.setEnabled(false);
+        saveAsCustomElement.setEnabled(false);
+        iterations.setEnabled(false);
+        chooseInputFile.setEnabled(false);
+        start.setEnabled(false);
+    }
 }

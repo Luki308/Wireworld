@@ -6,8 +6,8 @@ import javax.swing.*;
 public class StandardLabel extends JLabel {
 
     public StandardLabel(){
-        setPreferredSize(Window.STANDARD_BUTTON_SIZE);
-        setFont(Window.STANDARD_FONT);
+        setPreferredSize(GUI.STANDARD_BUTTON_SIZE);
+        setFont(GUI.STANDARD_FONT);
     }
 
     public StandardLabel(String text, int alignment){

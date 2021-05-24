@@ -8,8 +8,9 @@ public class StandardButton extends JButton {
 
     public StandardButton(String name)
     {
-        setPreferredSize(Window.STANDARD_BUTTON_SIZE);
+        setPreferredSize(GUI.STANDARD_BUTTON_SIZE);
+        setHorizontalAlignment(CENTER);
         setText(String.format(buttonTextFormat, name));
-        setFont(Window.STANDARD_FONT);
+        setFont(GUI.STANDARD_FONT);
     }
 }

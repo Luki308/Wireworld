@@ -6,9 +6,9 @@ import javax.swing.*;
 public class StandardTextField extends JTextField {
 
     public StandardTextField() {
-        setPreferredSize(Window.STANDARD_TEXT_FIELD_SIZE);
+        setPreferredSize(GUI.STANDARD_TEXT_FIELD_SIZE);
         setHorizontalAlignment(JTextField.CENTER);
-        setFont(Window.STANDARD_FONT);
+        setFont(GUI.STANDARD_FONT);
     }
 
     public StandardTextField(String text) {
