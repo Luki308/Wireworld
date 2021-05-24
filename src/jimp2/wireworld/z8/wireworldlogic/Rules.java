@@ -33,6 +33,9 @@ public class Rules {
     }
 
     public void apply(Cell cell, int neighbouringHeads) {
+        nearbyHeadsToBecomeHead = new int[2];
+        nearbyHeadsToBecomeHead[0] = 1;
+        nearbyHeadsToBecomeHead[1] = 2;
         if(cell.getState()==State.CONDUCTOR)
             conductorRule(cell,neighbouringHeads);
 

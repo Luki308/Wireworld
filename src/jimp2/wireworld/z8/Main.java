@@ -1,12 +1,9 @@
 package jimp2.wireworld.z8;
 
 import jimp2.wireworld.z8.window.Window;
-import jimp2.wireworld.z8.wireworldlogic.CellsContainer;
-import jimp2.wireworld.z8.wireworldlogic.State;
-import jimp2.wireworld.z8.wireworldlogic.Wireworld;
+import jimp2.wireworld.z8.wireworldlogic.*;
 import jimp2.wireworld.z8.datamangment.DataManager;
 import jimp2.wireworld.z8.datamangment.Element;
-import jimp2.wireworld.z8.wireworldlogic.World;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -57,14 +54,21 @@ public class Main {
 
 
         System.out.println("Good morning World!");
+
+        Rules rules = new Rules();
+
         World world = new World(3,3);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                world.cellsContainer.cells[i][j].setState(State.HEAD);
+                world.cellsContainer.cells[i][j].setState(State.CONDUCTOR);
                 System.out.println(world.cellsContainer.cells[i][j].getState());
             }
         }
-        System.out.println(world.cellsContainer.cells[1][1].countNeighbouringHeads(world));
+        world.cellsContainer.cells[1][1].setState(State.HEAD);
+        System.out.println("Stan [1][1]: "+world.cellsContainer.cells[1][1].getState());
+        System.out.println(world.cellsContainer.cells[1][2].countNeighbouringHeads(world));
+        rules.apply(world.cellsContainer.cells[1][2],world.cellsContainer.cells[1][2].countNeighbouringHeads(world));
+        System.out.println(world.cellsContainer.cells[1][2].getState());
     }
 
 
