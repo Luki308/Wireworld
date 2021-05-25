@@ -21,10 +21,6 @@ public final class GUI {
     public static final Dimension STANDARD_TEXT_FIELD_SIZE = new Dimension(80, 80);
     public static final int STANDARD_LAYOUT_GAP = 10;
 
-    // some constant GUI properties
-    public static final Border STANDARD_BORDER = BorderFactory.createLineBorder(Color.BLACK,2);
-    public static final Font STANDARD_FONT = new Font("Monospaced", Font.BOLD, 18);
-
     // constant names of button action commands, ensuring no typo mistakes
     public static final String NEXT = "NEXT";
     public static final String AUTO = "AUTO";
@@ -35,6 +31,8 @@ public final class GUI {
     public static final String START = "START";
     public static final String ABORT = "ABORT";
 
+    public static final Font STANDARD_FONT = new Font("Monospaced", Font.BOLD, 18);
+    public static final Border THIN_BORDER = BorderFactory.createLineBorder(Color.BLACK,1);
 
     private GUI() {}
 }

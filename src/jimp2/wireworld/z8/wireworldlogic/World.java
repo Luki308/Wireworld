@@ -4,12 +4,12 @@ import jimp2.wireworld.z8.datamangment.Element;
 
 import java.util.List;
 
-public class World {
+public class World extends CellsContainer {
 
-    public CellsContainer cellsContainer;
 
 
     public World(int width, int height) {
+        super(width, height);
         // TODO implement here
     }
 

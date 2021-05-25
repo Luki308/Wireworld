@@ -1,6 +1,7 @@
 package jimp2.wireworld.z8.window;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -22,8 +23,12 @@ public class Menu extends JPanel {
 
 
     public Menu(ActionListener mainManager) {
-        setBounds(GUI.LEFT_PANEL_WIDTH, GUI.ORIGIN_POINT, GUI.RIGHT_PANELS_WIDTH, GUI.UPPER_PANEL_HEIGHT);
-        setBorder(GUI.STANDARD_BORDER);
+        Point point = new Point(GUI.LEFT_PANEL_WIDTH, GUI.ORIGIN_POINT);
+        Dimension dimension = new Dimension(GUI.RIGHT_PANELS_WIDTH, GUI.UPPER_PANEL_HEIGHT);
+        Rectangle rectangle = new Rectangle(point, dimension);
+        setBounds(rectangle);
+
+        setBorder(new MatteBorder(0, 2, 2, 0, Color.BLACK));
 
         add(next);
         next.setActionCommand(GUI.NEXT);
