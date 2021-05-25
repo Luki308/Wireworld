@@ -30,7 +30,7 @@ public class World extends CellsContainer {
 
         for (int i = 0; i <= width; i++)
         {
-            if (height + 1 >= 0) System.arraycopy(cells[i], 0, worldTo.cells[i], 0, height + 1);
+            System.arraycopy(cells[i], 0, worldTo.cells[i], 0, height);
         }
         return worldTo;
     }
