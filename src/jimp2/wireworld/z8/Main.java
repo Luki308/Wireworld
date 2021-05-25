@@ -55,20 +55,19 @@ public class Main {
 
         System.out.println("Good morning World!");
 
-        Rules rules = new Rules();
-
         World world = new World(3,3);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                world.cellsContainer.cells[i][j].setState(State.CONDUCTOR);
-                System.out.println(world.cellsContainer.cells[i][j].getState());
+                world.cells[i][j].setState(State.CONDUCTOR);
+                System.out.println(world.cells[i][j].getState());
             }
         }
-        world.cellsContainer.cells[1][1].setState(State.HEAD);
-        System.out.println("Stan [1][1]: "+world.cellsContainer.cells[1][1].getState());
-        System.out.println(world.cellsContainer.cells[1][2].countNeighbouringHeads(world));
-        rules.apply(world.cellsContainer.cells[1][2],world.cellsContainer.cells[1][2].countNeighbouringHeads(world));
-        System.out.println(world.cellsContainer.cells[1][2].getState());
+
+        world.cells[1][1].setState(State.HEAD);
+        System.out.println("Stan [1][1]: "+world.cells[1][1].getState());
+        System.out.println(world.cells[1][2].countNeighbouringHeads(world));
+        //rules.apply(world.cellsContainer.cells[1][2],world.cellsContainer.cells[1][2].countNeighbouringHeads(world));
+        System.out.println(world.cells[1][2].getState());
     }
 
 

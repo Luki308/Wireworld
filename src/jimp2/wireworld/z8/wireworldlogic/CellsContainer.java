@@ -24,7 +24,7 @@ public class CellsContainer {
         }
     }
 
-    private void makeEmpty() {
+    private void makeEmpty() {                  //usunąć tę metodę?
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 cells[i][j].setState(State.EMPTY);

@@ -1,22 +1,36 @@
 package jimp2.wireworld.z8.wireworldlogic;
 
 
+import jimp2.wireworld.z8.datamangment.Wire;
+
 public class Wireworld {
 
     private World world;
-
     private World newWorld;
-
     private Rules rules;
 
-    public World update() {
-        // TODO implement here
-        return null;
+    public Wireworld(int []tabRules,int width, int height)
+    {
+        this.world = new World(width,height);
+        this.rules = new Rules(tabRules);
+    }
+
+    public void update() { //zmiana World na void
+        newWorld = world.copyCells();
+        int width = newWorld.width;
+        int height = newWorld.height;
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                rules.apply(newWorld.cells[i][j], world);
+            }
+        }
+        world = newWorld.copyCells();
     }
 
     public World getWorld() {
-        // TODO implement here
-        return null;
+        return this.world;
     }
 
 }

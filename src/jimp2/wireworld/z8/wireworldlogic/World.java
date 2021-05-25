@@ -4,14 +4,18 @@ import jimp2.wireworld.z8.datamangment.Element;
 
 import java.util.List;
 
-public class World {
-
-    public CellsContainer cellsContainer;
+public class World extends CellsContainer {
 
     public World(int width, int height) {
-        this.cellsContainer= new CellsContainer(width,height);
+        super(width, height);
     }
 
+    /*public CellsContainer cellsContainer;
+
+        public World(int width, int height) {
+            this.cellsContainer= new CellsContainer(width,height);
+        }
+        */
     /*
      * @param width 
      * @param height 
@@ -21,15 +25,12 @@ public class World {
         // TODO implement here
     }
 
-    public World copyCells(World world) {
-        int width = world.cellsContainer.width;
-        int height = world.cellsContainer.height;
-
+    public World copyCells() {
         World worldTo = new World(width,height);
-        for (int i = 0; i <= width; i++) {
-            for (int j = 0; j <= height; j++) {
-                worldTo.cellsContainer.cells[i][j] = world.cellsContainer.cells[i][j];
-            }
+
+        for (int i = 0; i <= width; i++)
+        {
+            if (height + 1 >= 0) System.arraycopy(cells[i], 0, worldTo.cells[i], 0, height + 1);
         }
         return worldTo;
     }

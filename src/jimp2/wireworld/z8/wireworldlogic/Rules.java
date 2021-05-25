@@ -5,6 +5,11 @@ public class Rules {
 
     private int[] nearbyHeadsToBecomeHead;
 
+    public Rules (int []tabRules)
+    {
+        nearbyHeadsToBecomeHead=tabRules;
+    }
+
     private void tailRule(Cell cell) {
             cell.setState(State.CONDUCTOR);
     }
@@ -23,22 +28,17 @@ public class Rules {
         }
     }
 
-    public void apply(Cell cell) {
+    public void apply(Cell cell, World world) {
         if (cell.getState()==State.HEAD)
             headRule(cell);
         else if (cell.getState()==State.TAIL)
             tailRule(cell);
         else if(cell.getState()==State.CONDUCTOR)
-            System.err.println("Number of neighbouring head is not transferred to function");
+            apply(cell, cell.countNeighbouringHeads(world));
     }
 
     public void apply(Cell cell, int neighbouringHeads) {
-        nearbyHeadsToBecomeHead = new int[2];
-        nearbyHeadsToBecomeHead[0] = 1;
-        nearbyHeadsToBecomeHead[1] = 2;
-        if(cell.getState()==State.CONDUCTOR)
             conductorRule(cell,neighbouringHeads);
-
     }
 
 }
