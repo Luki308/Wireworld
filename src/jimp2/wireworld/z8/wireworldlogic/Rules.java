@@ -3,14 +3,7 @@ package jimp2.wireworld.z8.wireworldlogic;
 
 public class Rules {
 
-    private int[] nearbyHeadsToBecomeHead;
-
-    public Rules ()
-    {
-        nearbyHeadsToBecomeHead= new int [2];
-        nearbyHeadsToBecomeHead[0]=1;
-        nearbyHeadsToBecomeHead[1]=2;
-    }
+    private final int[] nearbyHeadsToBecomeHead = {1,2};
 
     private void tailRule(Cell cell) {
             cell.setState(State.CONDUCTOR);
