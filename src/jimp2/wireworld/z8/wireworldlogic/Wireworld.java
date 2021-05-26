@@ -9,13 +9,14 @@ public class Wireworld {
     private World newWorld;
     private Rules rules;
 
-    public Wireworld(int []tabRules,int width, int height)
+    public Wireworld(int width, int height)
     {
         this.world = new World(width,height);
-        this.rules = new Rules(tabRules);
+        this.rules = new Rules();
     }
 
     public void update() { //zmiana World na void
+        newWorld = new World(world.width, world.height);
         newWorld = world.copyCells();
         int width = newWorld.width;
         int height = newWorld.height;

@@ -28,7 +28,7 @@ public class World extends CellsContainer {
     public World copyCells() {
         World worldTo = new World(width,height);
 
-        for (int i = 0; i <= width; i++)
+        for (int i = 0; i < width; i++)
         {
             System.arraycopy(cells[i], 0, worldTo.cells[i], 0, height);
         }

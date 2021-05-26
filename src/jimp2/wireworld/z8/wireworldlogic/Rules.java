@@ -5,9 +5,11 @@ public class Rules {
 
     private int[] nearbyHeadsToBecomeHead;
 
-    public Rules (int []tabRules)
+    public Rules ()
     {
-        nearbyHeadsToBecomeHead=tabRules;
+        nearbyHeadsToBecomeHead= new int [2];
+        nearbyHeadsToBecomeHead[0]=1;
+        nearbyHeadsToBecomeHead[1]=2;
     }
 
     private void tailRule(Cell cell) {
