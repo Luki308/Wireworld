@@ -57,22 +57,30 @@ public class Main {
         System.out.println("Good morning World!");
 
 
+
+        //Przykładowy świat 3x3
         Wireworld wireworld = new Wireworld(3,3);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 wireworld.getWorld().cells[i][j].setState(State.CONDUCTOR);
-                System.out.println(wireworld.getWorld().cells[i][j].getState());
+                //System.out.println(wireworld.getWorld().cells[i][j].getState());
             }
         }
+        wireworld.getWorld().cells[0][0].setState(State.HEAD);
 
-        wireworld.getWorld().cells[1][1].setState(State.HEAD);
-        System.out.println("Stan [1][1]: "+wireworld.getWorld().cells[1][1].getState());
-        System.out.println(wireworld.getWorld().cells[1][2].countNeighbouringHeads(wireworld.getWorld()));
         wireworld.update();
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.println(wireworld.getWorld().cells[i][j].getState());
-            }
+                System.out.println(wireworld.getWorld().cells[0][i].getState()+" "+wireworld.getWorld().cells[1][i].getState()+" " + wireworld.getWorld().cells[2][i].getState());
+        }
+        System.out.println("\n");
+        wireworld.update();
+        for (int i = 0; i < 3; i++) {
+            System.out.println(wireworld.getWorld().cells[0][i].getState()+" "+wireworld.getWorld().cells[1][i].getState()+" " + wireworld.getWorld().cells[2][i].getState());
+        }
+        System.out.println("\n");
+        wireworld.update();
+        for (int i = 0; i < 3; i++) {
+            System.out.println(wireworld.getWorld().cells[0][i].getState()+" "+wireworld.getWorld().cells[1][i].getState()+" " + wireworld.getWorld().cells[2][i].getState());
         }
     }
 

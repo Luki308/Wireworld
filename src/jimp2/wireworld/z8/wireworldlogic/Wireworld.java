@@ -12,11 +12,11 @@ public class Wireworld {
     public Wireworld(int width, int height)
     {
         this.world = new World(width,height);
+        this.newWorld = new World(width,height);
         this.rules = new Rules();
     }
 
-    public void update() { //zmiana World na void
-        newWorld = new World(world.width, world.height);
+    public void update() { //zmiana World na void (względem specyfikacji)
         newWorld = world.copyCells();
         int width = newWorld.width;
         int height = newWorld.height;
@@ -24,10 +24,10 @@ public class Wireworld {
         {
             for(int j = 0; j < height; j++)
             {
-                rules.apply(newWorld.cells[i][j], world);
+                rules.apply(newWorld.cells[i][j], world);       //for each cell apply rules of WireWorld
             }
         }
-        world = newWorld.copyCells();
+        world = newWorld.copyCells();           //copy changes that were made to the world
     }
 
     public World getWorld() {

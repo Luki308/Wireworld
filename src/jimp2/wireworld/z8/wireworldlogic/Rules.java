@@ -36,7 +36,7 @@ public class Rules {
         else if (cell.getState()==State.TAIL)
             tailRule(cell);
         else if(cell.getState()==State.CONDUCTOR)
-            apply(cell, cell.countNeighbouringHeads(world));
+            apply(cell, cell.countNeighbouringHeads(world));           //if its conductor count heads around cell and pass it to apply()
     }
 
     public void apply(Cell cell, int neighbouringHeads) {

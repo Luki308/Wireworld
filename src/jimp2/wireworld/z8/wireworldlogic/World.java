@@ -9,7 +9,7 @@ public class World extends CellsContainer {
     public World(int width, int height) {
         super(width, height);
     }
-
+    //Pozostałości przed extends. Wywalić?
     /*public CellsContainer cellsContainer;
 
         public World(int width, int height) {
@@ -30,7 +30,10 @@ public class World extends CellsContainer {
 
         for (int i = 0; i < width; i++)
         {
-            System.arraycopy(cells[i], 0, worldTo.cells[i], 0, height);
+            for(int j = 0; j < height; j++)
+            {
+                worldTo.cells[i][j].setState(cells[i][j].getState());
+            }
         }
         return worldTo;
     }

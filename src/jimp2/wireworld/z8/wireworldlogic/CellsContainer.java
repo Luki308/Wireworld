@@ -19,12 +19,11 @@ public class CellsContainer {
             for (int j = 0; j < height; j++) {
                 Point p = new Point(i,j);
                 cells[i][j]= new Cell(p,State.EMPTY);
-                cells[i][j].setState(State.EMPTY);
             }
         }
     }
 
-    private void makeEmpty() {                  //usunąć tę metodę?
+    private void makeEmpty() {                  //usunąć tę metodę? Moim zdaniem nie jest potrzebna.
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 cells[i][j].setState(State.EMPTY);
