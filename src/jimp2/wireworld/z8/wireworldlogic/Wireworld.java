@@ -20,11 +20,16 @@ public class Wireworld {
         newWorld = world.copyCells();
         int width = newWorld.width;
         int height = newWorld.height;
+
+        //for each cell apply rules of WireWorld
         for(int i = 0; i < width; i++)
         {
             for(int j = 0; j < height; j++)
             {
-                rules.apply(newWorld.cells[i][j], world);       //for each cell apply rules of WireWorld
+                if(newWorld.cells[i][j].getState()==State.CONDUCTOR)
+                    rules.apply(newWorld.cells[i][j],world.cells[i][j].countNeighbouringHeads(world));
+                else if(newWorld.cells[i][j].getState()!=State.EMPTY)
+                    rules.apply(newWorld.cells[i][j]);
             }
         }
         world = newWorld.copyCells();           //copy changes that were made to the world

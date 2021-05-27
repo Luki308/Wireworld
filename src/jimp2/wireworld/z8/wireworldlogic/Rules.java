@@ -14,22 +14,20 @@ public class Rules {
     }
 
     private void conductorRule(Cell cell, int neighbouringHeads) {
-        for(int i : nearbyHeadsToBecomeHead)
+        for(int eachCondition : nearbyHeadsToBecomeHead)
         {
-            if(neighbouringHeads == i)
+            if(neighbouringHeads == eachCondition)
             {
                 cell.setState(State.HEAD);
             }
         }
     }
 
-    public void apply(Cell cell, World world) {
+    public void apply(Cell cell) {
         if (cell.getState()==State.HEAD)
             headRule(cell);
         else if (cell.getState()==State.TAIL)
             tailRule(cell);
-        else if(cell.getState()==State.CONDUCTOR)
-            apply(cell, cell.countNeighbouringHeads(world));           //if its conductor count heads around cell and pass it to apply()
     }
 
     public void apply(Cell cell, int neighbouringHeads) {

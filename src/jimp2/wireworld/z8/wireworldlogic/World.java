@@ -9,13 +9,6 @@ public class World extends CellsContainer {
     public World(int width, int height) {
         super(width, height);
     }
-    //Pozostałości przed extends. Wywalić?
-    /*public CellsContainer cellsContainer;
-
-        public World(int width, int height) {
-            this.cellsContainer= new CellsContainer(width,height);
-        }
-        */
     /*
      * @param width 
      * @param height 
