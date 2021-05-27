@@ -15,12 +15,8 @@ public class Rules {
 
     private void conductorRule(Cell cell, int neighbouringHeads) {
         for(int eachCondition : nearbyHeadsToBecomeHead)
-        {
             if(neighbouringHeads == eachCondition)
-            {
                 cell.setState(State.HEAD);
-            }
-        }
     }
 
     public void apply(Cell cell) {

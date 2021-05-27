@@ -16,8 +16,8 @@ public class Wireworld {
         this.rules = new Rules();
     }
 
-    public void update() { //zmiana World na void (względem specyfikacji)
-        newWorld = world.copyCells();
+    public void update() {
+        newWorld.copyCells(world);
         int width = newWorld.width;
         int height = newWorld.height;
 
@@ -32,7 +32,7 @@ public class Wireworld {
                     rules.apply(newWorld.cells[i][j]);
             }
         }
-        world = newWorld.copyCells();           //copy changes that were made to the world
+        world.copyCells(newWorld);           //copy changes that were made to the world
     }
 
     public World getWorld() {

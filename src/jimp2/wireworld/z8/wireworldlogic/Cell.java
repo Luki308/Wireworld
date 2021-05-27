@@ -25,13 +25,12 @@ public class Cell {
         int x = position.x;
         int y = position.y;
         int numberOfHeads = 0;
-        for (int i = x - 1; i <= x + 1; i++) {
+        for (int i = x - 1; i <= x + 1; i++)
             for (int j = y - 1; j <= y + 1; j++) {
                 if (i >= 0 && i < world.height && j >= 0 && j < world.width && !(i == x && j == y) ) //In world borders and its not cell itself
                     if(world.cells[i][j].getState() == State.HEAD)
                         numberOfHeads++;
             }
-        }
         return numberOfHeads;
     }
 

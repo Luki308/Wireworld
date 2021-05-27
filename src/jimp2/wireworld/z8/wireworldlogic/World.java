@@ -18,17 +18,11 @@ public class World extends CellsContainer {
         // TODO implement here
     }
 
-    public World copyCells() {
-        World worldTo = new World(width,height);
+    public void copyCells( World worldFrom) {
 
         for (int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < height; j++)
-            {
-                worldTo.cells[i][j].setState(cells[i][j].getState());
-            }
-        }
-        return worldTo;
+            for (int j = 0; j < height; j++)
+                cells[i][j].setState(worldFrom.cells[i][j].getState());
     }
 
 }
