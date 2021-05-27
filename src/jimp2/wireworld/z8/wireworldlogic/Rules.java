@@ -3,44 +3,31 @@ package jimp2.wireworld.z8.wireworldlogic;
 
 public class Rules {
 
-    private int[] nearbyHeadsToBecomeHead;
+    private final int[] nearbyHeadsToBecomeHead = {1,2};
 
-
-    /**
-     * @param cell
-     */
     private void tailRule(Cell cell) {
-        // TODO implement here
+            cell.setState(State.CONDUCTOR);
     }
 
-    /**
-     * @param cell
-     */
     private void headRule(Cell cell) {
-        // TODO implement here
+            cell.setState(State.TAIL);
     }
 
-    /**
-     * @param cell 
-     * @param neighbouringHeads
-     */
     private void conductorRule(Cell cell, int neighbouringHeads) {
-        // TODO implement here
+        for(int eachCondition : nearbyHeadsToBecomeHead)
+            if(neighbouringHeads == eachCondition)
+                cell.setState(State.HEAD);
     }
 
-    /**
-     * @param cell
-     */
     public void apply(Cell cell) {
-        // TODO implement here
+        if (cell.getState()==State.HEAD)
+            headRule(cell);
+        else if (cell.getState()==State.TAIL)
+            tailRule(cell);
     }
 
-    /**
-     * @param cell 
-     * @param neighbouringHeads
-     */
     public void apply(Cell cell, int neighbouringHeads) {
-        // TODO implement here
+            conductorRule(cell,neighbouringHeads);
     }
 
 }

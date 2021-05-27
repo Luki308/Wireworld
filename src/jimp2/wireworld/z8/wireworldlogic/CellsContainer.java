@@ -1,40 +1,32 @@
 package jimp2.wireworld.z8.wireworldlogic;
 
 
+import java.awt.*;
+
 public class CellsContainer {
 
     protected int height;
     protected int width;
 
-    public Cell cells[][];
+    public Cell[][] cells;
 
 
     public CellsContainer(int width, int height) {
-        // TODO implement here
-        cells = new Cell[height][width];
+        this.height = height;
+        this.width = width;
+        this.cells = new Cell[width][height];
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++) {
+                Point p = new Point(i,j);
+                cells[i][j]= new Cell(p,State.EMPTY);
+            }
     }
 
-    /**
-     * 
-     */
-    private void makeEmpty() {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
     public int getHeight() {
-        // TODO implement here
-        return 0;
+        return height;
     }
 
-    /**
-     * @return
-     */
     public int getWidth() {
-        // TODO implement here
-        return 0;
+        return width;
     }
-
 }
