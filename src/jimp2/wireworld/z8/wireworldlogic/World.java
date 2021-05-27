@@ -31,4 +31,4 @@ public class World extends CellsContainer {
         return worldTo;
     }
 
-}//c
+}
