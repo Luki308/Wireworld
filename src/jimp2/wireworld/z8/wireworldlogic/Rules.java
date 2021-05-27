@@ -34,4 +34,4 @@ public class Rules {
             conductorRule(cell,neighbouringHeads);
     }
 
-}//c
+}
