@@ -15,7 +15,7 @@ public class GraphicWorld extends JLayeredPane {
 
     private int squareSize;
 
-
+    // canvasManager will be needed in Editor
     public GraphicWorld(MouseAdapter canvasManager) {
         Point point = new Point(GUI.LEFT_PANEL_WIDTH, GUI.UPPER_PANEL_HEIGHT);
         Dimension dimension = new Dimension(GUI.RIGHT_PANELS_WIDTH, GUI.LOWER_PANEL_HEIGHT);
@@ -30,6 +30,7 @@ public class GraphicWorld extends JLayeredPane {
         setLayer(worldCanvas, 0);
         setLayer(gridCanvas, 1);
 
+        // initializing with some random world not to leave free space
         initialize(new World(10, 10));
     }
 
@@ -40,12 +41,6 @@ public class GraphicWorld extends JLayeredPane {
 
         squareSize = Math.min(potentialSquareWidth, potentialSquareHeight);
     }
-
-    /* probably useless now
-    private void drawGrid(World world) {
-        // TODO implement here
-    }
-    */
 
     public void drawGivenWorld(World world) {
         worldCanvas.setWorld(world);

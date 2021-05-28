@@ -9,11 +9,7 @@ public class World extends CellsContainer {
     public World(int width, int height) {
         super(width, height);
     }
-    /*
-     * @param width 
-     * @param height 
-     * @param elements
-     */
+
     public void buildTheWorld(int width, int height, List<Element> elements) {
         // TODO implement here
     }
