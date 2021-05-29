@@ -1,17 +1,12 @@
 package jimp2.wireworld.z8.window;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 
 
 public class Window extends JFrame {
-    public static final int screenWidth = 1200;
-    public static final int screenHeight = 800;
-    public static final Border border = BorderFactory.createLineBorder(Color.BLACK,2);
-
 
     public Menu menu;
     public WorldEditor worldEditor;
@@ -23,20 +18,22 @@ public class Window extends JFrame {
         worldEditor = new WorldEditor(editorManager);
         graphicWorld = new GraphicWorld(canvasManager);
 
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Wireworld Simulator");
         setVisible(true);
+        setResizable(false);
 
-        //Make frame located in center of screens
-        setBounds((Toolkit.getDefaultToolkit().getScreenSize().width - screenWidth) / 2
-                , (Toolkit.getDefaultToolkit().getScreenSize().height - screenHeight) / 2
-                , screenWidth, screenHeight);
+        //Make frame located in center of screen and set it's size
+        Point point = new Point((Toolkit.getDefaultToolkit().getScreenSize().width - GUI.WINDOW_WIDTH) / 2
+                                , (Toolkit.getDefaultToolkit().getScreenSize().height - GUI.WINDOW_HEIGHT) / 2);
+        Dimension dimension = new Dimension(GUI.WINDOW_WIDTH+ getInsets().left + getInsets().right
+                                            , GUI.WINDOW_HEIGHT + getInsets().top + getInsets().bottom);
+        Rectangle rectangle = new Rectangle(point, dimension);
+        setBounds(rectangle);
 
-
-        add(menu, BorderLayout.NORTH);
         add(worldEditor, BorderLayout.WEST);
-        add(graphicWorld, BorderLayout.EAST);
+        add(menu, BorderLayout.NORTH);
+        add(graphicWorld, BorderLayout.SOUTH);
 
         setLayout(new BorderLayout());
     }

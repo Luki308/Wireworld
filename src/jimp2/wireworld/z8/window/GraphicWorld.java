@@ -3,62 +3,61 @@ package jimp2.wireworld.z8.window;
 import jimp2.wireworld.z8.wireworldlogic.World;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
 
 public class GraphicWorld extends JLayeredPane {
 
-    private Canvas world;
-    private Canvas grid;
-
-    private int maxHeight;
-    private int maxWidth;
+    private final WireworldCanvas worldCanvas = new WireworldCanvas();
+    private final GridCanvas gridCanvas = new GridCanvas();
 
     private int squareSize;
 
-
+    // canvasManager will be needed in Editor
     public GraphicWorld(MouseAdapter canvasManager) {
-        setBounds(Window.screenWidth / 4, Window.screenHeight / 4, Window.screenWidth * 3 / 4, Window.screenHeight - (Window.screenHeight / 4));
-        setBorder(Window.border);
+        Point point = new Point(GUI.LEFT_PANEL_WIDTH, GUI.UPPER_PANEL_HEIGHT);
+        Dimension dimension = new Dimension(GUI.RIGHT_PANELS_WIDTH, GUI.LOWER_PANEL_HEIGHT);
+        Rectangle rectangle = new Rectangle(point, dimension);
+        setBounds(rectangle);
 
-        // TODO implement here
+        setBorder(new MatteBorder(2, 2, 0, 0, Color.BLACK));
+
+        add(worldCanvas);
+        add(gridCanvas);
+
+        setLayer(worldCanvas, 0);
+        setLayer(gridCanvas, 1);
+
+        // initializing with some random world not to leave free space
+        initialize(new World(10, 10));
     }
 
-    /**
-     * 
-     */
-    private void calculateSquareSize() {
-        // TODO implement here
+    // proper square size equals minimum value between each dimension maximum GUI length, divided by it's corresponding logic length (rounded to an integer)
+    private void calculateSquareSize(World world) {
+        int potentialSquareWidth = GUI.RIGHT_PANELS_WIDTH / world.getWidth();
+        int potentialSquareHeight = GUI.LOWER_PANEL_HEIGHT / world.getHeight();
+
+        squareSize = Math.min(potentialSquareWidth, potentialSquareHeight);
     }
 
-    /**
-     * 
-     */
-    private void drawGrid() {
-        // TODO implement here
+    public void drawGivenWorld(World world) {
+        worldCanvas.setWorld(world);
     }
 
-    /**
-     * @param world
-     */
-    public void drawSquares(World world) {
-        // TODO implement here
-    }
-
-    /**
-     * @param world
-     */
     public void initialize(World world) {
-        // TODO implement here
+        calculateSquareSize(world);
+
+        gridCanvas.initialize(squareSize, world);
+        worldCanvas.initialize(squareSize, world);
+
+        drawGivenWorld(world);
     }
 
-    /**
-     * @return
-     */
+    // for the editor (in the future)
     public Point calculateClickPosition() {
         // TODO implement here
         return null;
     }
-
 }

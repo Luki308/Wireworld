@@ -1,12 +1,10 @@
 package jimp2.wireworld.z8;
 
-import jimp2.wireworld.z8.datamangment.Wire;
 import jimp2.wireworld.z8.window.Window;
 import jimp2.wireworld.z8.wireworldlogic.*;
 import jimp2.wireworld.z8.datamangment.DataManager;
 import jimp2.wireworld.z8.datamangment.Element;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;

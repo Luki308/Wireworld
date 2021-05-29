@@ -4,6 +4,7 @@ import jimp2.wireworld.z8.datamangment.Orientation;
 import jimp2.wireworld.z8.wireworldlogic.State;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -80,10 +81,12 @@ public class WorldEditor extends JPanel {
      * @param editorManager
      */
     public WorldEditor(ActionListener editorManager) {
-        setBounds(0, 0, Window.screenWidth / 4, Window.screenHeight);
+        Point point = new Point(GUI.ORIGIN_POINT, GUI.ORIGIN_POINT);
+        Dimension dimension = new Dimension(GUI.LEFT_PANEL_WIDTH, GUI.LEFT_PANEL_HEIGHT);
+        Rectangle rectangle = new Rectangle(point, dimension);
+        setBounds(rectangle);
 
-        setBorder(Window.border);
-
+        setBorder(new MatteBorder(0, 0, 0, 2, Color.BLACK));
         // TODO implement here
     }
 

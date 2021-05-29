@@ -1,100 +1,120 @@
 package jimp2.wireworld.z8.window;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 
 public class Menu extends JPanel {
 
-    // this one probably won't be used due to better file choosing method
-    //private JTextField inputName = new JTextField();
-    // TODO: maybe abort button in case user types too many iterations to process? like 999999
-    /*
-    Solution still needs refactoring due to huge amount of magical numbers.
-    Its worth to consider creation of GUI "static" class containing static variables
-     Add font to that class and proper sizes. Rename *screen* from width/height
-     maybe add initializing classes for textfields and/or labels
-     */
-
-    private FixedButton auto = new FixedButton("Auto");
-    private JButton stop = new FixedButton("Stop");
-    private JButton next = new FixedButton("Next");
-    private JButton saveAsInputFile = new FixedButton("Save as an input file");
-    private JButton saveAsCustomElement = new FixedButton("Save as a custom element");
-
-    private JLabel iterationsLabel = new JLabel("Iterations:", JLabel.RIGHT);
-    private JTextField iterations = new JTextField("0");
-    private JButton start = new FixedButton("Start");
+    // first row
+    private final StandardButton auto = new StandardButton("Auto");
+    private final JButton stop = new StandardButton("Stop");
+    private final JButton next = new StandardButton("Next");
+    private final JButton saveAsInputFile = new StandardButton("Save as an input file");
+    private final JButton saveAsCustomElement = new StandardButton("Save as a custom element");
+    // second row
+    private final JLabel iterationsLabel = new StandardLabel("Iterations:", JLabel.RIGHT);
+    private final JTextField iterations = new StandardTextField("0");
+    private final JButton chooseInputFile = new StandardButton("Choose input .json file");
+    private final JButton start = new StandardButton("Start");
+    private final JButton abort = new StandardButton("Abort");
 
 
     public Menu(ActionListener mainManager) {
-        setBounds(Window.screenWidth / 4, 0, Window.screenWidth * 3 / 4, Window.screenHeight / 4);
-        setBorder(Window.border);
+        Point point = new Point(GUI.LEFT_PANEL_WIDTH, GUI.ORIGIN_POINT);
+        Dimension dimension = new Dimension(GUI.RIGHT_PANELS_WIDTH, GUI.UPPER_PANEL_HEIGHT);
+        Rectangle rectangle = new Rectangle(point, dimension);
+        setBounds(rectangle);
 
-        iterationsLabel.setPreferredSize(new Dimension(150, 80));
-        iterationsLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
-        iterations.setFont(new Font("Monospaced", Font.BOLD, 20));
-        iterations.setPreferredSize(new Dimension(80, 80));
-        iterations.setHorizontalAlignment(JTextField.CENTER);
+        setBorder(new MatteBorder(0, 2, 2, 0, Color.BLACK));
 
-        add(auto);
-        add(stop);
         add(next);
+        next.setActionCommand(GUI.NEXT);
+        add(auto);
+        auto.setActionCommand(GUI.AUTO);
+        add(stop);
+        stop.setActionCommand(GUI.STOP);
         add(saveAsInputFile);
+        saveAsInputFile.setActionCommand(GUI.SAVE_AS_FILE);
         add(saveAsCustomElement);
+        saveAsCustomElement.setActionCommand(GUI.SAVE_AS_ELEMENT);
+
         add(iterationsLabel);
         add(iterations);
+        add(chooseInputFile);
+        chooseInputFile.setActionCommand(GUI.CHOOSE_FILE);
         add(start);
+        start.setActionCommand(GUI.START);
+        add(abort);
+        abort.setActionCommand(GUI.ABORT);
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, 10 ,10));
+        setLayout(new FlowLayout(FlowLayout.CENTER, GUI.STANDARD_LAYOUT_GAP ,GUI.STANDARD_LAYOUT_GAP));
 
-
-        // TODO implement here
+        for (Component component : getComponents()){
+            if(component instanceof JButton){
+                ((JButton)component).addActionListener(mainManager);
+            }
+        }
     }
-
-
-    public HashMap<String, JButton> getAllButtons() {
-        // TODO implement here
-        return null;
-    }
-
-
-    private void ensureFileIsJson(String fileName) {
-        // TODO implement here
-    }
-
-
-    public String getInputFileName() {
-        // TODO implement here
-        return "";
-    }
-
 
     public int getIterationNumber() {
-        // TODO implement here
-        return 0;
+        int iterationNumber = 0;
+        String textValue = iterations.getText();
+
+        if(textValue.matches("\\d+")){
+            iterationNumber = Integer.parseInt(textValue);
+        }
+        else{
+            JOptionPane.showMessageDialog(getParent(), "Number of iterations must be a positive integer!.");
+        }
+
+        return iterationNumber;
     }
 
-
-    public void setIterationNumber() {
-        // TODO implement here
+    public void setIterationNumber(int remainingIterations) {
+        if(remainingIterations >= 0){
+            iterations.setText(Integer.toString(remainingIterations));
+        }
     }
-
 
     public void unlockStartingFields() {
-        // TODO implement here
-    }
+        start.setEnabled(true);
+        iterations.setEnabled(true);
+        chooseInputFile.setEnabled(true);
 
+        auto.setEnabled(false);
+        stop.setEnabled(false);
+        next.setEnabled(false);
+        saveAsInputFile.setEnabled(false);
+        saveAsCustomElement.setEnabled(false);
+        abort.setEnabled(false);
+    }
 
     public void unlockNavigationFields() {
-        // TODO implement here
-    }
+        auto.setEnabled(true);
+        next.setEnabled(true);
+        abort.setEnabled(true);
+        saveAsInputFile.setEnabled(true);
+        saveAsCustomElement.setEnabled(true);
 
+        stop.setEnabled(false);
+        chooseInputFile.setEnabled(false);
+        iterations.setEnabled(false);
+        start.setEnabled(false);
+    }
 
     public void unlockStop() {
-        // TODO implement here
-    }
+        stop.setEnabled(true);
+        abort.setEnabled(true);
 
+        auto.setEnabled(false);
+        next.setEnabled(false);
+        saveAsInputFile.setEnabled(false);
+        saveAsCustomElement.setEnabled(false);
+        iterations.setEnabled(false);
+        chooseInputFile.setEnabled(false);
+        start.setEnabled(false);
+    }
 }
