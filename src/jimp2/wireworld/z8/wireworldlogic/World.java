@@ -4,21 +4,32 @@ import jimp2.wireworld.z8.datamangment.Element;
 
 import java.util.List;
 
+
 public class World extends CellsContainer {
 
     public World(int width, int height) {
         super(width, height);
     }
 
-    public void buildTheWorld(int width, int height, List<Element> elements) {
+    public void buildTheWorld(List<Element> elements) {
         // TODO implement here
     }
 
     public void copyCells( World worldFrom) {
-
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)
                 cells[i][j].setState(worldFrom.cells[i][j].getState());
     }
 
+    public int countNeighbouringHeadsOfCellAtPosition(int column, int row) {
+        int numberOfHeads = 0;
+
+        for (int i = column - 1; i <= column + 1; i++)
+            for (int j = row - 1; j <= row + 1; j++) {
+                if (i >= 0 && i < width && j >= 0 && j < height && !(i == column && j == row)) //In world borders and its not cell itself
+                    if (cells[i][j].getState() == State.HEAD)
+                        numberOfHeads++;
+            }
+        return numberOfHeads;
+    }
 }

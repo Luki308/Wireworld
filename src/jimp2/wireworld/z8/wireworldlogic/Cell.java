@@ -6,10 +6,8 @@ import java.awt.*;
 public class Cell {
 
     private State state;
-    private Point position;
 
-    public Cell(Point position, State state) {
-        this.position=position;
+    public Cell(State state) {
         this.state=state;
     }
 
@@ -20,18 +18,4 @@ public class Cell {
     public void setState(State state) {
         this.state=state;
     }
-
-    public int countNeighbouringHeads(World world) {
-        int x = position.x;
-        int y = position.y;
-        int numberOfHeads = 0;
-        for (int i = x - 1; i <= x + 1; i++)
-            for (int j = y - 1; j <= y + 1; j++) {
-                if (i >= 0 && i < world.height && j >= 0 && j < world.width && !(i == x && j == y) ) //In world borders and its not cell itself
-                    if(world.cells[i][j].getState() == State.HEAD)
-                        numberOfHeads++;
-            }
-        return numberOfHeads;
-    }
-
 }

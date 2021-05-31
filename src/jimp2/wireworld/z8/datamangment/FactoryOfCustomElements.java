@@ -17,6 +17,7 @@ public class FactoryOfCustomElements {
      * 
      */
     public FactoryOfCustomElements() {
+        initalizeElements();
         // TODO implement here
     }
 
@@ -35,13 +36,9 @@ public class FactoryOfCustomElements {
         return null;
     }
 
-    /**
-     * @param world 
-     * @param customElementName 
-     * @param startingPoint
-     */
-    public void saveNewCustomElement(World world, String customElementName, Point startingPoint) {
+    public void saveNewCustomElement(World world, Point startingPoint) {
         // TODO implement here
+        // name of new custom element should be specified there
     }
 
 }

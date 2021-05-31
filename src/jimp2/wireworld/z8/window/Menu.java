@@ -60,14 +60,14 @@ public class Menu extends JPanel {
     }
 
     public int getIterationNumber() {
-        int iterationNumber = 0;
+        int iterationNumber = -1;
         String textValue = iterations.getText();
 
         if(textValue.matches("\\d+")){
             iterationNumber = Integer.parseInt(textValue);
         }
         else{
-            JOptionPane.showMessageDialog(getParent(), "Number of iterations must be a positive integer!.");
+            JOptionPane.showMessageDialog(getParent(), "Number of iterations must be a positive integer!");
         }
 
         return iterationNumber;
@@ -83,12 +83,12 @@ public class Menu extends JPanel {
         start.setEnabled(true);
         iterations.setEnabled(true);
         chooseInputFile.setEnabled(true);
+        saveAsInputFile.setEnabled(true);
+        saveAsCustomElement.setEnabled(true);
 
         auto.setEnabled(false);
         stop.setEnabled(false);
         next.setEnabled(false);
-        saveAsInputFile.setEnabled(false);
-        saveAsCustomElement.setEnabled(false);
         abort.setEnabled(false);
     }
 
