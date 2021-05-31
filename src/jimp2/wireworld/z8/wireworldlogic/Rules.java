@@ -28,14 +28,14 @@ public class Rules {
         }
     }
 
-    public void apply(Cell cell) {
+    private void apply(Cell cell) {
         if (cell.getState()==State.HEAD)
             headRule(cell);
         else if (cell.getState()==State.TAIL)
             tailRule(cell);
     }
 
-    public void apply(Cell cell, int neighbouringHeads) {
+    private void apply(Cell cell, int neighbouringHeads) {
             conductorRule(cell, neighbouringHeads);
     }
 }
