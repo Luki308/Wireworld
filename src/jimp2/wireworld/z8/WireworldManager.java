@@ -14,7 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WireworldManager {
 
@@ -22,9 +23,13 @@ public class WireworldManager {
     private final Wireworld wireworld = new Wireworld();
     private final DataManager dataManager = new DataManager();
 
+    private final static int automationInterval = 500;
+    private Timer automationTimer;
+
     private List<Element> elementsOnWorld;
+
     private int iterationsNumber = 0;
-    private boolean isAutomationOn = false;
+
 
     private final ActionListener mainEventManager = new ActionListener() {
         @Override
@@ -102,10 +107,23 @@ public class WireworldManager {
     }
 
     private void startAutomation() {
+        automationTimer = new Timer();
+        TimerTask iterateOnce = new TimerTask() {
+            @Override
+            public void run() {
+                next();
+            }
+        };
+
+        automationTimer.scheduleAtFixedRate(iterateOnce, 0, automationInterval);
         window.menu.unlockStop();
     }
 
     private void stopAutomation() {
+        if (automationTimer != null) {
+            automationTimer.cancel();
+            automationTimer.purge();
+        }
         window.menu.unlockNavigationFields();
     }
 
@@ -145,7 +163,7 @@ public class WireworldManager {
     private void abort() {
         iterationsNumber = 0;
         window.menu.setIterationNumber(iterationsNumber);
-        window.menu.unlockStartingFields();
+        checkIfFinishedIterating();
     }
 
     private boolean hasFinishedIterating() {
@@ -154,6 +172,7 @@ public class WireworldManager {
 
     private void checkIfFinishedIterating() {
         if(hasFinishedIterating()) {
+            stopAutomation();
             window.menu.unlockStartingFields();
         }
     }
