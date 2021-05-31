@@ -29,9 +29,6 @@ public class GraphicWorld extends JLayeredPane {
 
         setLayer(worldCanvas, 0);
         setLayer(gridCanvas, 1);
-
-        // initializing with some random world not to leave free space
-        initialize(new World(10, 10));
     }
 
     // proper square size equals minimum value between each dimension maximum GUI length, divided by it's corresponding logic length (rounded to an integer)
@@ -42,17 +39,15 @@ public class GraphicWorld extends JLayeredPane {
         squareSize = Math.min(potentialSquareWidth, potentialSquareHeight);
     }
 
-    public void drawGivenWorld(World world) {
-        worldCanvas.setWorld(world);
-    }
-
     public void initialize(World world) {
         calculateSquareSize(world);
 
         gridCanvas.initialize(squareSize, world);
         worldCanvas.initialize(squareSize, world);
+    }
 
-        drawGivenWorld(world);
+    public void drawWorld() {
+        worldCanvas.repaint();
     }
 
     // for the editor (in the future)

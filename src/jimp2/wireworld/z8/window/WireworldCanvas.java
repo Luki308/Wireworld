@@ -9,8 +9,11 @@ public class WireworldCanvas extends StandardCanvas {
 
     private World world;
 
-    public void setWorld(World world){
+    @Override
+    public void initialize(int squareSize, World world) {
+        super.initialize(squareSize, world);
         this.world = world;
+        repaint();
     }
 
     @Override
@@ -23,7 +26,7 @@ public class WireworldCanvas extends StandardCanvas {
         // fill every cell depending on it's logic state
         for(int column = 0; column < world.getWidth(); column++) {
             for(int row = 0; row < world.getHeight(); row++) {
-                switch (world.cells[column][row].getState()){
+                switch (world.cells[column][row].getState()) {
                     case EMPTY:
                         g.setColor(Color.WHITE);
                         break;
