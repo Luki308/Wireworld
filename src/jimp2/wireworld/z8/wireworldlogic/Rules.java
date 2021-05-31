@@ -19,6 +19,15 @@ public class Rules {
                 cell.setState(State.HEAD);
     }
 
+    public void apply(int column, int row, World modifiedWorld, World templateWorld){
+        if(templateWorld.cells[column][row].getState() == State.CONDUCTOR) {
+            apply(modifiedWorld.cells[column][row], templateWorld.countNeighbouringHeadsOfCellAtPosition(column, row));
+        }
+        else if(templateWorld.cells[column][row].getState() != State.EMPTY){
+            apply(modifiedWorld.cells[column][row]);
+        }
+    }
+
     public void apply(Cell cell) {
         if (cell.getState()==State.HEAD)
             headRule(cell);
@@ -27,7 +36,6 @@ public class Rules {
     }
 
     public void apply(Cell cell, int neighbouringHeads) {
-            conductorRule(cell,neighbouringHeads);
+            conductorRule(cell, neighbouringHeads);
     }
-
 }
