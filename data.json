@@ -1,0 +1,19 @@
+{
+  "world_width":10,
+  "world_height":10,
+  "elements": [
+    {
+      "name": "Generator",
+      "x": 5,
+      "y": 5,
+      "height": 6,
+      "width": 6,
+    },
+    {
+      "name": "Electron",
+      "x":7
+      "y":5
+      "orientation": "EAST"
+    }
+  ]
+}
