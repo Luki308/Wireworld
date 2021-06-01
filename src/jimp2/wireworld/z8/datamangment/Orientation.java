@@ -1,6 +1,8 @@
 package jimp2.wireworld.z8.datamangment;
 
 
+import java.util.Locale;
+
 public enum Orientation {
     NORTH,
     WEST,
@@ -10,4 +12,5 @@ public enum Orientation {
     NORTH_EAST,
     SOUTH_WEST,
     SOUTH_EAST
+
 }

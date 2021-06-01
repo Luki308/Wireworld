@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -26,21 +27,59 @@ public class DataManager {
         // TODO implement here
     }
 
-    private Element interpretInputPiece(String input) {
-        // TODO implement here
+    private Element interpretInputPiece(JSONObject jsonObject, String name) {
+        int x1,x2,y1,y2;
+        int width, height;
+        Point point;
+        switch (name) {
+            case "Wire" -> {
+                x1 = ((Long) jsonObject.get("x1")).intValue();
+                x2 = ((Long) jsonObject.get("x2")).intValue();
+                y1 = ((Long) jsonObject.get("y1")).intValue();
+                y2 = ((Long) jsonObject.get("y2")).intValue();
+                Point posiotion1 = new Point(x1, y1);
+                Point posiotion2 = new Point(x2, y2);
+                return new Wire(posiotion1, posiotion2);
+            }
+            case "Electron" -> {
+                x1 = ((Long) jsonObject.get("x")).intValue();
+                y1 = ((Long) jsonObject.get("y")).intValue();
+                point = new Point(x1, y1);
+                String orientation = (String) jsonObject.get("orientation");
+                Orientation orient = null;
+                for (Orientation o : Orientation.values()) {
+                    if (o.toString().equals(orientation))
+                        orient = o;
+                }
+                if (orient == null)
+                    System.err.println("Wrong orientation in data files (Electron)" + jsonObject.toString());
+                return new Electron(point, orient);
+            }
+            case "Generator" -> {
+                x1 = ((Long) jsonObject.get("x")).intValue();
+                y1 = ((Long) jsonObject.get("y")).intValue();
+                width = ((Long) jsonObject.get("width")).intValue();
+                height = ((Long) jsonObject.get("width")).intValue();
+                point = new Point(x1, y1);
+                return new Generator(point, width, height);
+            }
+        }
         return null;
     }
 
     public WorldData readInputFile() {
         inputFile = new File("data.json");
         JSONParser parser = new JSONParser();
+        int width = 0;
+        int height = 0;
         try {
             Object obj = parser.parse(new FileReader(inputFile));
             JSONObject json = (JSONObject) obj;
-            Long height = (Long) json.get("world_height");
-            Long width = (Long) json.get("world_width");
+            height = ((Long)json.get("world_height")).intValue();
+            width = ((Long)json.get("world_width")).intValue();
             System.out.println(height);
             System.out.println(width);
+
             JSONArray array =  (JSONArray) json.get("elements");
             Iterator i = array.iterator();
 
@@ -48,6 +87,7 @@ public class DataManager {
                 JSONObject jsonObject = (JSONObject) i.next();
                 String name = (String) jsonObject.get("name");
                 System.out.println(name);
+
             }
         }
 
@@ -55,7 +95,7 @@ public class DataManager {
         catch (IOException e) { e.printStackTrace(); }
         catch (org.json.simple.parser.ParseException e) { e.printStackTrace(); }
         // returning placeholder data
-        return new WorldData(10, 10, null);
+        return new WorldData(width, height, null);
     }
 
     public void setInputFile() {

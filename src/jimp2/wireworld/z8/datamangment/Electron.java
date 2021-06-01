@@ -10,13 +10,9 @@ public class Electron extends Element {
 
     private Orientation orientation;
 
-
-    /**
-     * @param position 
-     * @param orientation
-     */
     public Electron(Point position, Orientation orientation) {
-        // TODO implement here
+        this.position=position;
+        this.orientation=orientation;
     }
 
     @Override

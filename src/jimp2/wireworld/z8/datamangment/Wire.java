@@ -10,7 +10,8 @@ public class Wire extends Element {
     private Point position2;
 
     public Wire(Point position1, Point position2) {
-        // TODO implement here
+        this.position = position1;
+        this.position2 = position2;
     }
 
     @Override
