@@ -16,10 +16,11 @@
       "orientation": "EAST"
     },
     {
-      "name": "Electron",
+      "name": "Generator",
       "x":7,
       "y":5,
-      "orientation": "EAST"
+      "width":5,
+      "height":4
     }
   ]
 }

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class DataManager {
         int width, height;
         Point point;
         switch (name) {
-            case "Wire" -> {
+            case "Wire":
                 x1 = ((Long) jsonObject.get("x1")).intValue();
                 x2 = ((Long) jsonObject.get("x2")).intValue();
                 y1 = ((Long) jsonObject.get("y1")).intValue();
@@ -40,8 +41,7 @@ public class DataManager {
                 Point posiotion1 = new Point(x1, y1);
                 Point posiotion2 = new Point(x2, y2);
                 return new Wire(posiotion1, posiotion2);
-            }
-            case "Electron" -> {
+            case "Electron":
                 x1 = ((Long) jsonObject.get("x")).intValue();
                 y1 = ((Long) jsonObject.get("y")).intValue();
                 point = new Point(x1, y1);
@@ -54,15 +54,13 @@ public class DataManager {
                 if (orient == null)
                     System.err.println("Wrong orientation in data files (Electron)" + jsonObject.toString());
                 return new Electron(point, orient);
-            }
-            case "Generator" -> {
-                x1 = ((Long) jsonObject.get("x")).intValue();
-                y1 = ((Long) jsonObject.get("y")).intValue();
-                width = ((Long) jsonObject.get("width")).intValue();
-                height = ((Long) jsonObject.get("width")).intValue();
-                point = new Point(x1, y1);
-                return new Generator(point, width, height);
-            }
+            case "Generator":
+                    x1 = ((Long) jsonObject.get("x")).intValue();
+                    y1 = ((Long) jsonObject.get("y")).intValue();
+                    width = ((Long) jsonObject.get("width")).intValue();
+                    height = ((Long) jsonObject.get("width")).intValue();
+                    point = new Point(x1, y1);
+                    return new Generator(point, width, height);
         }
         return null;
     }
@@ -72,6 +70,7 @@ public class DataManager {
         JSONParser parser = new JSONParser();
         int width = 0;
         int height = 0;
+        List<Element> elements = new ArrayList<Element>();
         try {
             Object obj = parser.parse(new FileReader(inputFile));
             JSONObject json = (JSONObject) obj;
@@ -87,7 +86,7 @@ public class DataManager {
                 JSONObject jsonObject = (JSONObject) i.next();
                 String name = (String) jsonObject.get("name");
                 System.out.println(name);
-
+                elements.add(interpretInputPiece(jsonObject,name));
             }
         }
 
@@ -95,7 +94,7 @@ public class DataManager {
         catch (IOException e) { e.printStackTrace(); }
         catch (org.json.simple.parser.ParseException e) { e.printStackTrace(); }
         // returning placeholder data
-        return new WorldData(width, height, null);
+        return new WorldData(width, height, elements);
     }
 
     public void setInputFile() {
