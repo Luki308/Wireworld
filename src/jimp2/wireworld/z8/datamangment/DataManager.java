@@ -52,7 +52,7 @@ public class DataManager {
                         orient = o;
                 }
                 if (orient == null)
-                    System.err.println("Wrong orientation in data files (Electron)" + jsonObject.toString());
+                    System.err.println("Wrong orientation in data files (Electron)" + point.toString());
                 return new Electron(point, orient);
             case "Generator":
                     x1 = ((Long) jsonObject.get("x")).intValue();
@@ -93,6 +93,7 @@ public class DataManager {
         catch (FileNotFoundException e) { e.printStackTrace(); }
         catch (IOException e) { e.printStackTrace(); }
         catch (org.json.simple.parser.ParseException e) { e.printStackTrace(); }
+        System.out.println(elements);
         // returning placeholder data
         return new WorldData(width, height, elements);
     }

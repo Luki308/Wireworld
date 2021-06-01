@@ -1,6 +1,7 @@
 package jimp2.wireworld.z8.datamangment;
 
 
+import jimp2.wireworld.z8.wireworldlogic.CellsContainer;
 import jimp2.wireworld.z8.wireworldlogic.World;
 
 import java.awt.*;
@@ -12,6 +13,8 @@ public class Wire extends Element {
     public Wire(Point position1, Point position2) {
         this.position = position1;
         this.position2 = position2;
+        name = "Wire";
+        //cellsContainer = new CellsContainer();
     }
 
     @Override
