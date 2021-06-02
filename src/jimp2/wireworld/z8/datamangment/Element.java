@@ -33,19 +33,6 @@ public abstract class Element extends CellsContainer{
         insertIntoWorld(world, false);
     }
 
-    public void eraseFromWorld(World world)
-    {
-        // TODO
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setPosition(Point worldPosition) {
-        position = worldPosition;
-    }
-
     protected void insertIntoWorld(World world, boolean withoutEmpty) {
         validateSpace(world);
 
@@ -59,4 +46,18 @@ public abstract class Element extends CellsContainer{
             }
         }
     }
+
+    public void eraseFromWorld(World world)
+    {
+        // TODO
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setPosition(Point worldPosition) {
+        position = worldPosition;
+    }
+
 }
