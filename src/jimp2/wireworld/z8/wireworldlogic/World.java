@@ -11,10 +11,6 @@ public class World extends CellsContainer {
         super(width, height);
     }
 
-    public void buildTheWorld(List<Element> elements) {
-        // TODO implement here
-    }
-
     public int countNeighbouringHeadsOfCellAtPosition(int column, int row) {
         int numberOfHeads = 0;
 

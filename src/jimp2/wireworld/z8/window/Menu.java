@@ -50,11 +50,11 @@ public class Menu extends JPanel {
         add(abort);
         abort.setActionCommand(GUI.ABORT);
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, GUI.STANDARD_LAYOUT_GAP ,GUI.STANDARD_LAYOUT_GAP));
+        setLayout(new FlowLayout(FlowLayout.CENTER, GUI.STANDARD_LAYOUT_GAP, GUI.STANDARD_LAYOUT_GAP));
 
-        for (Component component : getComponents()){
-            if(component instanceof JButton){
-                ((JButton)component).addActionListener(mainManager);
+        for (Component component : getComponents()) {
+            if (component instanceof JButton) {
+                ((JButton) component).addActionListener(mainManager);
             }
         }
     }
@@ -63,10 +63,9 @@ public class Menu extends JPanel {
         int iterationNumber = -1;
         String textValue = iterations.getText();
 
-        if(textValue.matches("\\d+")){
+        if (textValue.matches("\\d+")) {
             iterationNumber = Integer.parseInt(textValue);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(getParent(), "Number of iterations must be a positive integer!");
         }
 
@@ -74,7 +73,7 @@ public class Menu extends JPanel {
     }
 
     public void setIterationNumber(int remainingIterations) {
-        if(remainingIterations >= 0){
+        if (remainingIterations >= 0) {
             iterations.setText(Integer.toString(remainingIterations));
         }
     }
