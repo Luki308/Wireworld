@@ -15,12 +15,6 @@ public class World extends CellsContainer {
         // TODO implement here
     }
 
-    public void copyCells( World worldFrom) {
-        for (int i = 0; i < width; i++)
-            for (int j = 0; j < height; j++)
-                cells[i][j].setState(worldFrom.cells[i][j].getState());
-    }
-
     public int countNeighbouringHeadsOfCellAtPosition(int column, int row) {
         int numberOfHeads = 0;
 
