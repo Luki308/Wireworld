@@ -1,26 +1,26 @@
 {
-  "world_width":10,
-  "world_height":10,
+  "world_width":20,
+  "world_height":20,
   "elements": [
     {
       "name": "Generator",
-      "x": 5,
-      "y": 5,
+      "x1": 10,
+      "y1": 10,
       "height": 6,
       "width": 6
     },
     {
       "name": "Electron",
-      "x":7,
-      "y":5,
+      "x1":7,
+      "y1":5,
       "orientation": "EAST"
     },
     {
-      "name": "Generator",
-      "x":7,
-      "y":5,
-      "width":5,
-      "height":4
+      "name": "Wire",
+      "x1":1,
+      "y1":1,
+      "width":7,
+      "height":5
     }
   ]
 }

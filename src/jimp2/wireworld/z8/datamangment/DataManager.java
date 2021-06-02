@@ -33,19 +33,19 @@ public class DataManager {
         int width, height;
         Point point;
         switch (name) {
-            case "Wire":
-                x1 = ((Long) jsonObject.get("x1")).intValue();
-                x2 = ((Long) jsonObject.get("x2")).intValue();
-                y1 = ((Long) jsonObject.get("y1")).intValue();
-                y2 = ((Long) jsonObject.get("y2")).intValue();
+            case DataNames.Wire:
+                x1 = ((Long) jsonObject.get(DataNames.x1)).intValue();
+                x2 = ((Long) jsonObject.get(DataNames.x2)).intValue();
+                y1 = ((Long) jsonObject.get(DataNames.y1)).intValue();
+                y2 = ((Long) jsonObject.get(DataNames.y2)).intValue();
                 Point posiotion1 = new Point(x1, y1);
                 Point posiotion2 = new Point(x2, y2);
                 return new Wire(posiotion1, posiotion2);
-            case "Electron":
-                x1 = ((Long) jsonObject.get("x")).intValue();
-                y1 = ((Long) jsonObject.get("y")).intValue();
+            case DataNames.Electron:
+                x1 = ((Long) jsonObject.get(DataNames.x1)).intValue();
+                y1 = ((Long) jsonObject.get(DataNames.y1)).intValue();
                 point = new Point(x1, y1);
-                String orientation = (String) jsonObject.get("orientation");
+                String orientation = (String) jsonObject.get(DataNames.orientation);
                 Orientation orient = null;
                 for (Orientation o : Orientation.values()) {
                     if (o.toString().equals(orientation))
@@ -54,11 +54,11 @@ public class DataManager {
                 if (orient == null)
                     System.err.println("Wrong orientation in data files (Electron)" + point.toString());
                 return new Electron(point, orient);
-            case "Generator":
-                    x1 = ((Long) jsonObject.get("x")).intValue();
-                    y1 = ((Long) jsonObject.get("y")).intValue();
-                    width = ((Long) jsonObject.get("width")).intValue();
-                    height = ((Long) jsonObject.get("width")).intValue();
+            case DataNames.Generator:
+                    x1 = ((Long) jsonObject.get(DataNames.x1)).intValue();
+                    y1 = ((Long) jsonObject.get(DataNames.y1)).intValue();
+                    width = ((Long) jsonObject.get(DataNames.width).intValue();
+                    height = ((Long) jsonObject.get(DataNames.height)).intValue();
                     point = new Point(x1, y1);
                     return new Generator(point, width, height);
         }
@@ -82,9 +82,10 @@ public class DataManager {
             JSONArray array =  (JSONArray) json.get("elements");
             Iterator i = array.iterator();
 
+            //iterating through array of elements
             while(i.hasNext()){
                 JSONObject jsonObject = (JSONObject) i.next();
-                String name = (String) jsonObject.get("name");
+                String name = (String) jsonObject.get(DataNames.name);
                 System.out.println(name);
                 elements.add(interpretInputPiece(jsonObject,name));
             }
