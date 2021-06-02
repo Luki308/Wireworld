@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.io.File;
 
 public class WireworldManager {
 
@@ -136,7 +137,11 @@ public class WireworldManager {
     }
 
     private void chooseInputFile() {
-        dataManager.setInputFile();
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setDialogTitle("Wybierz plik wejściowy");
+        jFileChooser.showOpenDialog(null);
+        File inputFile = jFileChooser.getSelectedFile();
+        dataManager.setInputFile(inputFile);
     }
 
     private void start() {

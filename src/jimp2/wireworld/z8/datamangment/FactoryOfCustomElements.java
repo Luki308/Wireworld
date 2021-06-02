@@ -8,14 +8,9 @@ import java.util.HashMap;
 
 public class FactoryOfCustomElements {
 
-
     private HashMap<String, Element> availableCustomElements;
 
 
-
-    /**
-     * 
-     */
     public FactoryOfCustomElements() {
         initalizeElements();
         // TODO implement here
@@ -26,6 +21,7 @@ public class FactoryOfCustomElements {
      */
     private void initalizeElements() {
         // TODO implement here
+
     }
 
     /**
