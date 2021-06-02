@@ -1,64 +1,101 @@
 package jimp2.wireworld.z8.datamangment;
 
-
-import jimp2.wireworld.z8.wireworldlogic.CellsContainer;
 import jimp2.wireworld.z8.wireworldlogic.State;
 import jimp2.wireworld.z8.wireworldlogic.World;
 
 import java.awt.*;
 
+
 public class Electron extends Element {
 
+    // HEAD in the center and TAIL in one of surrounding positions
+    private static final int ELECTRON_SIZE = 3;
+    private static final int HEAD_INDEX = 1;
 
+    // these fields will be useful in THE EDITOR
     private Orientation orientation;
 
 
     public Electron(Point position, Orientation orientation) {
-        this.position = position;
-        this.orientation = orientation;
+        super(position, ELECTRON_SIZE, ELECTRON_SIZE);
         name = "Electron";
-        cellsContainer = new CellsContainer(1,1);
-        cellsContainer.cells[0][0].setState(State.HEAD);
+
+        this.orientation = orientation;
+
+        cells[HEAD_INDEX][HEAD_INDEX].setState(State.HEAD);
+
+        switch (orientation) {
+            case NORTH:
+                cells[HEAD_INDEX][HEAD_INDEX + 1].setState(State.TAIL);
+                break;
+            case WEST:
+                cells[HEAD_INDEX + 1][HEAD_INDEX].setState(State.TAIL);
+                break;
+            case EAST:
+                cells[HEAD_INDEX - 1][HEAD_INDEX].setState(State.TAIL);
+                break;
+            case SOUTH:
+                cells[HEAD_INDEX][HEAD_INDEX - 1].setState(State.TAIL);
+                break;
+            case NORTH_WEST:
+                cells[HEAD_INDEX + 1][HEAD_INDEX + 1].setState(State.TAIL);
+                break;
+            case NORTH_EAST:
+                cells[HEAD_INDEX - 1][HEAD_INDEX + 1].setState(State.TAIL);
+                break;
+            case SOUTH_WEST:
+                cells[HEAD_INDEX + 1][HEAD_INDEX - 1].setState(State.TAIL);
+                break;
+            case SOUTH_EAST:
+                cells[HEAD_INDEX - 1][HEAD_INDEX - 1].setState(State.TAIL);
+                break;
+        }
     }
 
     @Override
     public boolean validateSpace(World world) {
         // TODO implement here
-        return false;
+        // something may be useful
+        /*
+                //world.cells[i + position.x][j + position.y].getState() == State.CONDUCTOR
+
+                if (world.cells[position.x][position.y].getState() == State.CONDUCTOR) {
+            world.cells[position.x][position.y].setState(State.HEAD);
+            switch (orientation) {
+                case NORTH:
+                    if (cells[position.x][position.y + 1].getState().equals(State.CONDUCTOR) && position.y + 1 < getHeight())
+                        cells[position.x][position.y + 1].setState(State.TAIL);
+                case WEST:
+                    if (cells[position.x + 1][position.y].getState().equals(State.CONDUCTOR) && position.x + 1 < getWidth())
+                        cells[position.x + 1][position.y].setState(State.TAIL);
+                case EAST:
+                    if (cells[position.x - 1][position.y].getState().equals(State.CONDUCTOR) && position.x - 1 >= 0)
+                        cells[position.x - 1][position.y].setState(State.TAIL);
+                case SOUTH:
+                    if (cells[position.x][position.y - 1].getState().equals(State.CONDUCTOR) && position.y - 1 >= 0)
+                        cells[position.x][position.y - 1].setState(State.TAIL);
+                case NORTH_WEST:
+                    if (cells[position.x + 1][position.y + 1].getState().equals(State.CONDUCTOR) && position.x + 1 < getWidth() && position.y + 1 < getHeight())
+                        cells[position.x + 1][position.y + 1].setState(State.TAIL);
+                case NORTH_EAST:
+                    if (cells[position.x - 1][position.y + 1].getState().equals(State.CONDUCTOR) && position.x - 1 >= 0 && position.y + 1 < getHeight())
+                        cells[position.x - 1][position.y + 1].setState(State.TAIL);
+                case SOUTH_WEST:
+                    if (cells[position.x + 1][position.y - 1].getState().equals(State.CONDUCTOR) && position.x + 1 <= getWidth() && position.y - 1 >= 0)
+                        cells[position.x + 1][position.y - 1].setState(State.TAIL);
+                case SOUTH_EAST:
+                    if (cells[position.x - 1][position.y - 1].getState().equals(State.CONDUCTOR) && position.x - 1 >= 0 && position.y - 1 >= 0)
+                        cells[position.x - 1][position.y - 1].setState(State.TAIL);
+            }
+        } else
+            System.err.println("Electron's head or tail won't be put on Conductor\nx:" + position.x + " y:" + position.y);
+         */
+        return true;
     }
 
     @Override
     public void insertIntoWorld(World world) {
-        if(world.cells[position.x][position.y].getState()==State.CONDUCTOR) {
-            world.cells[position.x][position.y].setState(State.HEAD);
-            switch (orientation) {
-                case NORTH:
-                    if (world.cells[position.x][position.y + 1].getState().equals(State.CONDUCTOR)&& position.y+1 < world.getHeight())
-                        world.cells[position.x][position.y + 1].setState(State.TAIL);
-                case WEST:
-                    if (world.cells[position.x+1][position.y].getState().equals(State.CONDUCTOR) && position.x+1 < world.getWidth())
-                        world.cells[position.x+1][position.y].setState(State.TAIL);
-                case EAST:
-                    if (world.cells[position.x-1][position.y].getState().equals(State.CONDUCTOR) && position.x-1 >= 0)
-                        world.cells[position.x-1][position.y].setState(State.TAIL);
-                case SOUTH:
-                    if (world.cells[position.x][position.y-1].getState().equals(State.CONDUCTOR) && position.y-1 >= 0)
-                        world.cells[position.x][position.y-1].setState(State.TAIL);
-                case NORTH_WEST:
-                    if (world.cells[position.x+1][position.y+1].getState().equals(State.CONDUCTOR) && position.x+1 < world.getWidth() && position.y+1 < world.getHeight())
-                        world.cells[position.x+1][position.y+1].setState(State.TAIL);
-                case NORTH_EAST:
-                    if (world.cells[position.x-1][position.y+1].getState().equals(State.CONDUCTOR) && position.x-1 >= 0 && position.y+1 < world.getHeight())
-                        world.cells[position.x-1][position.y+1].setState(State.TAIL);
-                case SOUTH_WEST:
-                    if (world.cells[position.x+1][position.y-1].getState().equals(State.CONDUCTOR) && position.x+1 <= world.getWidth() && position.y-1 >= 0)
-                        world.cells[position.x+1][position.y-1].setState(State.TAIL);
-                case SOUTH_EAST:
-                    if (world.cells[position.x-1][position.y-1].getState().equals(State.CONDUCTOR) && position.x-1 >= 0 && position.y-1 >= 0)
-                        world.cells[position.x-1][position.y-1].setState(State.TAIL);
-            }
-        }
-        else System.err.println("Electron's head or tail won't be put on Conductor\nx:"+position.x+" y:"+position.y);
+        insertIntoWorld(world, true);
     }
 
     @Override

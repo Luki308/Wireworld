@@ -1,44 +1,49 @@
 package jimp2.wireworld.z8.datamangment;
 
-
-import jimp2.wireworld.z8.wireworldlogic.CellsContainer;
 import jimp2.wireworld.z8.wireworldlogic.World;
 
 import java.awt.*;
 
+
 public class CustomElement extends Element {
 
-
-    private Orientation orientation;
-
-
     private Point inputConnectorPoint;
+    private Orientation orientation = Orientation.NORTH;
 
 
-    public CustomElement(String name, Point position, Point inConnectorPoint, Orientation orientation) {
-        // TODO implement here
+    // CustomElement template constructor
+    public CustomElement(int width, int height, String name, Point inConnectorPoint) {
+        // point doesn't matter here
+        super(new Point(0,0), width, height);
+        this.name = name;
+        this.inputConnectorPoint = inConnectorPoint;
     }
 
-    /**
-     * @param world
-     */
-    public void insertIntoWorld(World world) {
-        // TODO implement here
+    // standard CustomElement constructor
+    public CustomElement(Point position, Orientation orientation, CustomElement templateCustomElement) {
+        super(position, determineDimension(orientation, templateCustomElement));
+        name = templateCustomElement.getName();
+        inputConnectorPoint = templateCustomElement.getInputConnectorPoint();
+
+        this.orientation = orientation;
+
+        copyCells(templateCustomElement, orientation);
+        setPosition(new Point(position.x - inputConnectorPoint.x, position.y - inputConnectorPoint.y));
     }
 
-    /**
-     * @return
-     */
-    public CellsContainer getCellsContainer() {
-        // TODO implement here
-        return null;
+    public Point getInputConnectorPoint() {
+        return inputConnectorPoint;
     }
 
-    /**
-     * @return
-     */
-    public CellsContainer setCellsContainer() {
-        // TODO implement here
-        return null;
+    private static Dimension determineDimension(Orientation orient, CustomElement templateCustomElement) {
+
+        return
+                isElementVertical(orient)
+                        ? new Dimension(templateCustomElement.getWidth(), templateCustomElement.getHeight())
+                        : new Dimension(templateCustomElement.getHeight(), templateCustomElement.getWidth());
+    }
+
+    private static boolean isElementVertical(Orientation orient) {
+        return orient == Orientation.NORTH || orient == Orientation.SOUTH;
     }
 }
