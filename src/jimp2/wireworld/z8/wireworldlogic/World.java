@@ -11,10 +11,6 @@ public class World extends CellsContainer {
         super(width, height);
     }
 
-    public void buildTheWorld(List<Element> elements) {
-        // TODO implement here
-    }
-
     public void copyCells( World worldFrom) {
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)

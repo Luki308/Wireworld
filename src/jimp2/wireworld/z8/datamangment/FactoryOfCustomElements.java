@@ -28,13 +28,11 @@ public class FactoryOfCustomElements {
      * @return
      */
     public HashMap<String, Element> getAvailableCustomElements() {
-        // TODO implement here
-        return null;
+        return availableCustomElements;
     }
 
     public void saveNewCustomElement(World world, Point startingPoint) {
-        // TODO implement here
-        // name of new custom element should be specified there
+        ;
     }
 
 }
