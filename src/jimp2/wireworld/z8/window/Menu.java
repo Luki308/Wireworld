@@ -17,7 +17,7 @@ public class Menu extends JPanel {
     // second row
     private final JLabel iterationsLabel = new StandardLabel("Iterations:", JLabel.RIGHT);
     private final JTextField iterations = new StandardTextField("0");
-    private final JButton chooseInputFile = new StandardButton("Choose input .json file");
+    private final JButton chooseInputFile = new StandardButton("Choose input file");
     private final JButton start = new StandardButton("Start");
     private final JButton abort = new StandardButton("Abort");
 

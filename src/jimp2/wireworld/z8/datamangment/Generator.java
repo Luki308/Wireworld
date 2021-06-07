@@ -11,19 +11,27 @@ public class Generator extends Element {
     private final int width;
     private final int height;
 
-    public Generator(Point position, int width, int height) {
-        super(position, width, height);
-        name = "Generator";
+    public Generator(Point position, Dimension dimension) {
+        super(position, dimension.width, dimension.height);
+        name = DataNames.Generator;
 
-        this.width = width;
-        this.height = height;
+        this.width = dimension.width;
+        this.height = dimension.height;
 
         for (int row = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {
-                if (row == 0 || row == height - 1 || column == 0 || column == width - 1)
-                    if (!((row == column) || ((row == 0) && (column == width - 1)) || (row == height - 1 && column == 0)))
+                if (areCoordinatesBorder(column, row))
+                    if (areCoordinatesNotCorner(column, row))
                         cells[column][row].setState(State.CONDUCTOR);
             }
         }
+    }
+
+    private boolean areCoordinatesBorder(int column, int row) {
+        return row == 0 || row == height - 1 || column == 0 || column == width - 1;
+    }
+
+    private boolean areCoordinatesNotCorner(int column, int row) {
+        return !((row == column) || ((row == 0) && (column == width - 1)) || (row == height - 1 && column == 0));
     }
 }

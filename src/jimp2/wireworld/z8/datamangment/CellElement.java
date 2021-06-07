@@ -15,7 +15,7 @@ public class CellElement extends Element {
 
     public CellElement(Point position, State state) {
         super(position, CELL_SIZE, CELL_SIZE);
-        name = "CellElement";
+        name = DataNames.CellElement;
 
         cells[CELL_INDEX][CELL_INDEX].setState(state);
     }

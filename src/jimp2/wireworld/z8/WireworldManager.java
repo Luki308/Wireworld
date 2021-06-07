@@ -96,8 +96,7 @@ public class WireworldManager {
         window.menu.unlockStartingFields();
 
         // placeholder initialization not to leave empty space at start
-        wireworld.initializeWorld(new WorldData(18, 12, null));
-        window.graphicWorld.initialize(wireworld.getWorld());
+        start();
     }
 
     private void next() {
@@ -137,11 +136,7 @@ public class WireworldManager {
     }
 
     private void chooseInputFile() {
-        JFileChooser jFileChooser = new JFileChooser();
-        jFileChooser.setDialogTitle("Wybierz plik wejściowy");
-        jFileChooser.showOpenDialog(null);
-        File inputFile = jFileChooser.getSelectedFile();
-        dataManager.setInputFile(inputFile);
+        dataManager.setInputFile();
     }
 
     private void start() {
@@ -159,9 +154,6 @@ public class WireworldManager {
                 // in case provided number of iterations equals 0
                 checkIfFinishedIterating();
             }
-
-        } else {
-            JOptionPane.showMessageDialog(window, "Please, choose proper .json input file first.");
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class FactoryOfCustomElements {
 
-    private HashMap<String, Element> availableCustomElements;
+    private HashMap<String, CustomElement> availableCustomElements;
 
 
     public FactoryOfCustomElements() {
@@ -24,15 +24,12 @@ public class FactoryOfCustomElements {
 
     }
 
-    /**
-     * @return
-     */
-    public HashMap<String, Element> getAvailableCustomElements() {
+    public HashMap<String, CustomElement> getAvailableCustomElements() {
         return availableCustomElements;
     }
 
     public void saveNewCustomElement(World world, Point startingPoint) {
-        ;
+
     }
 
 }

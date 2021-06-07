@@ -17,8 +17,8 @@ public class Electron extends Element {
 
 
     public Electron(Point position, Orientation orientation) {
-        super(position, ELECTRON_SIZE, ELECTRON_SIZE);
-        name = "Electron";
+        super(new Point(position.x - HEAD_INDEX, position.y - HEAD_INDEX), ELECTRON_SIZE, ELECTRON_SIZE);
+        name = DataNames.Electron;
 
         this.orientation = orientation;
 
