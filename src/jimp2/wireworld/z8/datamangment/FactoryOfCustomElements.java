@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class FactoryOfCustomElements {
 
-    private HashMap<String, CustomElement> availableCustomElements;
+    private HashMap<String, CustomElement> availableCustomElements = new HashMap<>();
 
 
     public FactoryOfCustomElements() {
@@ -20,6 +20,9 @@ public class FactoryOfCustomElements {
      * 
      */
     private void initalizeElements() {
+        // placeholder data
+        availableCustomElements.put("test1", null);
+        availableCustomElements.put("test2", null);
         // TODO implement here
 
     }

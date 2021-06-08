@@ -19,7 +19,11 @@ public final class GUI {
 
     public static final Dimension STANDARD_BUTTON_SIZE = new Dimension(145, 80);
     public static final Dimension STANDARD_TEXT_FIELD_SIZE = new Dimension(80, 80);
+    public static final Dimension STANDARD_COMBO_BOX_SIZE = new Dimension(180, 40);
     public static final int STANDARD_LAYOUT_GAP = 10;
+
+    public static final Dimension EDITOR_BUTTON_SIZE = new Dimension(200, 70);
+    public static final Dimension EDITOR_TEXT_FIELD_SIZE = new Dimension(80, 40);
 
     // constant names of button action commands, ensuring no typo mistakes
     public static final String NEXT = "NEXT";
