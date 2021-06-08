@@ -23,9 +23,7 @@ public class WorldEditor extends JPanel {
 
     private final JButton makeGenerator = new StandardButton("Make generator", GUI.EDITOR_BUTTON_SIZE);
     private final NumericTextField generatorWidth = new NumericTextField("Width",GUI.EDITOR_TEXT_FIELD_SIZE);
-    private final TextPrompt generatorWidthMessage = new TextPrompt("width", generatorWidth);
     private final NumericTextField generatorHeight = new NumericTextField("Height", GUI.EDITOR_TEXT_FIELD_SIZE);
-    private final TextPrompt generatorHeightMessage = new TextPrompt("height", generatorHeight);
 
     private final JButton makeCell = new StandardButton("Make cell", GUI.EDITOR_BUTTON_SIZE);
     private final StandardComboBox<State> cellState = new StandardComboBox(State.values());
