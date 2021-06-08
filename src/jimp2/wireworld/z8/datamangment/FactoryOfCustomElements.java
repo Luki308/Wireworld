@@ -7,7 +7,6 @@ import jimp2.wireworld.z8.wireworldlogic.World;
 import java.awt.*;
 import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 
 public class FactoryOfCustomElements {
 
@@ -25,6 +24,9 @@ public class FactoryOfCustomElements {
         }
     }
 
+
+
+
     private void initializeElements() throws IOException {
 
         int width = 0;
@@ -32,7 +34,7 @@ public class FactoryOfCustomElements {
         Point inConnectorPoint = new Point();
 
 
-        String [] files = null;
+        String [] files;
         File folder = new File(folderName);
         File[] listOfFiles = folder.listFiles();
 
