@@ -1,0 +1,32 @@
+{
+  "world_width":20,
+  "world_height":20,
+  "elements": [
+    {
+      "name": "Generator",
+      "x1": 10,
+      "y1": 10,
+      "height": 6,
+      "width": 6
+    },
+    {
+      "name": "Wire",
+      "x1": 1,
+      "y1": 1,
+      "x2": 7,
+      "y2": 5
+    },
+    {
+      "name": "Electron",
+      "x1":10,
+      "y1":12,
+      "orientation": "SOUTH"
+    },
+    {
+      "name": "CellElement",
+      "x1":1,
+      "y1":1,
+      "state": "HEAD"
+    }
+  ]
+}

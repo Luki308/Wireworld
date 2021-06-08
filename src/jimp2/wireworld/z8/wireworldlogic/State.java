@@ -5,5 +5,14 @@ public enum State {
     EMPTY,
     CONDUCTOR,
     HEAD,
-    TAIL
+    TAIL;
+
+
+    public static State getState(String stateName){
+
+        for (State state : values())
+            if (state.toString().equals(stateName))
+                return state;
+        return null;
+    }
 }

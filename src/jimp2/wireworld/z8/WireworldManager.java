@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.io.File;
 
 public class WireworldManager {
 
@@ -95,8 +96,7 @@ public class WireworldManager {
         window.menu.unlockStartingFields();
 
         // placeholder initialization not to leave empty space at start
-        wireworld.initializeWorld(new WorldData(18, 12, null));
-        window.graphicWorld.initialize(wireworld.getWorld());
+        start();
     }
 
     private void next() {
@@ -154,9 +154,6 @@ public class WireworldManager {
                 // in case provided number of iterations equals 0
                 checkIfFinishedIterating();
             }
-
-        } else {
-            JOptionPane.showMessageDialog(window, "Please, choose proper .json input file first.");
         }
     }
 

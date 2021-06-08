@@ -1,6 +1,9 @@
 package jimp2.wireworld.z8.wireworldlogic;
 
+import jimp2.wireworld.z8.datamangment.Element;
 import jimp2.wireworld.z8.datamangment.WorldData;
+
+import java.util.List;
 
 
 public class Wireworld {
@@ -14,7 +17,7 @@ public class Wireworld {
     public void initializeWorld(WorldData worldData) {
         world = new World(worldData.width, worldData.height);
         newWorld = new World(worldData.width, worldData.height);
-
+/*
         // placeholder world
         for (int i = 0; i < worldData.width; i++) {
             for (int j = 0; j < worldData.height; j++) {
@@ -22,8 +25,8 @@ public class Wireworld {
             }
         }
         getWorld().cells[0][0].setState(State.HEAD);
-
-        world.buildTheWorld(worldData.elements);
+*/
+        buildTheWorld(worldData.elements,world);
         newWorld.copyCells(world);
     }
 
@@ -46,5 +49,13 @@ public class Wireworld {
 
     public World getWorld() {
         return world;
+    }
+
+    private void buildTheWorld(List<Element> elements, World world) {
+        for(Element e : elements) {
+            if (e != null) {
+                e.insertIntoWorld(world);
+            }
+        }
     }
 }
