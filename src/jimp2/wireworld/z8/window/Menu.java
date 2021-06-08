@@ -16,7 +16,7 @@ public class Menu extends JPanel {
     private final JButton saveAsCustomElement = new StandardButton("Save as a custom element");
     // second row
     private final JLabel iterationsLabel = new StandardLabel("Iterations:", JLabel.RIGHT);
-    private final JTextField iterations = new StandardTextField("0");
+    private final NumericTextField iterations = new NumericTextField("Iterations", "0");
     private final JButton chooseInputFile = new StandardButton("Choose input file");
     private final JButton start = new StandardButton("Start");
     private final JButton abort = new StandardButton("Abort");
@@ -60,16 +60,7 @@ public class Menu extends JPanel {
     }
 
     public int getIterationNumber() {
-        int iterationNumber = -1;
-        String textValue = iterations.getText();
-
-        if (textValue.matches("\\d+")) {
-            iterationNumber = Integer.parseInt(textValue);
-        } else {
-            JOptionPane.showMessageDialog(getParent(), "Number of iterations must be a positive integer!");
-        }
-
-        return iterationNumber;
+        return iterations.getNumber();
     }
 
     public void setIterationNumber(int remainingIterations) {

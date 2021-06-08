@@ -1,85 +1,41 @@
 package jimp2.wireworld.z8.window;
 
 import jimp2.wireworld.z8.datamangment.Orientation;
+import jimp2.wireworld.z8.externalclasses.TextPrompt;
 import jimp2.wireworld.z8.wireworldlogic.State;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.Set;
 
 
 public class WorldEditor extends JPanel {
 
-    private JButton newEmptyWorld;
+    private final JButton makeEmptyWorld = new StandardButton("New empty world", GUI.EDITOR_BUTTON_SIZE);
+    private final NumericTextField worldWidth = new NumericTextField("Width", GUI.EDITOR_TEXT_FIELD_SIZE);
+    private final NumericTextField worldHeight = new NumericTextField("Height", GUI.EDITOR_TEXT_FIELD_SIZE);
 
-    private JTextField worldWidth;
+    private final JButton makeCustomElement = new StandardButton("Make custom element", GUI.EDITOR_BUTTON_SIZE);
+    private final StandardComboBox<String> customElementName = new StandardComboBox();
+    private final StandardComboBox<Orientation> customElementOrientation = new StandardComboBox(Orientation.values());
 
-    /**
-     * 
-     */
-    private JTextField worldHeight;
+    private final JButton makeGenerator = new StandardButton("Make generator", GUI.EDITOR_BUTTON_SIZE);
+    private final NumericTextField generatorWidth = new NumericTextField("Width",GUI.EDITOR_TEXT_FIELD_SIZE);
+    private final TextPrompt generatorWidthMessage = new TextPrompt("width", generatorWidth);
+    private final NumericTextField generatorHeight = new NumericTextField("Height", GUI.EDITOR_TEXT_FIELD_SIZE);
+    private final TextPrompt generatorHeightMessage = new TextPrompt("height", generatorHeight);
 
-    /**
-     * 
-     */
-    private JButton newCell;
+    private final JButton makeCell = new StandardButton("Make cell", GUI.EDITOR_BUTTON_SIZE);
+    private final StandardComboBox<State> cellState = new StandardComboBox(State.values());
 
-    /**
-     * 
-     */
-    private JComboBox cellState;
+    private final JButton makeElectron = new StandardButton("Make electron", GUI.EDITOR_BUTTON_SIZE);
+    private final StandardComboBox<Orientation> electronOrientation = new StandardComboBox(Orientation.values());
 
-    /**
-     * 
-     */
-    private JButton newWire;
-
-    /**
-     * 
-     */
-    private JButton newElectron;
-
-    /**
-     * 
-     */
-    private JComboBox electronOrientation;
-
-    /**
-     * 
-     */
-    private JButton newGenerator;
-
-    /**
-     * 
-     */
-    private int generatorWidth;
-
-    /**
-     * 
-     */
-    private int generatorHeight;
-
-    /**
-     * 
-     */
-    private JButton makeCustomElement;
-
-    /**
-     * 
-     */
-    private JComboBox customElementName;
-
-    /**
-     * 
-     */
-    private JComboBox customElementOrientation;
+    private final JButton makeWire = new StandardButton("Make wire", GUI.EDITOR_BUTTON_SIZE);
 
 
-    /**
-     * @param editorManager
-     */
     public WorldEditor(ActionListener editorManager) {
         Point point = new Point(GUI.ORIGIN_POINT, GUI.ORIGIN_POINT);
         Dimension dimension = new Dimension(GUI.LEFT_PANEL_WIDTH, GUI.LEFT_PANEL_HEIGHT);
@@ -87,84 +43,78 @@ public class WorldEditor extends JPanel {
         setBounds(rectangle);
 
         setBorder(new MatteBorder(0, 0, 0, 2, Color.BLACK));
-        // TODO implement here
+
+        add(makeEmptyWorld);
+        add(worldWidth);
+        add(worldHeight);
+
+        add(makeCustomElement);
+        add(customElementName);
+        add(customElementOrientation);
+
+        add(makeGenerator);
+        add(generatorWidth);
+        add(generatorHeight);
+
+        add(makeCell);
+        add(cellState);
+
+        add(makeElectron);
+        add(electronOrientation);
+
+        add(makeWire);
+
+        setLayout(new FlowLayout(FlowLayout.CENTER, GUI.STANDARD_LAYOUT_GAP, GUI.STANDARD_LAYOUT_GAP));
     }
 
-    /**
-     * @return
-     */
-    public HashMap<String, JButton> getAllButtons() {
-        // TODO implement here
-        return null;
+    private void setButtons(boolean shouldUnlock) {
+        for (Component component : getComponents()) {
+            component.setEnabled(shouldUnlock);
+        }
     }
 
-    /**
-     * 
-     */
     public void lockButtons() {
-        // TODO implement here
+        setButtons(false);
     }
 
-    /**
-     * 
-     */
     public void unlockButtons() {
-        // TODO implement here
+        setButtons(true);
     }
 
-    /**
-     * @return
-     */
+
     public Point getWorldParameters() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
+
     public State getCellParameter() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
     public Orientation getElectronParameter() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
     public Point getGeneratorParameters() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
     public String getCustomElementName() {
         // TODO implement here
         return "";
     }
 
-    /**
-     * @return
-     */
     public Orientation getCustomElementOrientation() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @param name
-     */
-    public void addToCustomElements(String name) {
-        // TODO implement here
+    public void initializeCustomElementsNames(Set<String> customElementsNames) {
+        customElementName.setItems(customElementsNames.toArray(new String[0]));
     }
 
 }
