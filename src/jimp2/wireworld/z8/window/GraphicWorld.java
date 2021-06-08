@@ -17,7 +17,7 @@ public class GraphicWorld extends JLayeredPane {
 
     // canvasManager will be needed in Editor
     public GraphicWorld(MouseAdapter canvasManager) {
-        Point point = new Point(GUI.LEFT_PANEL_WIDTH, GUI.UPPER_PANEL_HEIGHT);
+        Point point = new Point(GUI.ORIGIN_POINT, GUI.UPPER_PANEL_HEIGHT);
         Dimension dimension = new Dimension(GUI.RIGHT_PANELS_WIDTH, GUI.LOWER_PANEL_HEIGHT);
         Rectangle rectangle = new Rectangle(point, dimension);
         setBounds(rectangle);

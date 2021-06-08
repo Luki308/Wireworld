@@ -14,6 +14,7 @@ public final class GUI {
     public static final int UPPER_PANEL_HEIGHT = WINDOW_HEIGHT / 4;
     public static final int LOWER_PANEL_HEIGHT = WINDOW_HEIGHT * 3 / 4;
     public static final int LEFT_PANEL_HEIGHT = WINDOW_HEIGHT;
+    public static final int RIGHT_PANEL_HEIGHT = WINDOW_HEIGHT;
     public static final int LEFT_PANEL_WIDTH = WINDOW_WIDTH / 4;
     public static final int RIGHT_PANELS_WIDTH = WINDOW_WIDTH * 3 / 4;
 

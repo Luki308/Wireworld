@@ -23,7 +23,7 @@ public class Menu extends JPanel {
 
 
     public Menu(ActionListener mainManager) {
-        Point point = new Point(GUI.LEFT_PANEL_WIDTH, GUI.ORIGIN_POINT);
+        Point point = new Point(GUI.ORIGIN_POINT, GUI.ORIGIN_POINT);
         Dimension dimension = new Dimension(GUI.RIGHT_PANELS_WIDTH, GUI.UPPER_PANEL_HEIGHT);
         Rectangle rectangle = new Rectangle(point, dimension);
         setBounds(rectangle);
