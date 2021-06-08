@@ -1,7 +1,6 @@
 package jimp2.wireworld.z8.window;
 
 import jimp2.wireworld.z8.datamangment.Orientation;
-import jimp2.wireworld.z8.externalclasses.TextPrompt;
 import jimp2.wireworld.z8.wireworldlogic.State;
 
 import javax.swing.*;
@@ -13,25 +12,25 @@ import java.util.Set;
 
 public class WorldEditor extends JPanel {
 
-    private final JButton makeEmptyWorld = new StandardButton("New empty world", GUI.EDITOR_BUTTON_SIZE);
+    private final JButton newEmptyWorld = new StandardButton("Create new empty world", GUI.EDITOR_BUTTON_SIZE);
     private final NumericTextField worldWidth = new NumericTextField("Width", GUI.EDITOR_TEXT_FIELD_SIZE);
     private final NumericTextField worldHeight = new NumericTextField("Height", GUI.EDITOR_TEXT_FIELD_SIZE);
 
-    private final JButton makeCustomElement = new StandardButton("Make custom element", GUI.EDITOR_BUTTON_SIZE);
+    private final JButton insertCustomElement = new StandardButton("Insert new custom element", GUI.EDITOR_BUTTON_SIZE);
     private final StandardComboBox<String> customElementName = new StandardComboBox();
     private final StandardComboBox<Orientation> customElementOrientation = new StandardComboBox(Orientation.values());
 
-    private final JButton makeGenerator = new StandardButton("Make generator", GUI.EDITOR_BUTTON_SIZE);
+    private final JButton insertGenerator = new StandardButton("Insert new generator", GUI.EDITOR_BUTTON_SIZE);
     private final NumericTextField generatorWidth = new NumericTextField("Width",GUI.EDITOR_TEXT_FIELD_SIZE);
     private final NumericTextField generatorHeight = new NumericTextField("Height", GUI.EDITOR_TEXT_FIELD_SIZE);
 
-    private final JButton makeCell = new StandardButton("Make cell", GUI.EDITOR_BUTTON_SIZE);
+    private final JButton insertCell = new StandardButton("Insert new cell", GUI.EDITOR_BUTTON_SIZE);
     private final StandardComboBox<State> cellState = new StandardComboBox(State.values());
 
-    private final JButton makeElectron = new StandardButton("Make electron", GUI.EDITOR_BUTTON_SIZE);
+    private final JButton insertElectron = new StandardButton("Insert new electron", GUI.EDITOR_BUTTON_SIZE);
     private final StandardComboBox<Orientation> electronOrientation = new StandardComboBox(Orientation.values());
 
-    private final JButton makeWire = new StandardButton("Make wire", GUI.EDITOR_BUTTON_SIZE);
+    private final JButton insertWire = new StandardButton("Insert new wire", GUI.EDITOR_BUTTON_SIZE);
 
 
     public WorldEditor(ActionListener editorManager) {
@@ -42,25 +41,25 @@ public class WorldEditor extends JPanel {
 
         setBorder(new MatteBorder(0, 0, 0, 2, Color.BLACK));
 
-        add(makeEmptyWorld);
+        add(newEmptyWorld);
         add(worldWidth);
         add(worldHeight);
 
-        add(makeCustomElement);
+        add(insertCustomElement);
         add(customElementName);
         add(customElementOrientation);
 
-        add(makeGenerator);
+        add(insertGenerator);
         add(generatorWidth);
         add(generatorHeight);
 
-        add(makeCell);
+        add(insertCell);
         add(cellState);
 
-        add(makeElectron);
+        add(insertElectron);
         add(electronOrientation);
 
-        add(makeWire);
+        add(insertWire);
 
         setLayout(new FlowLayout(FlowLayout.CENTER, GUI.STANDARD_LAYOUT_GAP, GUI.STANDARD_LAYOUT_GAP));
     }
