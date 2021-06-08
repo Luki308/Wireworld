@@ -7,6 +7,7 @@ import jimp2.wireworld.z8.wireworldlogic.World;
 import java.awt.*;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class FactoryOfCustomElements {
 
@@ -108,6 +109,57 @@ public class FactoryOfCustomElements {
 
     public void saveNewCustomElement(World world, Point startingPoint) {
 
+        //do usunięcia później
+        //TODO
+        startingPoint = new Point(0,0);
+
+        final String CustomName = "CustomElement";
+        File folder = new File(folderName);
+        File [] listOfFiles = folder.listFiles();
+        String filename;
+        int j = 1;
+        if(listOfFiles != null) {
+            for (int  i = 0 ; i < listOfFiles.length; i++) {
+                filename = listOfFiles[i].getName();
+                if (filename.contains(CustomName))
+                    j++;
+            }
+            filename = "CustomElement"+j+".txt";
+        }
+        else
+            filename = "CustomElement1";
+
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter("CustomElements/"+filename);
+            fileWriter.write(world.getWidth()+" "+world.getHeight()+"\n"); //first line of txt custom element file
+
+            fileWriter.write(startingPoint.x+" "+startingPoint.y+"\n");  //second line of custom element txt file
+
+            for(int row = 0; row < world.getHeight(); row++) {
+                for (int column = 0; column < world.getWidth(); column++) {
+                    String state = world.cells[column][row].getState().toString();
+                    switch (state) {
+                        case "EMPTY":
+                            fileWriter.write(0 + " ");
+                            break;
+                        case "CONDUCTOR":
+                            fileWriter.write(1 + " ");
+                            break;
+                        case "HEAD":
+                            fileWriter.write(2 + " ");
+                            break;
+                        case "TAIL":
+                            fileWriter.write(3 + " ");
+                            break;
+                    }
+                }
+                fileWriter.write("\n");
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            System.err.println("Cannot write custom element to file"+filename);
+        }
     }
 
 }
