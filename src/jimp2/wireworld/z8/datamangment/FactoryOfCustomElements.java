@@ -116,25 +116,8 @@ public class FactoryOfCustomElements {
         //do usunięcia później
         //TODO
         startingPoint = new Point(0,0);
-        String filename;
-        if(inputName!=null){
-            filename = inputName+".txt";
-        }
-        else {
-            final String CustomName = "CustomElement";
-            File folder = new File(folderName);
-            File[] listOfFiles = folder.listFiles();
-            int j = 1;
-            if (listOfFiles != null) {
-                for (File file : listOfFiles) {
-                    filename = file.getName();
-                    if (filename.contains(CustomName))
-                        j++;
-                }
-                filename = "CustomElement" + j + ".txt";
-            } else
-                filename = "CustomElement1.txt";
-        }
+        String filename = inputName+".txt";
+
         FileWriter fileWriter;
         try {
             fileWriter = new FileWriter(folderName + "/" + filename);
