@@ -26,7 +26,8 @@ public class WireworldManager {
     private final static int automationInterval = 200;
     private Timer automationTimer;
 
-    private List<Element> elementsOnWorld;
+    private WorldData worldData;
+    private World startingWorld;
 
     private int iterationsNumber = 0;
 
@@ -128,7 +129,8 @@ public class WireworldManager {
     }
 
     private void saveAsInputFile() {
-        dataManager.writeIterationToFile(iterationsNumber, wireworld.getWorld(), elementsOnWorld);
+       dataManager.writeIterationToFile(iterationsNumber, startingWorld ,wireworld.getWorld(),worldData.elements); //TODO zmienic iterations number bo jest zawsze 0
+
     }
 
     private void saveAsNewCustomElement() {
@@ -143,14 +145,14 @@ public class WireworldManager {
     }
 
     private void start() {
-        WorldData inputWorldData = dataManager.readInputFile();
-
-        if(inputWorldData != null){
+        worldData = dataManager.readInputFile();
+        startingWorld = wireworld.getWorld();
+        if(worldData != null){
 
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
-                wireworld.initializeWorld(inputWorldData);
+                wireworld.initializeWorld(worldData);
                 window.graphicWorld.initialize(wireworld.getWorld());
                 window.menu.unlockNavigationFields();
 

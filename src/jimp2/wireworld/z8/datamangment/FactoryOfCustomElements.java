@@ -72,7 +72,7 @@ public class FactoryOfCustomElements {
                     System.err.println("Wrong data in custom element file (input point)");
                     continue;
                 }
-                CustomElement customElement = new CustomElement(width,height,files[i],inConnectorPoint);
+                CustomElement customElement = new CustomElement(width,height,files[i].substring(0,files[i].length()-4),inConnectorPoint);
 
                 //reading table
                 boolean stoppedReading = false;

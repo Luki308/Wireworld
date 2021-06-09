@@ -1,5 +1,6 @@
 package jimp2.wireworld.z8.datamangment;
 
+import jimp2.wireworld.z8.wireworldlogic.Cell;
 import jimp2.wireworld.z8.wireworldlogic.State;
 import jimp2.wireworld.z8.wireworldlogic.World;
 import org.json.simple.JSONArray;
@@ -21,13 +22,48 @@ public class DataManager {
     private File inputFile = new File(DataNames.EXAMPLE_FILE_PATH);
     public FactoryOfCustomElements factory = new FactoryOfCustomElements();
 
-    private List<Element> seekForNewElements(World world) {
+    private List<Element> seekForNewElements(World startingWorld, World currentWorld) {
         // TODO implement here
-        return null;
+        List<Element> newElements = new ArrayList<>();
+        Cell currentCell;
+        for(int column = 0; column < currentWorld.getWidth(); column++)
+            for(int row = 0; row < currentWorld.getHeight(); row++)
+                if( !currentWorld.cells[column][row].getState().equals(State.EMPTY))
+                    if( currentWorld.cells[column][row].getState().equals(startingWorld.cells[column][row].getState()))
+                        currentWorld.cells[column][row].setState(State.EMPTY);
+        for(int column = 0; column < currentWorld.getWidth(); column++) {
+            for (int row = 0; row < currentWorld.getHeight(); row++) {
+                currentCell = currentWorld.cells[column][row];
+
+                if (currentCell.getState().equals(State.CONDUCTOR))
+                    newElements.add(new CellElement(new Point(column, row), State.CONDUCTOR));
+                else if (currentCell.getState().equals(State.TAIL))
+                    newElements.add(new CellElement(new Point(column, row), State.TAIL));
+                else if(currentCell.getState().equals(State.HEAD))
+                    newElements.add(new CellElement(new Point(column, row), State.HEAD));
+            }
+        }
+        return newElements;
     }
 
-    public void writeIterationToFile(int iteration, World world, List<Element> elements) {
-        // TODO implement here
+    public void writeIterationToFile(int iteration, World startingWorld, World currentWorld, List<Element> elements) {
+        List<Element> newElements = new ArrayList<>();
+        for(Element element : elements) {
+
+            //przepisujemy wszystko oprócz electronów
+            //Cellelementy także przepisujemy jedynie gdy mają stan Empty albo Conductor
+            // nie przepisujemy tylko tych poniżej
+            if (!element.name.equals(DataNames.Electron)) {
+                if (!(element.name.equals(DataNames.CellElement) && (element.cells[0][0].getState().equals(State.TAIL) || element.cells[0][0].getState().equals(State.HEAD)))) {
+                    newElements.add(element);
+                }
+            }
+        }
+        //następnie SeekForNewElements, żeby znaleźć te komórki, które się zmieniły
+        //skuteczniej byłoby nadpisywać tylko w CustomElementach, które posiadają electrony w sobie z definicji
+        List<Element> changedElements;
+        changedElements = seekForNewElements(startingWorld, currentWorld);
+        newElements.addAll(changedElements);
     }
 
     private Element interpretInputPiece(JSONObject jsonObject, String name) {
