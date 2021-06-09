@@ -66,16 +66,33 @@ public class WireworldManager {
                     JOptionPane.showMessageDialog(window, "Unexpected main manager event source!");
                     break;
             }
-
         }
     };
 
 
-    //              OPTIONAL FEATURE
     private final ActionListener editorEventManager = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            if (command == null) return;
 
+            switch (command) {
+                case GUI.NEW_EMPTY_WORLD:
+                    break;
+                case GUI.INSERT_CUSTOM_ELEMENT:
+                    break;
+                case GUI.INSERT_GENERATOR:
+                    break;
+                case GUI.INSERT_CELL:
+                    break;
+                case GUI.INSERT_ELECTRON:
+                    break;
+                case GUI.INSERT_WIRE:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(window, "Unexpected editor manager event source!");
+                    break;
+            }
         }
     };
 
@@ -93,7 +110,6 @@ public class WireworldManager {
     public WireworldManager() {
         window = new Window(mainEventManager, editorEventManager, canvasEventManager);
         window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
-        window.menu.unlockStartingFields();
 
         // placeholder initialization not to leave empty space at start
         start();
@@ -134,8 +150,11 @@ public class WireworldManager {
     private void saveAsNewCustomElement() {
         String userResponse;
         userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
-        if(userResponse != null)
-            dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint,userResponse);
+        if(userResponse != null) {
+            dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint, userResponse);
+
+            window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
+        }
     }
 
     private void chooseInputFile() {
@@ -152,7 +171,9 @@ public class WireworldManager {
             if (iterationsNumber >= 0) {
                 wireworld.initializeWorld(inputWorldData);
                 window.graphicWorld.initialize(wireworld.getWorld());
+
                 window.menu.unlockNavigationFields();
+                window.worldEditor.lockEditor();
 
                 // in case provided number of iterations equals 0
                 checkIfFinishedIterating();
@@ -174,6 +195,7 @@ public class WireworldManager {
         if(hasFinishedIterating()) {
             stopAutomation();
             window.menu.unlockStartingFields();
+            window.worldEditor.unlockEditor();
         }
     }
 }
