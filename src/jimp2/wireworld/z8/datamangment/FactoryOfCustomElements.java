@@ -13,8 +13,7 @@ public class FactoryOfCustomElements {
     private HashMap<String, CustomElement> availableCustomElements = new HashMap<>();
 
     private final String folderName = "Data/CustomElements";
-
-
+  
     public FactoryOfCustomElements() {
         try {
             initializeElements();
@@ -23,9 +22,6 @@ public class FactoryOfCustomElements {
             System.err.println("There is problem with CustomElements");
         }
     }
-
-
-
 
     private void initializeElements() throws IOException {
 
