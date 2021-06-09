@@ -23,7 +23,7 @@ public class WireworldManager {
     private final Wireworld wireworld = new Wireworld();
     private final DataManager dataManager = new DataManager();
 
-    private final static int automationInterval = 500;
+    private final static int automationInterval = 200;
     private Timer automationTimer;
 
     private List<Element> elementsOnWorld;
@@ -132,7 +132,10 @@ public class WireworldManager {
     }
 
     private void saveAsNewCustomElement() {
-        dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint);
+        String userResponse;
+        userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
+        if(userResponse != null)
+            dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint,userResponse);
     }
 
     private void chooseInputFile() {
