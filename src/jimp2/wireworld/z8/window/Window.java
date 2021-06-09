@@ -31,9 +31,10 @@ public class Window extends JFrame {
         Rectangle rectangle = new Rectangle(point, dimension);
         setBounds(rectangle);
 
+        RightPanel rightPanel = new RightPanel(menu, graphicWorld);
+
         add(worldEditor, BorderLayout.WEST);
-        add(menu, BorderLayout.NORTH);
-        add(graphicWorld, BorderLayout.SOUTH);
+        add(rightPanel, BorderLayout.EAST);
 
         setLayout(new BorderLayout());
     }
