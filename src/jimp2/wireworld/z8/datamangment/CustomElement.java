@@ -46,4 +46,8 @@ public class CustomElement extends Element {
     private static boolean isElementVertical(Orientation orient) {
         return orient == Orientation.NORTH || orient == Orientation.SOUTH;
     }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
 }

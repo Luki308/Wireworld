@@ -8,7 +8,6 @@ import java.awt.*;
 
 public class Wire extends Element {
 
-    // this field will be useful in THE EDITOR
     private Point position2;
 
     public Wire(Point position1, Point position2) {
@@ -61,6 +60,10 @@ public class Wire extends Element {
         returnedPoint.y = vector.y >= 0 ? pos1.y : pos2.y;
 
         return returnedPoint;
+    }
+
+    public Point getPosition2() {
+        return position2;
     }
 
     private void calculateWirePath() {

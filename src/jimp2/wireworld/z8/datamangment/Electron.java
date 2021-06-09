@@ -102,4 +102,8 @@ public class Electron extends Element {
     public void eraseFromWorld(World world) {
         // TODO implement here
     }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
 }

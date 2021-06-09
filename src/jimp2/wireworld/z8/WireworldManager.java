@@ -5,7 +5,6 @@ import jimp2.wireworld.z8.window.GUI;
 import jimp2.wireworld.z8.window.Window;
 import jimp2.wireworld.z8.wireworldlogic.*;
 import jimp2.wireworld.z8.datamangment.DataManager;
-import jimp2.wireworld.z8.datamangment.Element;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,7 +22,7 @@ public class WireworldManager {
     private final Wireworld wireworld = new Wireworld();
     private final DataManager dataManager = new DataManager();
 
-    private final static int automationInterval = 200;
+    private final static int automationInterval = 100;
     private Timer automationTimer;
 
     private WorldData worldData;
@@ -129,15 +128,19 @@ public class WireworldManager {
     }
 
     private void saveAsInputFile() {
-       dataManager.writeIterationToFile(iterationsNumber, startingWorld ,wireworld.getWorld(),worldData.elements); //TODO zmienic iterations number bo jest zawsze 0
+        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
+        jFileChooser.setDialogTitle("Select input .json file");
+        jFileChooser.showSaveDialog(null);
+        File saveFile = jFileChooser.getSelectedFile();
 
+       dataManager.writeIterationToFile(iterationsNumber, startingWorld , wireworld.getWorld(), worldData.elements, saveFile); //TODO zmienic iterations number bo jest zawsze 0
     }
 
     private void saveAsNewCustomElement() {
         String userResponse;
         userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
         if(userResponse != null)
-            dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint,userResponse);
+            dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint, userResponse);
     }
 
     private void chooseInputFile() {
@@ -146,9 +149,8 @@ public class WireworldManager {
 
     private void start() {
         worldData = dataManager.readInputFile();
-        startingWorld = wireworld.getWorld();
         if(worldData != null){
-
+            startingWorld = wireworld.getWorld();
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
