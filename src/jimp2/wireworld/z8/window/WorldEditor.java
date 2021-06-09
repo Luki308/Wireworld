@@ -90,10 +90,14 @@ public class WorldEditor extends JPanel {
         setButtons(true);
     }
 
-
-    public Point getWorldParameters() {
-        // TODO implement here
-        return null;
+    public Dimension getWorldSize() {
+        Dimension size = new Dimension(worldWidth.getNumber(), worldHeight.getNumber());
+        if(size.getWidth() > 0 && size.getHeight() > 0) {
+            return size;
+        } else {
+            JOptionPane.showMessageDialog(getRootPane(), "World's dimensions must be greater than 0!");
+            return null;
+        }
     }
 
 
@@ -107,7 +111,7 @@ public class WorldEditor extends JPanel {
         return null;
     }
 
-    public Point getGeneratorParameters() {
+    public Dimension getGeneratorParameters() {
         // TODO implement here
         return null;
     }

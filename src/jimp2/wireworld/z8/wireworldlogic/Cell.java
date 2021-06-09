@@ -1,7 +1,5 @@
 package jimp2.wireworld.z8.wireworldlogic;
 
-import java.awt.*;
-
 
 public class Cell {
 

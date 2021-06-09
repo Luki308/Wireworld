@@ -98,7 +98,7 @@ public class DataManager {
             return new WorldData(width, height, elements);
 
         } else {
-            JOptionPane.showMessageDialog(null, "Please, choose proper .json input file first.");
+            JOptionPane.showMessageDialog(null, "Chosen file has changed to none!");
             return null;
         }
     }

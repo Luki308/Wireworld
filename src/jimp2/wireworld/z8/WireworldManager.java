@@ -13,9 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class WireworldManager {
 
@@ -26,13 +26,13 @@ public class WireworldManager {
     private final static int automationInterval = 200;
     private Timer automationTimer;
 
-    private List<Element> elementsOnWorld;
+    private WorldData worldData = null;
 
     private int iterationsNumber = 0;
 
     private Point lastClickedPoint = null;
     private Point previouslyClickedPoint = null;
-    private Element drawableElement;
+    private Element drawableElement = null;
 
     private final ActionListener mainEventManager = new ActionListener() {
         @Override
@@ -72,7 +72,6 @@ public class WireworldManager {
         }
     };
 
-
     private final ActionListener editorEventManager = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -81,6 +80,7 @@ public class WireworldManager {
 
             switch (command) {
                 case GUI.NEW_EMPTY_WORLD:
+                    newWorld(window.worldEditor.getWorldSize());
                     break;
                 case GUI.INSERT_CUSTOM_ELEMENT:
                     break;
@@ -115,6 +115,7 @@ public class WireworldManager {
         window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
 
         // placeholder initialization not to leave empty space at start
+        worldData = dataManager.readInputFile();
         start();
     }
 
@@ -147,7 +148,7 @@ public class WireworldManager {
     }
 
     private void saveAsInputFile() {
-        dataManager.writeIterationToFile(iterationsNumber, wireworld.getWorld(), elementsOnWorld);
+        dataManager.writeIterationToFile(iterationsNumber, wireworld.getWorld(), worldData.elements);
     }
 
     private void saveAsNewCustomElement() {
@@ -167,17 +168,16 @@ public class WireworldManager {
 
     private void chooseInputFile() {
         dataManager.setInputFile();
+        worldData = dataManager.readInputFile();
     }
 
     private void start() {
-        WorldData inputWorldData = dataManager.readInputFile();
-
-        if(inputWorldData != null){
+        if(worldData != null){
 
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
-                wireworld.initializeWorld(inputWorldData);
+                wireworld.initializeWorld(worldData);
                 window.graphicWorld.initialize(wireworld.getWorld());
 
                 window.menu.unlockNavigationFields();
@@ -186,6 +186,8 @@ public class WireworldManager {
                 // in case provided number of iterations equals 0
                 checkIfFinishedIterating();
             }
+        } else {
+            JOptionPane.showMessageDialog(window, "Current world data is set to none!");
         }
     }
 
@@ -201,12 +203,20 @@ public class WireworldManager {
 
     private void checkIfFinishedIterating() {
         if(hasFinishedIterating()) {
-            stopAutomation();
-
-            window.menu.unlockStartingFields();
-            window.worldEditor.unlockEditor();
-
-            lastClickedPoint = null;
+            restartInterface();
         }
+    }
+
+    private void restartInterface() {
+        stopAutomation();
+
+        window.menu.unlockStartingFields();
+        window.worldEditor.unlockEditor();
+
+        lastClickedPoint = null;
+    }
+
+    private void newWorld(Dimension size) {
+        worldData = size != null ? new WorldData(size.width, size.height, null) : null;
     }
 }

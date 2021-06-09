@@ -1,9 +1,5 @@
 package jimp2.wireworld.z8.wireworldlogic;
 
-import jimp2.wireworld.z8.datamangment.Element;
-
-import java.util.List;
-
 
 public class World extends CellsContainer {
 
