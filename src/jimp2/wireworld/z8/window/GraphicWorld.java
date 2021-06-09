@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class GraphicWorld extends JLayeredPane {
@@ -15,7 +16,7 @@ public class GraphicWorld extends JLayeredPane {
 
     private int squareSize;
 
-    // canvasManager will be needed in Editor
+
     public GraphicWorld(MouseAdapter canvasManager) {
         Point point = new Point(GUI.ORIGIN_POINT, GUI.UPPER_PANEL_HEIGHT);
         Dimension dimension = new Dimension(GUI.RIGHT_PANELS_WIDTH, GUI.LOWER_PANEL_HEIGHT);
@@ -26,6 +27,8 @@ public class GraphicWorld extends JLayeredPane {
 
         add(worldCanvas);
         add(gridCanvas);
+
+        worldCanvas.addMouseListener(canvasManager);
 
         setLayer(worldCanvas, 0);
         setLayer(gridCanvas, 1);
@@ -50,9 +53,7 @@ public class GraphicWorld extends JLayeredPane {
         worldCanvas.repaint();
     }
 
-    // for the editor (in the future)
-    public Point calculateClickPosition() {
-        // TODO implement here
-        return null;
+    public Point calculateClickPosition(MouseEvent click) {
+        return new Point(click.getX() / squareSize, click.getY() / squareSize);
     }
 }

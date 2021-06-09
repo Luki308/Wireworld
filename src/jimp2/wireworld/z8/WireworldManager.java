@@ -30,6 +30,9 @@ public class WireworldManager {
 
     private int iterationsNumber = 0;
 
+    private Point lastClickedPoint = null;
+    private Point previouslyClickedPoint = null;
+    private Element drawableElement;
 
     private final ActionListener mainEventManager = new ActionListener() {
         @Override
@@ -98,13 +101,13 @@ public class WireworldManager {
 
     private final MouseAdapter canvasEventManager = new MouseAdapter() {
         @Override
-        public void mouseClicked(MouseEvent e) {
-            super.mouseClicked(e);
+        public void mousePressed(MouseEvent click) {
+            super.mousePressed(click);
+
+            previouslyClickedPoint = lastClickedPoint;
+            lastClickedPoint = window.graphicWorld.calculateClickPosition(click);
         }
     };
-    private Point lastClickedPoint;
-    //private Point previouslyClickedPoint;
-    //private Element drawableElement;
 
 
     public WireworldManager() {
@@ -148,12 +151,17 @@ public class WireworldManager {
     }
 
     private void saveAsNewCustomElement() {
-        String userResponse;
-        userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
-        if(userResponse != null) {
-            dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint, userResponse);
+        if (lastClickedPoint != null) {
 
-            window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
+            String userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
+             if (userResponse != null) {
+                dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint, userResponse);
+
+                window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(window, "You have to click element starting point first");
         }
     }
 
@@ -194,8 +202,11 @@ public class WireworldManager {
     private void checkIfFinishedIterating() {
         if(hasFinishedIterating()) {
             stopAutomation();
+
             window.menu.unlockStartingFields();
             window.worldEditor.unlockEditor();
+
+            lastClickedPoint = null;
         }
     }
 }

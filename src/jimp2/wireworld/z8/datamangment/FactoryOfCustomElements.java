@@ -1,6 +1,5 @@
 package jimp2.wireworld.z8.datamangment;
 
-
 import jimp2.wireworld.z8.wireworldlogic.State;
 import jimp2.wireworld.z8.wireworldlogic.World;
 
@@ -8,11 +7,13 @@ import java.awt.*;
 import java.io.*;
 import java.util.HashMap;
 
+
 public class FactoryOfCustomElements {
 
-    private HashMap<String, CustomElement> availableCustomElements = new HashMap<>();
-
     private final String folderName = "Data/CustomElements";
+
+    private final HashMap<String, CustomElement> availableCustomElements = new HashMap<>();
+
 
     public FactoryOfCustomElements() {
         try {
@@ -29,8 +30,8 @@ public class FactoryOfCustomElements {
 
         if (listOfFiles != null) {
 
-            for (int i = 0; i < listOfFiles.length; i++)
-                readSingleCustomElement(listOfFiles[i].getName());
+            for (File listOfFile : listOfFiles)
+                readSingleCustomElement(listOfFile.getName());
         }
     }
 
@@ -106,15 +107,8 @@ public class FactoryOfCustomElements {
         }
     }
 
-    public HashMap<String, CustomElement> getAvailableCustomElements() {
-        return availableCustomElements;
-    }
-
     public void saveNewCustomElement(World world, Point startingPoint, String inputName) {
 
-        //do usunięcia później
-        //TODO
-        startingPoint = new Point(0, 0);
         String filename = inputName + ".txt";
 
         FileWriter fileWriter;
@@ -150,5 +144,9 @@ public class FactoryOfCustomElements {
         } catch (IOException e) {
             System.err.println("Cannot write custom element to file" + filename);
         }
+    }
+
+    public HashMap<String, CustomElement> getAvailableCustomElements() {
+        return availableCustomElements;
     }
 }
