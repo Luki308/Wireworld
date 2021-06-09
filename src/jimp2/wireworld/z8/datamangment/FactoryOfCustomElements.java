@@ -12,7 +12,7 @@ public class FactoryOfCustomElements {
 
     private HashMap<String, CustomElement> availableCustomElements = new HashMap<>();
 
-    private final String folderName = "CustomElements";
+    private final String folderName = "Data/CustomElements";
 
 
     public FactoryOfCustomElements() {
@@ -29,11 +29,6 @@ public class FactoryOfCustomElements {
 
     private void initializeElements() throws IOException {
 
-        int width = 0;
-        int height = 0;
-        Point inConnectorPoint = new Point();
-
-
         String [] files;
         File folder = new File(folderName);
         File[] listOfFiles = folder.listFiles();
@@ -42,12 +37,11 @@ public class FactoryOfCustomElements {
             files = new String[listOfFiles.length];
 
             for (int i = 0; i < listOfFiles.length; i++) {
-
                 files[i] = listOfFiles[i].getName();
-                FileReader fileReader = null;
-                BufferedReader reader = null;
+                FileReader fileReader;
+                BufferedReader reader;
                 try {
-                    fileReader = new FileReader("CustomElements/"+files[i]);
+                    fileReader = new FileReader(folderName+"/"+files[i]);
                     reader = new BufferedReader(fileReader);
                 } catch (FileNotFoundException e) {
                     System.err.println("There is problem with reading "+files[i]+" file in CustomElement");
@@ -55,54 +49,62 @@ public class FactoryOfCustomElements {
                 }
 
 
+                int width;
+                int height;
+                Point inConnectorPoint;
+
+                String line;
+                String [] numbers;
+
                 //reading width and height of custom element
-                String line = reader.readLine();
-                String[] w = line.split("\\s+");
-                if (w.length == 2) {
-                    width = Integer.parseInt(w[0]);
-                    height = Integer.parseInt(w[1]);
+                line = reader.readLine();
+                numbers = line.split("\\s+");
+                if (numbers.length == 2) {
+                    width = Integer.parseInt(numbers[0]);
+                    height = Integer.parseInt(numbers[1]);
                 } else {
                     System.err.println("Wrong data in custom element file (width,height)");
+                    continue;
                 }
 
                 //reading input point of custom element
                 line = reader.readLine();
-                w = line.split("\\s+");
-                if (w.length == 2)
-                    inConnectorPoint = new Point(Integer.parseInt(w[0]), Integer.parseInt(w[1]));
-                else
+                numbers = line.split("\\s+");
+                if (numbers.length == 2)
+                    inConnectorPoint = new Point(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]));
+                else {
                     System.err.println("Wrong data in custom element file (input point)");
-
-                CustomElement cs = new CustomElement(width,height,files[i],inConnectorPoint);
+                    continue;
+                }
+                CustomElement customElement = new CustomElement(width,height,files[i],inConnectorPoint);
 
                 //reading table
                 int row = 0;
                 while((line = reader.readLine()) != null) {
-                    w = line.split("\\s+");
-                    if (w.length != width)
+                    numbers = line.split("\\s+");
+                    if (numbers.length != width) {
                         System.err.println("There is not enough points (width)");
+                        continue;
+                    }
                     else {
                         for (int column = 0; column < width; column++) {
-                            if (Integer.parseInt(w[column]) == 0)
-                                cs.cells[column][row].setState(State.EMPTY);
-                            if (Integer.parseInt(w[column]) == 1)
-                                cs.cells[column][row].setState(State.CONDUCTOR);
-                            if (Integer.parseInt(w[column]) == 2)
-                                cs.cells[column][row].setState(State.HEAD);
-                            if (Integer.parseInt(w[column]) == 3)
-                                cs.cells[column][row].setState(State.TAIL);
+                            int number =  Integer.parseInt(numbers[column]);
+                            if (number == 0)
+                                customElement.cells[column][row].setState(State.EMPTY);
+                            if (number == 1)
+                                customElement.cells[column][row].setState(State.CONDUCTOR);
+                            if (number == 2)
+                                customElement.cells[column][row].setState(State.HEAD);
+                            if (number == 3)
+                                customElement.cells[column][row].setState(State.TAIL);
                         }
                     }
                     row++;
                 }
-                availableCustomElements.put(files[i].substring(0,files[i].length()-4),cs);
+
+                availableCustomElements.put(files[i].substring(0,files[i].length()-4),customElement);
             }
         }
-        /* else
-            System.err.println("There is no custom elements in the folder!");
-        */
-
-
     }
 
     public HashMap<String, CustomElement> getAvailableCustomElements() {
@@ -121,19 +123,19 @@ public class FactoryOfCustomElements {
         String filename;
         int j = 1;
         if(listOfFiles != null) {
-            for (int  i = 0 ; i < listOfFiles.length; i++) {
-                filename = listOfFiles[i].getName();
+            for (File file : listOfFiles) {
+                filename = file.getName();
                 if (filename.contains(CustomName))
                     j++;
             }
             filename = "CustomElement"+j+".txt";
         }
         else
-            filename = "CustomElement1";
+            filename = "CustomElement1.txt";
 
-        FileWriter fileWriter = null;
+        FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter("CustomElements/"+filename);
+            fileWriter = new FileWriter(folderName+"/"+filename);
             fileWriter.write(world.getWidth()+" "+world.getHeight()+"\n"); //first line of txt custom element file
 
             fileWriter.write(startingPoint.x+" "+startingPoint.y+"\n");  //second line of custom element txt file
