@@ -133,11 +133,9 @@ public class WireworldManager {
 
     private void saveAsNewCustomElement() {
         String userResponse;
-        userResponse = JOptionPane.showInputDialog(window, "Please write a name of the file");
+        userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
         if(userResponse != null)
             dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint,userResponse);
-        else
-            JOptionPane.showMessageDialog(window, "Cannot save custom element");
     }
 
     private void chooseInputFile() {
