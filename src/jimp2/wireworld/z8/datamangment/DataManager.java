@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
+//TODO usunąć todo
 public class DataManager {
     private File inputFile = new File(DataNames.EXAMPLE_FILE_PATH);
     public FactoryOfCustomElements factory = new FactoryOfCustomElements();
