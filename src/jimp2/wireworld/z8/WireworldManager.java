@@ -16,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.io.File;
 
 public class WireworldManager {
 
@@ -93,6 +92,7 @@ public class WireworldManager {
 
     public WireworldManager() {
         window = new Window(mainEventManager, editorEventManager, canvasEventManager);
+        window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
         window.menu.unlockStartingFields();
 
         // placeholder initialization not to leave empty space at start
