@@ -132,7 +132,9 @@ public class WireworldManager {
     }
 
     private void saveAsNewCustomElement() {
-        dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint);
+        String userResponse;
+        userResponse = JOptionPane.showInputDialog(window, "Please write a name of the file");
+        dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint,userResponse);
     }
 
     private void chooseInputFile() {

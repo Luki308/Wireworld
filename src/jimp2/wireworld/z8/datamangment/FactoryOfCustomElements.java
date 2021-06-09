@@ -79,12 +79,14 @@ public class FactoryOfCustomElements {
                 CustomElement customElement = new CustomElement(width,height,files[i],inConnectorPoint);
 
                 //reading table
+                boolean stoppedReading = false;
                 int row = 0;
                 while((line = reader.readLine()) != null) {
                     numbers = line.split("\\s+");
                     if (numbers.length != width) {
                         System.err.println("There is not enough points (width)");
-                        continue;
+                        stoppedReading = true;
+                        break;
                     }
                     else {
                         for (int column = 0; column < width; column++) {
@@ -98,11 +100,13 @@ public class FactoryOfCustomElements {
                             if (number == 3)
                                 customElement.cells[column][row].setState(State.TAIL);
                         }
+
                     }
+
                     row++;
                 }
-
-                availableCustomElements.put(files[i].substring(0,files[i].length()-4),customElement);
+                if(!stoppedReading)
+                    availableCustomElements.put(files[i].substring(0,files[i].length()-4),customElement);
             }
         }
     }
@@ -111,59 +115,60 @@ public class FactoryOfCustomElements {
         return availableCustomElements;
     }
 
-    public void saveNewCustomElement(World world, Point startingPoint) {
+    public void saveNewCustomElement(World world, Point startingPoint, String inputName) {
 
         //do usunięcia później
         //TODO
         startingPoint = new Point(0,0);
-
-        final String CustomName = "CustomElement";
-        File folder = new File(folderName);
-        File [] listOfFiles = folder.listFiles();
         String filename;
-        int j = 1;
-        if(listOfFiles != null) {
-            for (File file : listOfFiles) {
-                filename = file.getName();
-                if (filename.contains(CustomName))
-                    j++;
-            }
-            filename = "CustomElement"+j+".txt";
+        if(inputName!=null){
+            filename = inputName+".txt";
         }
-        else
-            filename = "CustomElement1.txt";
-
+        else {
+            final String CustomName = "CustomElement";
+            File folder = new File(folderName);
+            File[] listOfFiles = folder.listFiles();
+            int j = 1;
+            if (listOfFiles != null) {
+                for (File file : listOfFiles) {
+                    filename = file.getName();
+                    if (filename.contains(CustomName))
+                        j++;
+                }
+                filename = "CustomElement" + j + ".txt";
+            } else
+                filename = "CustomElement1.txt";
+        }
         FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter(folderName+"/"+filename);
-            fileWriter.write(world.getWidth()+" "+world.getHeight()+"\n"); //first line of txt custom element file
+            fileWriter = new FileWriter(folderName + "/" + filename);
+            fileWriter.write(world.getWidth() + " " + world.getHeight() + "\n"); //first line of txt custom element file
 
-            fileWriter.write(startingPoint.x+" "+startingPoint.y+"\n");  //second line of custom element txt file
+            fileWriter.write(startingPoint.x + " " + startingPoint.y + "\n");  //second line of custom element txt file
 
-            for(int row = 0; row < world.getHeight(); row++) {
+            for (int row = 0; row < world.getHeight(); row++) {
                 for (int column = 0; column < world.getWidth(); column++) {
                     String state = world.cells[column][row].getState().toString();
                     switch (state) {
-                        case "EMPTY":
-                            fileWriter.write(0 + " ");
-                            break;
-                        case "CONDUCTOR":
-                            fileWriter.write(1 + " ");
-                            break;
-                        case "HEAD":
-                            fileWriter.write(2 + " ");
-                            break;
-                        case "TAIL":
-                            fileWriter.write(3 + " ");
-                            break;
+                            case "EMPTY":
+                                fileWriter.write(0 + " ");
+                                break;
+                            case "CONDUCTOR":
+                                fileWriter.write(1 + " ");
+                                break;
+                            case "HEAD":
+                                fileWriter.write(2 + " ");
+                                break;
+                            case "TAIL":
+                                fileWriter.write(3 + " ");
+                                break;
                     }
                 }
                 fileWriter.write("\n");
             }
             fileWriter.close();
         } catch (IOException e) {
-            System.err.println("Cannot write custom element to file"+filename);
+            System.err.println("Cannot write custom element to file" + filename);
         }
     }
-
 }
