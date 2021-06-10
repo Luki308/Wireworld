@@ -17,18 +17,18 @@ public class WorldEditor extends JPanel {
     private final NumericTextField worldHeight = new NumericTextField("Height", GUI.EDITOR_TEXT_FIELD_SIZE);
 
     private final JButton insertCustomElement = new StandardButton("Insert new custom element", GUI.EDITOR_BUTTON_SIZE);
-    private final StandardComboBox<String> customElementName = new StandardComboBox();
-    private final StandardComboBox<Orientation> customElementOrientation = new StandardComboBox(Orientation.values());
+    private final StandardComboBox<String> customElementName = new StandardComboBox<>();
+    private final StandardComboBox<Orientation> customElementOrientation = new StandardComboBox<>(Orientation.values());
 
     private final JButton insertGenerator = new StandardButton("Insert new generator", GUI.EDITOR_BUTTON_SIZE);
     private final NumericTextField generatorWidth = new NumericTextField("Width",GUI.EDITOR_TEXT_FIELD_SIZE);
     private final NumericTextField generatorHeight = new NumericTextField("Height", GUI.EDITOR_TEXT_FIELD_SIZE);
 
     private final JButton insertCell = new StandardButton("Insert new cell", GUI.EDITOR_BUTTON_SIZE);
-    private final StandardComboBox<State> cellState = new StandardComboBox(State.values());
+    private final StandardComboBox<State> cellState = new StandardComboBox<>(State.values());
 
     private final JButton insertElectron = new StandardButton("Insert new electron", GUI.EDITOR_BUTTON_SIZE);
-    private final StandardComboBox<Orientation> electronOrientation = new StandardComboBox(Orientation.values());
+    private final StandardComboBox<Orientation> electronOrientation = new StandardComboBox<>(Orientation.values());
 
     private final JButton insertWire = new StandardButton("Insert new wire", GUI.EDITOR_BUTTON_SIZE);
 
@@ -42,26 +42,38 @@ public class WorldEditor extends JPanel {
         setBorder(new MatteBorder(0, 0, 0, 2, Color.BLACK));
 
         add(newEmptyWorld);
+        newEmptyWorld.setActionCommand(GUI.NEW_EMPTY_WORLD);
         add(worldWidth);
         add(worldHeight);
 
         add(insertCustomElement);
+        insertCustomElement.setActionCommand(GUI.INSERT_CUSTOM_ELEMENT);
         add(customElementName);
         add(customElementOrientation);
 
         add(insertGenerator);
+        insertGenerator.setActionCommand(GUI.INSERT_GENERATOR);
         add(generatorWidth);
         add(generatorHeight);
 
         add(insertCell);
+        insertCell.setActionCommand(GUI.INSERT_CELL);
         add(cellState);
 
         add(insertElectron);
+        insertElectron.setActionCommand(GUI.INSERT_ELECTRON);
         add(electronOrientation);
 
         add(insertWire);
+        insertWire.setActionCommand(GUI.INSERT_WIRE);
 
         setLayout(new FlowLayout(FlowLayout.CENTER, GUI.STANDARD_LAYOUT_GAP, GUI.STANDARD_LAYOUT_GAP));
+
+        for (Component component : getComponents()) {
+            if (component instanceof JButton) {
+                ((JButton) component).addActionListener(editorManager);
+            }
+        }
     }
 
     private void setButtons(boolean shouldUnlock) {
@@ -70,48 +82,51 @@ public class WorldEditor extends JPanel {
         }
     }
 
-    public void lockButtons() {
+    public void lockEditor() {
         setButtons(false);
     }
 
-    public void unlockButtons() {
+    public void unlockEditor() {
         setButtons(true);
     }
 
-
-    public Point getWorldParameters() {
-        // TODO implement here
-        return null;
+    public Dimension getWorldSize() {
+        Dimension size = new Dimension(worldWidth.getNumber(), worldHeight.getNumber());
+        if(size.getWidth() > 0 && size.getHeight() > 0) {
+            return size;
+        } else {
+            JOptionPane.showMessageDialog(getRootPane(), "World's dimensions must be greater than 0!");
+            return null;
+        }
     }
 
-
-    public State getCellParameter() {
-        // TODO implement here
-        return null;
+    public State getCellElementState() {
+        return (State) cellState.getSelectedItem();
     }
 
-    public Orientation getElectronParameter() {
-        // TODO implement here
-        return null;
+    public Orientation getElectronOrientation() {
+        return (Orientation) electronOrientation.getSelectedItem();
     }
 
-    public Point getGeneratorParameters() {
-        // TODO implement here
-        return null;
+    public Dimension getGeneratorSize() {
+        Dimension size = new Dimension(generatorWidth.getNumber(), generatorHeight.getNumber());
+        if(size.getWidth() >= 3 && size.getHeight() >= 3) {
+            return size;
+        } else {
+            JOptionPane.showMessageDialog(getRootPane(), "Generator's dimensions must be greater than 3! (Otherwise it won't work properly)");
+            return null;
+        }
     }
 
     public String getCustomElementName() {
-        // TODO implement here
-        return "";
+        return (String) customElementName.getSelectedItem();
     }
 
     public Orientation getCustomElementOrientation() {
-        // TODO implement here
-        return null;
+        return (Orientation) customElementOrientation.getSelectedItem();
     }
 
     public void initializeCustomElementsNames(Set<String> customElementsNames) {
         customElementName.setItems(customElementsNames.toArray(new String[0]));
     }
-
 }

@@ -1,10 +1,9 @@
 package jimp2.wireworld.z8;
 
-import jimp2.wireworld.z8.datamangment.WorldData;
+import jimp2.wireworld.z8.datamangment.*;
 import jimp2.wireworld.z8.window.GUI;
 import jimp2.wireworld.z8.window.Window;
 import jimp2.wireworld.z8.wireworldlogic.*;
-import jimp2.wireworld.z8.datamangment.DataManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class WireworldManager {
 
@@ -30,6 +30,13 @@ public class WireworldManager {
 
     private int iterationsNumber = 0;
     private int whichIteration = 0;
+
+    public static final String UNDO_ACTION = "UNDO_ACTION";
+    private Point lastClickedPoint = null;
+    private Point previouslyClickedPoint = null;
+    private Element drawableElement = null;
+    private ActionEvent lastClickedEditorButtonEvent;
+    private final ArrayList<World> undoList = new ArrayList<>();
 
     private final ActionListener mainEventManager = new ActionListener() {
         @Override
@@ -66,37 +73,93 @@ public class WireworldManager {
                     JOptionPane.showMessageDialog(window, "Unexpected main manager event source!");
                     break;
             }
-
         }
     };
 
-
-    //              OPTIONAL FEATURE
     private final ActionListener editorEventManager = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            if (command == null) return;
+            lastClickedEditorButtonEvent = e;
 
+            switch (command) {
+                case GUI.NEW_EMPTY_WORLD:
+                    newWorld(window.worldEditor.getWorldSize());
+                    break;
+                case GUI.INSERT_CUSTOM_ELEMENT:
+                    //drawableElement = new CustomElement(window.worldEditor.getCellElementState());
+                    break;
+                case GUI.INSERT_GENERATOR:
+                    Dimension size = window.worldEditor.getGeneratorSize();
+                    drawableElement = size != null ? new Generator(size) : null;
+                    break;
+                case GUI.INSERT_CELL:
+                    drawableElement = new CellElement(window.worldEditor.getCellElementState());
+                    break;
+                case GUI.INSERT_ELECTRON:
+                    drawableElement = new Electron(window.worldEditor.getElectronOrientation());
+                    break;
+                case GUI.INSERT_WIRE:
+                    if (drawableElement == null || !isChosenElementWire()) {
+                        lastClickedPoint = null;
+                        drawableElement = new Wire();
+                    }
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(window, "Unexpected editor manager event source!");
+                    break;
+            }
         }
     };
 
     private final MouseAdapter canvasEventManager = new MouseAdapter() {
         @Override
-        public void mouseClicked(MouseEvent e) {
-            super.mouseClicked(e);
+        public void mousePressed(MouseEvent click) {
+            super.mousePressed(click);
+
+            previouslyClickedPoint = lastClickedPoint;
+            lastClickedPoint = window.graphicWorld.calculateClickPosition(click);
+
+            if (drawableElement != null) {
+                if (!isChosenElementWire()) {
+                    drawableElement.setPosition(lastClickedPoint);
+                    insertNewElement(drawableElement);
+                } else {
+                    if (lastClickedPoint != null && previouslyClickedPoint != null) {
+                        Wire newElement = new Wire(lastClickedPoint, previouslyClickedPoint);
+                        drawableElement = null;
+                        insertNewElement(newElement);
+                    }
+                }
+            }
         }
     };
-    private Point lastClickedPoint;
-    //private Point previouslyClickedPoint;
-    //private Element drawableElement;
 
+    private final Action undoAction = new AbstractAction(UNDO_ACTION) {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (undoList.size() > 0) {
+
+                int lastUndoIndex = undoList.size() - 1;
+                wireworld.setWorld(undoList.get(lastUndoIndex));
+                undoList.remove(lastUndoIndex);
+
+                startingWorld.copyCells(wireworld.getWorld());
+                window.graphicWorld.setNewGraphicWorld(wireworld.getWorld());
+            }
+        }
+    };
 
     public WireworldManager() {
-        window = new Window(mainEventManager, editorEventManager, canvasEventManager);
+        window = new Window(mainEventManager, editorEventManager, canvasEventManager, undoAction);
         window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
-        window.menu.unlockStartingFields();
+        restartInterface();
 
         // placeholder initialization not to leave empty space at start
-        start();
+        worldData = dataManager.readInputFile();
+        initializeNewWorld();
     }
 
     private void next() {
@@ -129,36 +192,44 @@ public class WireworldManager {
     }
 
     private void saveAsInputFile() {
-        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
-        jFileChooser.setDialogTitle("Select input .json file");
-        jFileChooser.showSaveDialog(null);
-        File saveFile = jFileChooser.getSelectedFile();
-
-       dataManager.writeIterationToFile(whichIteration, startingWorld , wireworld.getWorld(), worldData.elements, saveFile);
+        dataManager.writeIterationToFile(whichIteration, startingWorld, wireworld.getWorld(), worldData.elements);
     }
 
     private void saveAsNewCustomElement() {
-        String userResponse;
-        userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
-        if(userResponse != null)
-            dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint, userResponse);
+        if (lastClickedPoint != null) {
+
+            String userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
+            if (userResponse != null) {
+                dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint, userResponse);
+
+                window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(window, "You have to click element starting point first");
+        }
     }
 
     private void chooseInputFile() {
-        dataManager.setInputFile();
+        dataManager.chooseInputFile();
+        WorldData newWorld = dataManager.readInputFile();
+        if (newWorld != null) {
+            worldData = newWorld;
+            initializeNewWorld();
+        }
     }
 
     private void start() {
-        whichIteration = 0;
-        worldData = dataManager.readInputFile();
-        if(worldData != null){
-            startingWorld = wireworld.getWorld();
+        if (worldData != null) {
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
-                wireworld.initializeWorld(worldData);
-                window.graphicWorld.initialize(wireworld.getWorld());
+                whichIteration = 0;
+
+                wireworld.resetWireworld();
+
                 window.menu.unlockNavigationFields();
+                window.worldEditor.lockEditor();
 
                 // in case provided number of iterations equals 0
                 checkIfFinishedIterating();
@@ -177,9 +248,53 @@ public class WireworldManager {
     }
 
     private void checkIfFinishedIterating() {
-        if(hasFinishedIterating()) {
-            stopAutomation();
-            window.menu.unlockStartingFields();
+        if (hasFinishedIterating()) {
+            restartInterface();
         }
+    }
+
+    private void restartInterface() {
+        stopAutomation();
+
+        window.menu.unlockStartingFields();
+        window.worldEditor.unlockEditor();
+
+        lastClickedPoint = null;
+        drawableElement = null;
+        undoList.clear();
+    }
+
+    private void initializeNewWorld() {
+        wireworld.initializeWorld(worldData);
+        window.graphicWorld.initialize(wireworld.getWorld());
+
+        startingWorld = new World(worldData.width, worldData.height);
+        startingWorld.copyCells(wireworld.getWorld());
+    }
+
+    private void newWorld(Dimension size) {
+        WorldData newWorld = size != null ? new WorldData(size.width, size.height, new ArrayList<>()) : null;
+        if (newWorld != null) {
+            worldData = newWorld;
+            initializeNewWorld();
+        }
+    }
+
+    private void insertNewElement(Element newElement) {
+        World previousWorld = new World(worldData.width, worldData.height);
+        previousWorld.copyCells(wireworld.getWorld());
+        undoList.add(previousWorld);
+
+        newElement.insertIntoWorld(wireworld.getWorld());
+        window.graphicWorld.drawWorld();
+
+        startingWorld.copyCells(wireworld.getWorld());
+
+        worldData.elements.add(newElement);
+        editorEventManager.actionPerformed(lastClickedEditorButtonEvent);
+    }
+
+    private boolean isChosenElementWire() {
+        return drawableElement.getName().equals(DataNames.Wire);
     }
 }

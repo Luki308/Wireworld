@@ -12,8 +12,12 @@ public class WireworldCanvas extends StandardCanvas {
     @Override
     public void initialize(int squareSize, World world) {
         super.initialize(squareSize, world);
-        this.world = world;
+        setWorld(world);
         repaint();
+    }
+
+    public void setWorld(World newWorld) {
+        world = newWorld;
     }
 
     @Override

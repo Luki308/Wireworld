@@ -8,12 +8,18 @@ import java.awt.*;
 
 public class Wire extends Element {
 
+    private Point position1;
     private Point position2;
+
+    public Wire() {
+        this(DataNames.TEMPLATE_POINT, DataNames.TEMPLATE_POINT);
+    }
 
     public Wire(Point position1, Point position2) {
         super(calculatePosition(position1, position2), calculateElementSize(position1, position2, true), calculateElementSize(position1, position2, false));
         name = DataNames.Wire;
 
+        this.position1 = position1;
         this.position2 = position2;
 
         calculateWirePath();
@@ -57,13 +63,17 @@ public class Wire extends Element {
         return returnedPoint;
     }
 
+    public Point getPosition1() {
+        return position1;
+    }
+
     public Point getPosition2() {
         return position2;
     }
 
     private void calculateWirePath() {
         // determine number of needed steps
-        Point vector = calculateVector(position, position2);
+        Point vector = calculateVector(position1, position2);
         int steps = Math.max(width, height);
         int widthSteps = decreaseAbsoluteValue(vector.x, 1);
         int heightSteps = decreaseAbsoluteValue(vector.y, 1);

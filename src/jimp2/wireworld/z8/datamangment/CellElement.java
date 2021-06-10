@@ -13,6 +13,10 @@ public class CellElement extends Element {
     private static final int CELL_INDEX = 0;
     private final State state;
 
+    public CellElement(State state) {
+        this(DataNames.TEMPLATE_POINT, state);
+    }
+
     public CellElement(Point position, State state) {
         super(position, CELL_SIZE, CELL_SIZE);
         name = DataNames.CellElement;

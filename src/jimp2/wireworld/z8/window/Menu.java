@@ -66,6 +66,8 @@ public class Menu extends JPanel {
     public void setIterationNumber(int remainingIterations) {
         if (remainingIterations >= 0) {
             iterations.setText(Integer.toString(remainingIterations));
+        } else {
+            JOptionPane.showMessageDialog(getRootPane(), "Iterations number must be a positive integer!");
         }
     }
 

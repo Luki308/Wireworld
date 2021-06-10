@@ -36,6 +36,14 @@ public final class GUI {
     public static final String START = "START";
     public static final String ABORT = "ABORT";
 
+    public static final String NEW_EMPTY_WORLD = "NEW_EMPTY_WORLD";
+    public static final String INSERT_CUSTOM_ELEMENT = "INSERT_CUSTOM_ELEMENT";
+    public static final String INSERT_GENERATOR = "INSERT_GENERATOR";
+    public static final String INSERT_CELL = "INSERT_CELL";
+    public static final String INSERT_ELECTRON = "INSERT_ELECTRON";
+    public static final String INSERT_WIRE = "INSERT_WIRE";
+
+    // stylistic objects
     public static final Font STANDARD_FONT = new Font("Monospaced", Font.BOLD, 18);
     public static final Border THIN_BORDER = BorderFactory.createLineBorder(Color.BLACK,1);
 

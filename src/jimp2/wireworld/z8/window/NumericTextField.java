@@ -34,8 +34,6 @@ public class NumericTextField extends JTextField {
 
         if (textValue.matches("\\d+")) {
             returnedNumber = Integer.parseInt(textValue);
-        } else {
-            JOptionPane.showMessageDialog(getParent(), String.format("%s must be a positive integer!", name));
         }
 
         return returnedNumber;

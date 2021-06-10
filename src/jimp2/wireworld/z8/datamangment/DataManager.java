@@ -22,15 +22,6 @@ public class DataManager {
     private File inputFile = new File(DataNames.EXAMPLE_FILE_PATH);
     public FactoryOfCustomElements factory = new FactoryOfCustomElements();
 
-    private boolean isNOTElectron (Element element){
-        return !element.name.equals(DataNames.Electron);
-    }
-    private boolean isNOTCellContainerTailOrHead (Element element){
-        return (!(element.name.equals(DataNames.CellElement) && (element.cells[0][0].getState().equals(State.TAIL) || element.cells[0][0].getState().equals(State.HEAD))));
-    }
-    private boolean cellIsNOTEmpty (Cell currentCell){
-        return !currentCell.getState().equals(State.EMPTY);
-    }
 
     private List<Element> seekForNewElements(World startingWorld, World currentWorld) {
         List<Element> newElements = new ArrayList<>();
@@ -45,42 +36,42 @@ public class DataManager {
                 currentCell = copyCurrentWorld.cells[column][row];
 
                 //changing cells that has been not changed to empty
-                if (cellIsNOTEmpty (currentCell))
-                    if (currentCell.getState().equals(startingWorld.cells[column][row].getState()))
+                if (cellIsNOTEmpty (currentCell)) {
+                    if (currentCell.getState().equals(startingWorld.cells[column][row].getState())) {
                         currentCell.setState(State.EMPTY);
-
-                //Creating cells that changed as new Elements
-                else if (currentCell.getState().equals(State.CONDUCTOR))
-                    newElements.add(new CellElement(new Point(column, row), State.CONDUCTOR));
-                else if (currentCell.getState().equals(State.TAIL))
-                    newElements.add(new CellElement(new Point(column, row), State.TAIL));
-                else if(currentCell.getState().equals(State.HEAD))
-                    newElements.add(new CellElement(new Point(column, row), State.HEAD));
+                    }
+                    //Creating cells that changed as new Elements
+                    else if (currentCell.getState().equals(State.CONDUCTOR)) {
+                        newElements.add(new CellElement(new Point(column, row), State.CONDUCTOR));
+                    }
+                    else if (currentCell.getState().equals(State.TAIL)) {
+                        newElements.add(new CellElement(new Point(column, row), State.TAIL));
+                    }
+                    else if(currentCell.getState().equals(State.HEAD)) {
+                        newElements.add(new CellElement(new Point(column, row), State.HEAD));
+                    }
+                }
             }
         }
 
         return newElements;
     }
 
-    public void writeIterationToFile(int iteration, World startingWorld, World currentWorld, List<Element> elements, File savingFile) {
-        List<Element> newElements = new ArrayList<>();
-        for(Element element : elements) {
+    public void writeIterationToFile(int iteration, World startingWorld, World currentWorld, List<Element> elements) {
+        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
+        jFileChooser.setDialogTitle("Select output .json file");
+        jFileChooser.showSaveDialog(null);
+        File savedFile = jFileChooser.getSelectedFile();
 
-            //copying elements that dont change
-            if (isNOTElectron(element)) {
-                if (isNOTCellContainerTailOrHead(element)) {
-                    newElements.add(element);
-                }
-            }
-        }
+
         //looking for cells that changed
-        List<Element> changedElements;
-        changedElements = seekForNewElements(startingWorld, currentWorld);
-        newElements.addAll(changedElements);
+        List<Element> changedElements = new ArrayList<>(elements);
+        changedElements.addAll(seekForNewElements(startingWorld, currentWorld));
 
-        if(savingFile == null)
-            savingFile = new File("Iterations/iteration"+iteration+".json");
-
+        if(!isFileJson(savedFile)) {
+            savedFile = new File("iteration"+iteration+".json");
+            JOptionPane.showMessageDialog(null, "Didn't specified proper .json file. Saving to default one.");
+        }
 
         //saving world parameters
         JSONObject jsonObject = new JSONObject();
@@ -91,7 +82,7 @@ public class DataManager {
         //saving to json file elements
         JSONArray jsonArray =  new JSONArray();
         JSONObject jsonObject2;
-        for(Element element : newElements) {
+        for(Element element : changedElements) {
             jsonObject2 = new JSONObject();
             switch (element.name){
                 case DataNames.CellElement:
@@ -105,8 +96,8 @@ public class DataManager {
                 case DataNames.Wire:
                     Wire wire = (Wire) element;
                     jsonObject2.put(DataNames.name, DataNames.Wire);
-                    jsonObject2.put(DataNames.x1, wire.getPosition().x);
-                    jsonObject2.put(DataNames.y1, wire.getPosition().y);
+                    jsonObject2.put(DataNames.x1, wire.getPosition1().x);
+                    jsonObject2.put(DataNames.y1, wire.getPosition1().y);
                     jsonObject2.put(DataNames.x2, wire.getPosition2().x);
                     jsonObject2.put(DataNames.y2, wire.getPosition2().y);
                     jsonArray.add(jsonObject2);
@@ -116,6 +107,7 @@ public class DataManager {
                     jsonObject2.put(DataNames.name, DataNames.Electron);
                     jsonObject2.put(DataNames.x1, electron.getPosition().x);
                     jsonObject2.put(DataNames.y1, electron.getPosition().y);
+                    jsonObject2.put(DataNames.orientation, electron.getOrientation());
                     jsonArray.add(jsonObject2);
                     break;
                 case DataNames.Generator:
@@ -139,7 +131,7 @@ public class DataManager {
 
             //writing in json file
             try {
-                FileWriter fileWriter = new FileWriter(savingFile);
+                FileWriter fileWriter = new FileWriter(savedFile);
                 fileWriter.write(jsonObject.toString());
                 fileWriter.flush();
             } catch (IOException e) {
@@ -217,12 +209,12 @@ public class DataManager {
             return new WorldData(width, height, elements);
 
         } else {
-            JOptionPane.showMessageDialog(null, "Please, choose proper .json input file first.");
+            JOptionPane.showMessageDialog(null, "Wrong input file! Please select proper .json file.");
             return null;
         }
     }
 
-    public void setInputFile() {
+    public void chooseInputFile() {
         JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
         jFileChooser.setDialogTitle("Select input .json file");
         jFileChooser.showOpenDialog(null);
@@ -265,5 +257,9 @@ public class DataManager {
         int width = ((Long) jsonObject.get(DataNames.width)).intValue();
         int height = ((Long) jsonObject.get(DataNames.height)).intValue();
         return new Dimension(width, height);
+    }
+
+    private boolean cellIsNOTEmpty (Cell currentCell){
+        return !currentCell.getState().equals(State.EMPTY);
     }
 }

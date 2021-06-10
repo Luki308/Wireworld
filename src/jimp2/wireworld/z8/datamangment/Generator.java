@@ -7,9 +7,13 @@ import java.awt.*;
 
 public class Generator extends Element {
 
-    // these fields will be useful in THE EDITOR
     private final int width;
     private final int height;
+
+
+    public Generator(Dimension dimension) {
+        this(DataNames.TEMPLATE_POINT, dimension);
+    }
 
     public Generator(Point position, Dimension dimension) {
         super(position, dimension.width, dimension.height);
@@ -32,7 +36,7 @@ public class Generator extends Element {
     }
 
     private boolean areCoordinatesNotCorner(int column, int row) {
-        return !((row == column) || ((row == 0) && (column == width - 1)) || (row == height - 1 && column == 0));
+        return !(((row == 0) && (column == width - 1)) || (row == height - 1 && column == 0) || ((row == 0) && (column == 0)) || (row == height - 1 && column == width - 1));
     }
 
     @Override
