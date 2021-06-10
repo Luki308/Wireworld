@@ -46,4 +46,13 @@ public class CustomElement extends Element {
     private static boolean isElementVertical(Orientation orient) {
         return orient == Orientation.NORTH || orient == Orientation.SOUTH;
     }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point(position.x + inputConnectorPoint.x, position.y + inputConnectorPoint.y);
+    }
 }

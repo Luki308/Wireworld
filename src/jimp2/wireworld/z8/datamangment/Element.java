@@ -60,4 +60,7 @@ public abstract class Element extends CellsContainer{
         position = worldPosition;
     }
 
+    public Point getPosition() {
+        return position;
+    }
 }
