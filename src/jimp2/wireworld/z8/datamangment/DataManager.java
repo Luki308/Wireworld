@@ -107,7 +107,7 @@ public class DataManager {
                     jsonObject2.put(DataNames.name, DataNames.Electron);
                     jsonObject2.put(DataNames.x1, electron.getPosition().x);
                     jsonObject2.put(DataNames.y1, electron.getPosition().y);
-                    jsonObject2.put(DataNames.orientation, electron.getOrientation());
+                    jsonObject2.put(DataNames.orientation, electron.getOrientation().toString());
                     jsonArray.add(jsonObject2);
                     break;
                 case DataNames.Generator:
