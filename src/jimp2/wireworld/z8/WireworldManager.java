@@ -6,12 +6,14 @@ import jimp2.wireworld.z8.window.GUI;
 import jimp2.wireworld.z8.window.Window;
 import jimp2.wireworld.z8.wireworldlogic.*;
 import jimp2.wireworld.z8.datamangment.DataManager;
-import jimp2.wireworld.z8.datamangment.Element;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,8 +28,10 @@ public class WireworldManager {
     private Timer automationTimer;
 
     private WorldData worldData;
+    private World startingWorld;
 
     private int iterationsNumber = 0;
+    private int whichIteration = 0;
 
     public static final String UNDO_ACTION = "UNDO_ACTION";
     private Point lastClickedPoint = null;
@@ -156,6 +160,7 @@ public class WireworldManager {
         wireworld.update();
         window.menu.setIterationNumber(--iterationsNumber);
         window.graphicWorld.drawWorld();
+        whichIteration++;
         checkIfFinishedIterating();
     }
 
@@ -181,7 +186,12 @@ public class WireworldManager {
     }
 
     private void saveAsInputFile() {
-        dataManager.writeIterationToFile(iterationsNumber, wireworld.getWorld(), worldData.elements);
+        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
+        jFileChooser.setDialogTitle("Select input .json file");
+        jFileChooser.showSaveDialog(null);
+        File saveFile = jFileChooser.getSelectedFile();
+
+       dataManager.writeIterationToFile(whichIteration, startingWorld , wireworld.getWorld(), worldData.elements, saveFile);
     }
 
     private void saveAsNewCustomElement() {

@@ -98,8 +98,7 @@ public class Electron extends Element {
         insertIntoWorld(world, true);
     }
 
-    @Override
-    public void eraseFromWorld(World world) {
-        // TODO implement here
+    public Orientation getOrientation() {
+        return orientation;
     }
 }
