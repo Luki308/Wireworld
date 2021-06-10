@@ -25,18 +25,6 @@ public class Wire extends Element {
         calculateWirePath();
     }
 
-    @Override
-    public boolean validateSpace(World world) {
-        // TODO implement here
-        return true;
-    }
-
-    @Override
-    public void insertIntoWorld(World world) {
-        insertIntoWorld(world, true);
-    }
-
-
     private static int calculateElementSize(Point position1, Point position2, boolean returnX) {
         return 1 + Math.abs(calculateVector(position1, position2, returnX));
     }
