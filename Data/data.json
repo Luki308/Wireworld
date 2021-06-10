@@ -1,38 +1,152 @@
 {
-  "world_width":20,
-  "world_height":20,
+  "world_width": 45,
   "elements": [
     {
-      "name": "Generator",
-      "x1": 10,
+      "orientation": "EAST",
+      "name": "OR",
+      "y1": 2,
+      "x1": 7
+    },
+    {
+      "orientation": "EAST",
+      "name": "OR",
+      "y1": 4,
+      "x1": 1
+    },
+    {
+      "orientation": "EAST",
+      "name": "OR2",
+      "y1": 9,
+      "x1": 1
+    },
+    {
+      "orientation": "EAST",
+      "name": "AND",
+      "y1": 3,
+      "x1": 11
+    },
+    {
+      "orientation": "EAST",
+      "name": "AND",
+      "y1": 6,
+      "x1": 10
+    },
+    {
+      "orientation": "EAST",
+      "name": "XOR",
       "y1": 10,
-      "height": 6,
-      "width": 6
+      "x1": 21
+    },
+    {
+      "orientation": "EAST",
+      "name": "Diode",
+      "y1": 7,
+      "x1": 30
+    },
+    {
+      "orientation": "WEST",
+      "name": "Diode",
+      "y1": 7,
+      "x1": 39
+    },
+    {
+      "orientation": "EAST",
+      "name": "StarOne",
+      "y1": 22,
+      "x1": 14
+    },
+    {
+      "name": "Generator",
+      "y1": 12,
+      "width": 4,
+      "x1": 10,
+      "height": 4
+    },
+    {
+      "name": "Generator",
+      "y1": 22,
+      "width": 8,
+      "x1": 6,
+      "height": 3
     },
     {
       "name": "Wire",
-      "x1": 1,
-      "y1": 1,
-      "x2": 10,
-      "y2": 10
+      "y1": 11,
+      "x1": 21,
+      "y2": 19,
+      "x2": 21
     },
     {
+      "name": "Wire",
+      "y1": 4,
+      "x1": 20,
+      "y2": 4,
+      "x2": 19
+    },
+    {
+      "name": "Wire",
+      "y1": 2,
+      "x1": 9,
+      "y2": 2,
+      "x2": 6
+    },
+    {
+      "name": "Wire",
+      "y1": 6,
+      "x1": 9,
+      "y2": 8,
+      "x2": 8
+    },
+    {
+      "name": "Wire",
+      "y1": 7,
+      "x1": 29,
+      "y2": 7,
+      "x2": 28
+    },
+    {
+      "name": "Wire",
+      "y1": 7,
+      "x1": 35,
+      "y2": 7,
+      "x2": 34
+    },
+    {
+      "orientation": "SOUTH_WEST",
       "name": "Electron",
-      "x1":10,
-      "y1":12,
-      "orientation": "SOUTH"
+      "y1": 13,
+      "x1": 10
     },
     {
-      "name": "CellElement",
-      "x1":1,
-      "y1":1,
-      "state": "HEAD"
+      "orientation": "EAST",
+      "name": "Electron",
+      "y1": 0,
+      "x1": 1
     },
     {
-      "name": "Diode",
-      "x1":1,
-      "y1":6,
-      "orientation": "NORTH"
+      "orientation": "EAST",
+      "name": "Electron",
+      "y1": 4,
+      "x1": 1
+    },
+    {
+      "orientation": "EAST",
+      "name": "Electron",
+      "y1": 7,
+      "x1": 1
+    },
+    {
+      "orientation": "EAST",
+      "name": "Electron",
+      "y1": 9,
+      "x1": 1
+    },
+    {
+      "orientation": "EAST",
+      "name": "Electron",
+      "y1": 24,
+      "x1": 10
     }
-  ]
+  ],
+  "world_height": 30
 }
