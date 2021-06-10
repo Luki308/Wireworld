@@ -19,6 +19,10 @@ public class CustomElement extends Element {
         this.inputConnectorPoint = inConnectorPoint;
     }
 
+    public CustomElement(Orientation orientation, CustomElement templateCustomElement) {
+        this(DataNames.TEMPLATE_POINT, orientation, templateCustomElement);
+    }
+
     // standard CustomElement constructor
     public CustomElement(Point position, Orientation orientation, CustomElement templateCustomElement) {
         super(position, determineDimension(orientation, templateCustomElement));

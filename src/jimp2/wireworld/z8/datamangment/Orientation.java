@@ -1,5 +1,7 @@
 package jimp2.wireworld.z8.datamangment;
 
+import java.util.ArrayList;
+
 public enum Orientation {
     NORTH,
     WEST,
@@ -23,5 +25,17 @@ public enum Orientation {
     private static boolean directionCheck(String orientation, boolean onlyStandardDirections) {
         boolean isDirectionStandard = orientation.indexOf('_') == -1;
         return !onlyStandardDirections || isDirectionStandard;
+    }
+
+    public static Orientation[] getStandardDirections() {
+        ArrayList<Orientation> standardDirections = new ArrayList<>();
+
+        for (Orientation orientation : values())
+            if (directionCheck(orientation.name(), true))
+                standardDirections.add(orientation);
+
+        Orientation[] returnedOrientations = new Orientation[standardDirections.size()];
+
+        return standardDirections.toArray(returnedOrientations);
     }
 }
