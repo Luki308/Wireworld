@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -127,7 +126,7 @@ public class WireworldManager {
                 drawableElement.insertIntoWorld(wireworld.getWorld());
                 window.graphicWorld.drawWorld();
 
-                startingWorld = wireworld.getWorld();
+                startingWorld.copyCells(wireworld.getWorld());
 
                 worldData.elements.add(drawableElement);
                 editorEventManager.actionPerformed(lastClickedEditorButtonEvent);
@@ -145,7 +144,7 @@ public class WireworldManager {
                 wireworld.setWorld(undoList.get(lastUndoIndex));
                 undoList.remove(lastUndoIndex);
 
-                startingWorld = wireworld.getWorld();
+                startingWorld.copyCells(wireworld.getWorld());
                 window.graphicWorld.setNewGraphicWorld(wireworld.getWorld());
             }
         }
@@ -226,7 +225,6 @@ public class WireworldManager {
                 whichIteration = 0;
 
                 wireworld.resetWireworld();
-                startingWorld = wireworld.getWorld();
 
                 window.menu.unlockNavigationFields();
                 window.worldEditor.lockEditor();
@@ -267,7 +265,9 @@ public class WireworldManager {
     private void initializeNewWorld() {
         wireworld.initializeWorld(worldData);
         window.graphicWorld.initialize(wireworld.getWorld());
-        startingWorld = wireworld.getWorld();
+
+        startingWorld = new World(worldData.width, worldData.height);
+        startingWorld.copyCells(wireworld.getWorld());
     }
 
     private void newWorld(Dimension size) {
