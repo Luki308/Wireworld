@@ -88,7 +88,9 @@ public class WireworldManager {
                     newWorld(window.worldEditor.getWorldSize());
                     break;
                 case GUI.INSERT_CUSTOM_ELEMENT:
-                    //drawableElement = new CustomElement(window.worldEditor.getCellElementState());
+                    String name = window.worldEditor.getCustomElementName();
+                    Orientation orientation = window.worldEditor.getCustomElementOrientation();
+                    drawableElement = new CustomElement(orientation, dataManager.factory.getAvailableCustomElements().get(name));
                     break;
                 case GUI.INSERT_GENERATOR:
                     Dimension size = window.worldEditor.getGeneratorSize();
@@ -140,15 +142,7 @@ public class WireworldManager {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (undoList.size() > 0) {
-
-                int lastUndoIndex = undoList.size() - 1;
-                wireworld.setWorld(undoList.get(lastUndoIndex));
-                undoList.remove(lastUndoIndex);
-
-                startingWorld.copyCells(wireworld.getWorld());
-                window.graphicWorld.setNewGraphicWorld(wireworld.getWorld());
-            }
+            processUndo();
         }
     };
 
@@ -296,5 +290,17 @@ public class WireworldManager {
 
     private boolean isChosenElementWire() {
         return drawableElement.getName().equals(DataNames.Wire);
+    }
+
+    private void processUndo() {
+        if (undoList.size() > 0) {
+
+            int lastUndoIndex = undoList.size() - 1;
+            wireworld.setWorld(undoList.get(lastUndoIndex));
+            undoList.remove(lastUndoIndex);
+
+            startingWorld.copyCells(wireworld.getWorld());
+            window.graphicWorld.setNewGraphicWorld(wireworld.getWorld());
+        }
     }
 }

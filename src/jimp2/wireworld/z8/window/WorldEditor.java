@@ -18,7 +18,7 @@ public class WorldEditor extends JPanel {
 
     private final JButton insertCustomElement = new StandardButton("Insert new custom element", GUI.EDITOR_BUTTON_SIZE);
     private final StandardComboBox<String> customElementName = new StandardComboBox<>();
-    private final StandardComboBox<Orientation> customElementOrientation = new StandardComboBox<>(Orientation.values());
+    private final StandardComboBox<Orientation> customElementOrientation = new StandardComboBox<>(Orientation.getStandardDirections());
 
     private final JButton insertGenerator = new StandardButton("Insert new generator", GUI.EDITOR_BUTTON_SIZE);
     private final NumericTextField generatorWidth = new NumericTextField("Width",GUI.EDITOR_TEXT_FIELD_SIZE);
