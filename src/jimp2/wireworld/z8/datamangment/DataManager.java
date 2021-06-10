@@ -79,7 +79,7 @@ public class DataManager {
         newElements.addAll(changedElements);
 
         if(savingFile == null)
-            savingFile = new File("Iterations/iteration"+iteration);
+            savingFile = new File("Iterations/iteration"+iteration+".json");
 
 
         //saving world parameters

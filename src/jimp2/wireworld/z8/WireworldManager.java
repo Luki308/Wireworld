@@ -29,7 +29,7 @@ public class WireworldManager {
     private World startingWorld;
 
     private int iterationsNumber = 0;
-
+    private int whichIteration = 0;
 
     private final ActionListener mainEventManager = new ActionListener() {
         @Override
@@ -103,6 +103,7 @@ public class WireworldManager {
         wireworld.update();
         window.menu.setIterationNumber(--iterationsNumber);
         window.graphicWorld.drawWorld();
+        whichIteration++;
         checkIfFinishedIterating();
     }
 
@@ -133,7 +134,7 @@ public class WireworldManager {
         jFileChooser.showSaveDialog(null);
         File saveFile = jFileChooser.getSelectedFile();
 
-       dataManager.writeIterationToFile(iterationsNumber, startingWorld , wireworld.getWorld(), worldData.elements, saveFile); //TODO zmienic iterations number bo jest zawsze 0
+       dataManager.writeIterationToFile(whichIteration, startingWorld , wireworld.getWorld(), worldData.elements, saveFile);
     }
 
     private void saveAsNewCustomElement() {
@@ -148,6 +149,7 @@ public class WireworldManager {
     }
 
     private void start() {
+        whichIteration = 0;
         worldData = dataManager.readInputFile();
         if(worldData != null){
             startingWorld = wireworld.getWorld();
