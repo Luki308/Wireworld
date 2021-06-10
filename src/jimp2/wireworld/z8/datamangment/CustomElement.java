@@ -50,4 +50,9 @@ public class CustomElement extends Element {
     public Orientation getOrientation() {
         return orientation;
     }
+
+    @Override
+    public Point getPosition() {
+        return new Point(position.x + inputConnectorPoint.x, position.y + inputConnectorPoint.y);
+    }
 }

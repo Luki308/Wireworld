@@ -36,19 +36,19 @@ public class CellsContainer {
                 copyCells(from);
                 break;
             case EAST:
-                for (int i = 0; i < height; i++)
-                    for (int j = width - 1; j >= 0; j--)
-                        cells[i][j].setState(from.cells[i][j].getState());
+                for (int i = 0; i < width; i++)
+                    for (int j = 0 ; j < height; j++)
+                        cells[i][j].setState(from.cells[j][i].getState());
                 break;
             case SOUTH:
-                for (int i = width - 1; i >= 0; i--)
-                    for (int j = height - 1; j >= 0; j--)
-                        cells[i][j].setState(from.cells[i][j].getState());
+                for(int i = 0; i < width; i++)
+                    for(int j = 0; j < height; j++)
+                        cells[i][j].setState(from.cells[width-1-i][height-1-j].getState());
                 break;
             case WEST:
-                for (int i = height - 1; i >= 0; i--)
-                    for (int j = 0; j < width; j++)
-                        cells[i][j].setState(from.cells[i][j].getState());
+                for (int i = 0; i < width; i++)
+                    for (int j = 0 ; j < height; j++)
+                        cells[i][j].setState(from.cells[height-1-j][width-1-i].getState());
                 break;
         }
     }

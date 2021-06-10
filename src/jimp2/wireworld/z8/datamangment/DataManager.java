@@ -132,7 +132,7 @@ public class DataManager {
                     jsonObject2.put(DataNames.name, customElement.getName());
                     jsonObject2.put(DataNames.x1, customElement.getPosition().x);
                     jsonObject2.put(DataNames.y1, customElement.getPosition().y);
-                    jsonObject2.put(DataNames.orientation, customElement.getOrientation());
+                    jsonObject2.put(DataNames.orientation, customElement.getOrientation().toString());
                     jsonArray.add(jsonObject2);
             }
             jsonObject.put("elements",jsonArray);
@@ -161,20 +161,24 @@ public class DataManager {
                 state = State.getState(enumName);
                 if (state == null) break;
                 return new CellElement(point, state);
+
             case DataNames.Wire:
                 point = readElementPosition(jsonObject);
                 point2 = readElementPosition(jsonObject, true);
                 return new Wire(point, point2);
+
             case DataNames.Electron:
                 point = readElementPosition(jsonObject);
                 enumName = readElementName(jsonObject, DataNames.orientation);
                 orient = Orientation.getOrientation(enumName, false);
                 if (orient == null) break;
                 return new Electron(point, orient);
+
             case DataNames.Generator:
                 point = readElementPosition(jsonObject);
                 dimension = readDimension(jsonObject);
                 return new Generator(point, dimension);
+
             default:    // custom element
                 if (factory.getAvailableCustomElements().containsKey(name)) {
                     point = readElementPosition(jsonObject);
