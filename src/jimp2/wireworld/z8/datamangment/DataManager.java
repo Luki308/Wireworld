@@ -33,12 +33,12 @@ public class DataManager {
     }
 
     private List<Element> seekForNewElements(World startingWorld, World currentWorld) {
-        // TODO implement here
         List<Element> newElements = new ArrayList<>();
         World copyCurrentWorld = new World(currentWorld.getWidth(),currentWorld.getHeight());
         copyCurrentWorld.copyCells(currentWorld);
         Cell currentCell;
 
+        //for each cell we're checking if cell's state has changed
         for(int column = 0; column < currentWorld.getWidth(); column++) {
             for (int row = 0; row < currentWorld.getHeight(); row++) {
 
@@ -66,17 +66,14 @@ public class DataManager {
         List<Element> newElements = new ArrayList<>();
         for(Element element : elements) {
 
-            //przepisujemy wszystko oprócz electronów
-            //CellElementy także przepisujemy jedynie gdy mają stan Empty albo Conductor
-            // nie przepisujemy tylko tych poniżej
+            //copying elements that dont change
             if (isNOTElectron(element)) {
                 if (isNOTCellContainerTailOrHead(element)) {
                     newElements.add(element);
                 }
             }
         }
-        //następnie SeekForNewElements, żeby znaleźć te komórki, które się zmieniły
-        //skuteczniej byłoby nadpisywać tylko w CustomElementach, które posiadają electrony w sobie z definicji
+        //looking for cells that changed
         List<Element> changedElements;
         changedElements = seekForNewElements(startingWorld, currentWorld);
         newElements.addAll(changedElements);
@@ -84,10 +81,14 @@ public class DataManager {
         if(savingFile == null)
             savingFile = new File("Iterations/iteration"+iteration);
 
+
+        //saving world parameters
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("world_width",currentWorld.getWidth());
         jsonObject.put("world_height",currentWorld.getHeight());
 
+
+        //saving to json file elements
         JSONArray jsonArray =  new JSONArray();
         JSONObject jsonObject2;
         for(Element element : newElements) {
@@ -98,7 +99,7 @@ public class DataManager {
                     jsonObject2.put(DataNames.name, DataNames.CellElement);
                     jsonObject2.put(DataNames.x1, cellElement.getPosition().x);
                     jsonObject2.put(DataNames.y1, cellElement.getPosition().y);
-                    jsonObject2.put("state", cellElement.getState().toString());
+                    jsonObject2.put(DataNames.state, cellElement.getState().toString());
                     jsonArray.add(jsonObject2);
                     break;
                 case DataNames.Wire:
@@ -136,6 +137,7 @@ public class DataManager {
             }
             jsonObject.put("elements",jsonArray);
 
+            //writing in json file
             try {
                 FileWriter fileWriter = new FileWriter(savingFile);
                 fileWriter.write(jsonObject.toString());
@@ -153,6 +155,7 @@ public class DataManager {
         State state;
         Dimension dimension;
 
+        //interpreting each jsonObject
         switch (name) {
             case DataNames.CellElement:
                 point = readElementPosition(jsonObject);

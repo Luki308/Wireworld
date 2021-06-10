@@ -47,11 +47,6 @@ public abstract class Element extends CellsContainer{
         }
     }
 
-    public void eraseFromWorld(World world)
-    {
-        // TODO
-    }
-
     public String getName() {
         return name;
     }

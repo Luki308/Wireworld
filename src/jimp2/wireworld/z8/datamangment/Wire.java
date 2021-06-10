@@ -30,11 +30,6 @@ public class Wire extends Element {
         insertIntoWorld(world, true);
     }
 
-    @Override
-    public void eraseFromWorld(World world) {
-        // TODO implement here
-    }
-
 
     private static int calculateElementSize(Point position1, Point position2, boolean returnX) {
         return 1 + Math.abs(calculateVector(position1, position2, returnX));

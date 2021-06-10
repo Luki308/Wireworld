@@ -22,7 +22,7 @@ public class WireworldManager {
     private final Wireworld wireworld = new Wireworld();
     private final DataManager dataManager = new DataManager();
 
-    private final static int automationInterval = 100;
+    private final static int automationInterval = 200;
     private Timer automationTimer;
 
     private WorldData worldData;
