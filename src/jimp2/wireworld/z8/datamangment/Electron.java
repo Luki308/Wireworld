@@ -13,6 +13,7 @@ public class Electron extends Element {
     private static final int HEAD_INDEX = 1;
 
     private final Orientation orientation;
+    private Point tailPosition;
 
     public Electron(Orientation orientation) {
         this(DataNames.TEMPLATE_POINT, orientation);
@@ -28,41 +29,40 @@ public class Electron extends Element {
 
         switch (orientation) {
             case NORTH:
-                cells[HEAD_INDEX][HEAD_INDEX + 1].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX, HEAD_INDEX + 1);
                 break;
             case WEST:
-                cells[HEAD_INDEX + 1][HEAD_INDEX].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX + 1, HEAD_INDEX);
                 break;
             case EAST:
-                cells[HEAD_INDEX - 1][HEAD_INDEX].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX - 1, HEAD_INDEX);
                 break;
             case SOUTH:
-                cells[HEAD_INDEX][HEAD_INDEX - 1].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX, HEAD_INDEX - 1);
                 break;
             case NORTH_WEST:
-                cells[HEAD_INDEX + 1][HEAD_INDEX + 1].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX + 1, HEAD_INDEX + 1);
                 break;
             case NORTH_EAST:
-                cells[HEAD_INDEX - 1][HEAD_INDEX + 1].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX - 1, HEAD_INDEX + 1);
                 break;
             case SOUTH_WEST:
-                cells[HEAD_INDEX + 1][HEAD_INDEX - 1].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX + 1, HEAD_INDEX - 1);
                 break;
             case SOUTH_EAST:
-                cells[HEAD_INDEX - 1][HEAD_INDEX - 1].setState(State.TAIL);
+                tailPosition = new Point(HEAD_INDEX - 1, HEAD_INDEX - 1);
                 break;
         }
+
+        cells[tailPosition.x][tailPosition.y].setState(State.TAIL);
     }
 
     @Override
-    public boolean validateSpace(World world) {
-        // TODO implement here
-        return true;
-    }
-
-    @Override
-    public void insertIntoWorld(World world) {
-        insertIntoWorld(world, true);
+    protected boolean validateSpace(World world) {
+        return position.x + tailPosition.x >= 0
+                && position.y + tailPosition.y >= 0
+                && position.x + tailPosition.x < world.getWidth()
+                && position.y + tailPosition.y < world.getHeight();
     }
 
     public Orientation getOrientation() {

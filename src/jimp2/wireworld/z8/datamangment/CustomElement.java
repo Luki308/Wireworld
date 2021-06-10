@@ -1,13 +1,11 @@
 package jimp2.wireworld.z8.datamangment;
 
-import jimp2.wireworld.z8.wireworldlogic.World;
-
 import java.awt.*;
 
 
 public class CustomElement extends Element {
 
-    private Point inputConnectorPoint;
+    private final Point inputConnectorPoint;
     private Orientation orientation = Orientation.NORTH;
 
 

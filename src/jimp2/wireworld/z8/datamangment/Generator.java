@@ -38,14 +38,4 @@ public class Generator extends Element {
     private boolean areCoordinatesNotCorner(int column, int row) {
         return !(((row == 0) && (column == width - 1)) || (row == height - 1 && column == 0) || ((row == 0) && (column == 0)) || (row == height - 1 && column == width - 1));
     }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
 }

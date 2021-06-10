@@ -1,8 +1,7 @@
 package jimp2.wireworld.z8.datamangment;
 
-
 import jimp2.wireworld.z8.wireworldlogic.State;
-import jimp2.wireworld.z8.wireworldlogic.World;
+
 
 import java.awt.*;
 
@@ -23,12 +22,6 @@ public class CellElement extends Element {
         this.state = state;
 
         cells[CELL_INDEX][CELL_INDEX].setState(state);
-    }
-
-    @Override
-    public boolean validateSpace(World world) {
-        // TODO implement here
-        return true;
     }
 
     public State getState() {

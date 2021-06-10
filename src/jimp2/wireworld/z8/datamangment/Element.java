@@ -23,23 +23,18 @@ public abstract class Element extends CellsContainer{
         this(position, dimension.width, dimension.height);
     }
 
-    public boolean validateSpace(World world)
+    protected boolean validateSpace(World world)
     {
-        // TODO
-        return true;
+        return position.x >= 0 && position.y >= 0 && position.x + (width - 1) < world.getWidth() && position.y + (height - 1) < world.getHeight();
     }
 
     public void insertIntoWorld(World world) {
-        insertIntoWorld(world, false);
-    }
-
-    protected void insertIntoWorld(World world, boolean withoutEmpty) {
         if (validateSpace(world)) {
             State state;
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
                     state = cells[i][j].getState();
-                    if (!withoutEmpty || state != State.EMPTY) {
+                    if (state != State.EMPTY) {
                         world.cells[i + position.x][j + position.y].setState(state);
                     }
                 }
