@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class CustomElement extends Element {
 
-    private final Point inputConnectorPoint;
+    private Point inputConnectorPoint;
     private Orientation orientation = Orientation.NORTH;
 
 
@@ -25,9 +25,24 @@ public class CustomElement extends Element {
     public CustomElement(Point position, Orientation orientation, CustomElement templateCustomElement) {
         super(position, determineDimension(orientation, templateCustomElement));
         name = templateCustomElement.getName();
-        inputConnectorPoint = templateCustomElement.getInputConnectorPoint();
 
         this.orientation = orientation;
+        Point templateConnectorPoint = templateCustomElement.getInputConnectorPoint();
+        switch (orientation)
+        {
+            case NORTH:
+                inputConnectorPoint = templateConnectorPoint;
+                break;
+            case EAST:
+                inputConnectorPoint = new Point(templateConnectorPoint.y, height-1-templateConnectorPoint.x);
+                break;
+            case SOUTH:
+                inputConnectorPoint = new Point(width-1-templateConnectorPoint.x, height-1-templateConnectorPoint.y);
+                break;
+            case WEST:
+                inputConnectorPoint = new Point(width-1-templateConnectorPoint.y, templateConnectorPoint.x);
+                break;
+        }
 
         copyCells(templateCustomElement, orientation);
         setPosition(position);

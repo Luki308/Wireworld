@@ -298,6 +298,7 @@ public class WireworldManager {
             int lastUndoIndex = undoList.size() - 1;
             wireworld.setWorld(undoList.get(lastUndoIndex));
             undoList.remove(lastUndoIndex);
+            worldData.elements.remove(worldData.elements.size() - 1);
 
             startingWorld.copyCells(wireworld.getWorld());
             window.graphicWorld.setNewGraphicWorld(wireworld.getWorld());
