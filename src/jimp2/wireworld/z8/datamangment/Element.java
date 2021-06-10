@@ -1,11 +1,11 @@
 package jimp2.wireworld.z8.datamangment;
 
-
 import jimp2.wireworld.z8.wireworldlogic.CellsContainer;
 import jimp2.wireworld.z8.wireworldlogic.State;
 import jimp2.wireworld.z8.wireworldlogic.World;
 
 import java.awt.*;
+
 
 public abstract class Element extends CellsContainer{
 
@@ -60,4 +60,7 @@ public abstract class Element extends CellsContainer{
         position = worldPosition;
     }
 
+    public Point getPosition() {
+        return position;
+    }
 }

@@ -19,7 +19,7 @@ public class Wireworld {
         newWorld = new World(worldData.width, worldData.height);
 
         buildTheWorld(worldData.elements,world);
-        newWorld.copyCells(world);
+        resetWireworld();
     }
 
     public void update() {
@@ -51,5 +51,9 @@ public class Wireworld {
                 }
             }
         }
+    }
+
+    public void resetWireworld() {
+        newWorld.copyCells(world);
     }
 }

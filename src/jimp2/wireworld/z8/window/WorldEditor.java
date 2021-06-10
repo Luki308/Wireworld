@@ -101,17 +101,16 @@ public class WorldEditor extends JPanel {
     }
 
 
-    public State getCellParameter() {
+    public State getCellElementState() {
+        return (State) cellState.getSelectedItem();
+    }
+
+    public Orientation getElectronOrientation() {
         // TODO implement here
         return null;
     }
 
-    public Orientation getElectronParameter() {
-        // TODO implement here
-        return null;
-    }
-
-    public Dimension getGeneratorParameters() {
+    public Dimension getGeneratorSize() {
         // TODO implement here
         return null;
     }

@@ -14,7 +14,7 @@ public class CustomElement extends Element {
     // CustomElement template constructor
     public CustomElement(int width, int height, String name, Point inConnectorPoint) {
         // point doesn't matter here
-        super(new Point(0,0), width, height);
+        super(DataNames.TEMPLATE_POINT, width, height);
         this.name = name;
         this.inputConnectorPoint = inConnectorPoint;
     }

@@ -98,12 +98,12 @@ public class DataManager {
             return new WorldData(width, height, elements);
 
         } else {
-            JOptionPane.showMessageDialog(null, "Chosen file has changed to none!");
+            JOptionPane.showMessageDialog(null, "Wrong input file! Please select proper .json file.");
             return null;
         }
     }
 
-    public void setInputFile() {
+    public void chooseInputFile() {
         JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
         jFileChooser.setDialogTitle("Select input .json file");
         jFileChooser.showOpenDialog(null);

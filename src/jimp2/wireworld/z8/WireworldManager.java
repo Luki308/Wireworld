@@ -1,5 +1,6 @@
 package jimp2.wireworld.z8;
 
+import jimp2.wireworld.z8.datamangment.CellElement;
 import jimp2.wireworld.z8.datamangment.WorldData;
 import jimp2.wireworld.z8.window.GUI;
 import jimp2.wireworld.z8.window.Window;
@@ -13,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,6 +35,8 @@ public class WireworldManager {
     private Point lastClickedPoint = null;
     private Point previouslyClickedPoint = null;
     private Element drawableElement = null;
+    private ActionEvent lastClickedEditorButtonEvent;
+    private final ArrayList<Element> addedElements = new ArrayList<>();
 
     private final ActionListener mainEventManager = new ActionListener() {
         @Override
@@ -77,16 +81,19 @@ public class WireworldManager {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
             if (command == null) return;
+            lastClickedEditorButtonEvent = e;
 
             switch (command) {
                 case GUI.NEW_EMPTY_WORLD:
                     newWorld(window.worldEditor.getWorldSize());
                     break;
                 case GUI.INSERT_CUSTOM_ELEMENT:
+
                     break;
                 case GUI.INSERT_GENERATOR:
                     break;
                 case GUI.INSERT_CELL:
+                    drawableElement = new CellElement(window.worldEditor.getCellElementState());
                     break;
                 case GUI.INSERT_ELECTRON:
                     break;
@@ -106,6 +113,14 @@ public class WireworldManager {
 
             previouslyClickedPoint = lastClickedPoint;
             lastClickedPoint = window.graphicWorld.calculateClickPosition(click);
+
+            if(drawableElement != null) {
+                drawableElement.setPosition(lastClickedPoint);
+                drawableElement.insertIntoWorld(wireworld.getWorld());
+                window.graphicWorld.drawWorld();
+                addedElements.add(drawableElement);
+                editorEventManager.actionPerformed(lastClickedEditorButtonEvent);
+            }
         }
     };
 
@@ -114,9 +129,11 @@ public class WireworldManager {
         window = new Window(mainEventManager, editorEventManager, canvasEventManager);
         window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
 
+        restartInterface();
+
         // placeholder initialization not to leave empty space at start
         worldData = dataManager.readInputFile();
-        start();
+        initializeNewWorld();
     }
 
     private void next() {
@@ -167,18 +184,21 @@ public class WireworldManager {
     }
 
     private void chooseInputFile() {
-        dataManager.setInputFile();
-        worldData = dataManager.readInputFile();
+        dataManager.chooseInputFile();
+        WorldData newWorld = dataManager.readInputFile();
+        if(newWorld != null) {
+            worldData = newWorld;
+            initializeNewWorld();
+        }
     }
 
     private void start() {
         if(worldData != null){
-
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
-                wireworld.initializeWorld(worldData);
-                window.graphicWorld.initialize(wireworld.getWorld());
+                worldData.elements.addAll(addedElements);
+                wireworld.resetWireworld();
 
                 window.menu.unlockNavigationFields();
                 window.worldEditor.lockEditor();
@@ -214,9 +234,20 @@ public class WireworldManager {
         window.worldEditor.unlockEditor();
 
         lastClickedPoint = null;
+        drawableElement = null;
+        addedElements.clear();
+    }
+
+    private void initializeNewWorld() {
+        wireworld.initializeWorld(worldData);
+        window.graphicWorld.initialize(wireworld.getWorld());
     }
 
     private void newWorld(Dimension size) {
-        worldData = size != null ? new WorldData(size.width, size.height, null) : null;
+        WorldData newWorld = size != null ? new WorldData(size.width, size.height, new ArrayList<>()) : null;
+        if(newWorld != null) {
+            worldData = newWorld;
+            initializeNewWorld();
+        }
     }
 }
