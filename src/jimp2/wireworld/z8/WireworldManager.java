@@ -1,12 +1,9 @@
 package jimp2.wireworld.z8;
 
-import jimp2.wireworld.z8.datamangment.CellElement;
-import jimp2.wireworld.z8.datamangment.Element;
-import jimp2.wireworld.z8.datamangment.WorldData;
+import jimp2.wireworld.z8.datamangment.*;
 import jimp2.wireworld.z8.window.GUI;
 import jimp2.wireworld.z8.window.Window;
 import jimp2.wireworld.z8.wireworldlogic.*;
-import jimp2.wireworld.z8.datamangment.DataManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,16 +88,23 @@ public class WireworldManager {
                     newWorld(window.worldEditor.getWorldSize());
                     break;
                 case GUI.INSERT_CUSTOM_ELEMENT:
-
+                    //drawableElement = new CustomElement(window.worldEditor.getCellElementState());
                     break;
                 case GUI.INSERT_GENERATOR:
+                    Dimension size = window.worldEditor.getGeneratorSize();
+                    drawableElement = size != null ? new Generator(size) : null;
                     break;
                 case GUI.INSERT_CELL:
                     drawableElement = new CellElement(window.worldEditor.getCellElementState());
                     break;
                 case GUI.INSERT_ELECTRON:
+                    drawableElement = new Electron(window.worldEditor.getElectronOrientation());
                     break;
                 case GUI.INSERT_WIRE:
+                    if (drawableElement == null || !isChosenElementWire()) {
+                        lastClickedPoint = null;
+                        drawableElement = new Wire();
+                    }
                     break;
                 default:
                     JOptionPane.showMessageDialog(window, "Unexpected editor manager event source!");
@@ -117,19 +121,17 @@ public class WireworldManager {
             previouslyClickedPoint = lastClickedPoint;
             lastClickedPoint = window.graphicWorld.calculateClickPosition(click);
 
-            if(drawableElement != null) {
-                World previousWorld = new World(worldData.width, worldData.height);
-                previousWorld.copyCells(wireworld.getWorld());
-                undoList.add(previousWorld);
-
-                drawableElement.setPosition(lastClickedPoint);
-                drawableElement.insertIntoWorld(wireworld.getWorld());
-                window.graphicWorld.drawWorld();
-
-                startingWorld.copyCells(wireworld.getWorld());
-
-                worldData.elements.add(drawableElement);
-                editorEventManager.actionPerformed(lastClickedEditorButtonEvent);
+            if (drawableElement != null) {
+                if (!isChosenElementWire()) {
+                    drawableElement.setPosition(lastClickedPoint);
+                    insertNewElement(drawableElement);
+                } else {
+                    if (lastClickedPoint != null && previouslyClickedPoint != null) {
+                        Wire newElement = new Wire(lastClickedPoint, previouslyClickedPoint);
+                        drawableElement = null;
+                        insertNewElement(newElement);
+                    }
+                }
             }
         }
     };
@@ -190,14 +192,14 @@ public class WireworldManager {
     }
 
     private void saveAsInputFile() {
-       dataManager.writeIterationToFile(whichIteration, startingWorld , wireworld.getWorld(), worldData.elements);
+        dataManager.writeIterationToFile(whichIteration, startingWorld, wireworld.getWorld(), worldData.elements);
     }
 
     private void saveAsNewCustomElement() {
         if (lastClickedPoint != null) {
 
             String userResponse = JOptionPane.showInputDialog(window, "Please write a name of the new Custom Element");
-             if (userResponse != null) {
+            if (userResponse != null) {
                 dataManager.factory.saveNewCustomElement(wireworld.getWorld(), lastClickedPoint, userResponse);
 
                 window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
@@ -211,14 +213,14 @@ public class WireworldManager {
     private void chooseInputFile() {
         dataManager.chooseInputFile();
         WorldData newWorld = dataManager.readInputFile();
-        if(newWorld != null) {
+        if (newWorld != null) {
             worldData = newWorld;
             initializeNewWorld();
         }
     }
 
     private void start() {
-        if(worldData != null){
+        if (worldData != null) {
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
@@ -246,7 +248,7 @@ public class WireworldManager {
     }
 
     private void checkIfFinishedIterating() {
-        if(hasFinishedIterating()) {
+        if (hasFinishedIterating()) {
             restartInterface();
         }
     }
@@ -272,9 +274,27 @@ public class WireworldManager {
 
     private void newWorld(Dimension size) {
         WorldData newWorld = size != null ? new WorldData(size.width, size.height, new ArrayList<>()) : null;
-        if(newWorld != null) {
+        if (newWorld != null) {
             worldData = newWorld;
             initializeNewWorld();
         }
+    }
+
+    private void insertNewElement(Element newElement) {
+        World previousWorld = new World(worldData.width, worldData.height);
+        previousWorld.copyCells(wireworld.getWorld());
+        undoList.add(previousWorld);
+
+        newElement.insertIntoWorld(wireworld.getWorld());
+        window.graphicWorld.drawWorld();
+
+        startingWorld.copyCells(wireworld.getWorld());
+
+        worldData.elements.add(newElement);
+        editorEventManager.actionPerformed(lastClickedEditorButtonEvent);
+    }
+
+    private boolean isChosenElementWire() {
+        return drawableElement.getName().equals(DataNames.Wire);
     }
 }

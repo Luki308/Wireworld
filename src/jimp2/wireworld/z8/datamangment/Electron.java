@@ -12,9 +12,11 @@ public class Electron extends Element {
     private static final int ELECTRON_SIZE = 3;
     private static final int HEAD_INDEX = 1;
 
-    // these fields will be useful in THE EDITOR
-    private Orientation orientation;
+    private final Orientation orientation;
 
+    public Electron(Orientation orientation) {
+        this(DataNames.TEMPLATE_POINT, orientation);
+    }
 
     public Electron(Point position, Orientation orientation) {
         super(new Point(position.x - HEAD_INDEX, position.y - HEAD_INDEX), ELECTRON_SIZE, ELECTRON_SIZE);
@@ -100,5 +102,15 @@ public class Electron extends Element {
 
     public Orientation getOrientation() {
         return orientation;
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point(position.x + HEAD_INDEX, position.y + HEAD_INDEX);
+    }
+
+    @Override
+    public void setPosition(Point position) {
+        super.setPosition(new Point(position.x - HEAD_INDEX, position.y - HEAD_INDEX));
     }
 }

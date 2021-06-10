@@ -59,7 +59,7 @@ public class DataManager {
 
     public void writeIterationToFile(int iteration, World startingWorld, World currentWorld, List<Element> elements) {
         JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
-        jFileChooser.setDialogTitle("Select input .json file");
+        jFileChooser.setDialogTitle("Select output .json file");
         jFileChooser.showSaveDialog(null);
         File savedFile = jFileChooser.getSelectedFile();
 
@@ -96,8 +96,8 @@ public class DataManager {
                 case DataNames.Wire:
                     Wire wire = (Wire) element;
                     jsonObject2.put(DataNames.name, DataNames.Wire);
-                    jsonObject2.put(DataNames.x1, wire.getPosition().x);
-                    jsonObject2.put(DataNames.y1, wire.getPosition().y);
+                    jsonObject2.put(DataNames.x1, wire.getPosition1().x);
+                    jsonObject2.put(DataNames.y1, wire.getPosition1().y);
                     jsonObject2.put(DataNames.x2, wire.getPosition2().x);
                     jsonObject2.put(DataNames.y2, wire.getPosition2().y);
                     jsonArray.add(jsonObject2);
@@ -107,6 +107,7 @@ public class DataManager {
                     jsonObject2.put(DataNames.name, DataNames.Electron);
                     jsonObject2.put(DataNames.x1, electron.getPosition().x);
                     jsonObject2.put(DataNames.y1, electron.getPosition().y);
+                    jsonObject2.put(DataNames.orientation, electron.getOrientation());
                     jsonArray.add(jsonObject2);
                     break;
                 case DataNames.Generator:

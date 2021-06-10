@@ -28,11 +28,7 @@ public class CustomElement extends Element {
         this.orientation = orientation;
 
         copyCells(templateCustomElement, orientation);
-        setPosition(new Point(position.x - inputConnectorPoint.x, position.y - inputConnectorPoint.y));
-    }
-
-    public Point getInputConnectorPoint() {
-        return inputConnectorPoint;
+        setPosition(position);
     }
 
     private static Dimension determineDimension(Orientation orient, CustomElement templateCustomElement) {
@@ -47,6 +43,10 @@ public class CustomElement extends Element {
         return orient == Orientation.NORTH || orient == Orientation.SOUTH;
     }
 
+    public Point getInputConnectorPoint() {
+        return inputConnectorPoint;
+    }
+
     public Orientation getOrientation() {
         return orientation;
     }
@@ -54,5 +54,10 @@ public class CustomElement extends Element {
     @Override
     public Point getPosition() {
         return new Point(position.x + inputConnectorPoint.x, position.y + inputConnectorPoint.y);
+    }
+
+    @Override
+    public void setPosition(Point position) {
+        super.setPosition(new Point(position.x - inputConnectorPoint.x, position.y - inputConnectorPoint.y));
     }
 }
