@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-//TODO usunąć todo
 public class DataManager {
     private File inputFile = new File(DataNames.EXAMPLE_FILE_PATH);
     public FactoryOfCustomElements factory = new FactoryOfCustomElements();
@@ -161,24 +160,20 @@ public class DataManager {
                 state = State.getState(enumName);
                 if (state == null) break;
                 return new CellElement(point, state);
-
             case DataNames.Wire:
                 point = readElementPosition(jsonObject);
                 point2 = readElementPosition(jsonObject, true);
                 return new Wire(point, point2);
-
             case DataNames.Electron:
                 point = readElementPosition(jsonObject);
                 enumName = readElementName(jsonObject, DataNames.orientation);
                 orient = Orientation.getOrientation(enumName, false);
                 if (orient == null) break;
                 return new Electron(point, orient);
-
             case DataNames.Generator:
                 point = readElementPosition(jsonObject);
                 dimension = readDimension(jsonObject);
                 return new Generator(point, dimension);
-
             default:    // custom element
                 if (factory.getAvailableCustomElements().containsKey(name)) {
                     point = readElementPosition(jsonObject);
