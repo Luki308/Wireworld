@@ -43,6 +43,10 @@ public class Wireworld {
         return world;
     }
 
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
     private void buildTheWorld(List<Element> elements, World world) {
         if(elements != null) {
             for(Element e : elements) {

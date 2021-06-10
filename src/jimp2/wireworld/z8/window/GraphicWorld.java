@@ -56,4 +56,9 @@ public class GraphicWorld extends JLayeredPane {
     public Point calculateClickPosition(MouseEvent click) {
         return new Point(click.getX() / squareSize, click.getY() / squareSize);
     }
+
+    public void setNewGraphicWorld(World world){
+        worldCanvas.setWorld(world);
+        drawWorld();
+    }
 }

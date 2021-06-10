@@ -10,10 +10,7 @@ import jimp2.wireworld.z8.datamangment.Element;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,15 +25,16 @@ public class WireworldManager {
     private final static int automationInterval = 200;
     private Timer automationTimer;
 
-    private WorldData worldData = null;
+    private WorldData worldData;
 
     private int iterationsNumber = 0;
 
+    public static final String UNDO_ACTION = "UNDO_ACTION";
     private Point lastClickedPoint = null;
     private Point previouslyClickedPoint = null;
     private Element drawableElement = null;
     private ActionEvent lastClickedEditorButtonEvent;
-    private final ArrayList<Element> addedElements = new ArrayList<>();
+    private final ArrayList<World> undoList = new ArrayList<>();
 
     private final ActionListener mainEventManager = new ActionListener() {
         @Override
@@ -115,20 +113,38 @@ public class WireworldManager {
             lastClickedPoint = window.graphicWorld.calculateClickPosition(click);
 
             if(drawableElement != null) {
+                World previousWorld = new World(worldData.width, worldData.height);
+                previousWorld.copyCells(wireworld.getWorld());
+                undoList.add(previousWorld);
+
                 drawableElement.setPosition(lastClickedPoint);
                 drawableElement.insertIntoWorld(wireworld.getWorld());
                 window.graphicWorld.drawWorld();
-                addedElements.add(drawableElement);
+
+                worldData.elements.add(drawableElement);
                 editorEventManager.actionPerformed(lastClickedEditorButtonEvent);
             }
         }
     };
 
+    private final Action undoAction = new AbstractAction(UNDO_ACTION) {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (undoList.size() > 0) {
+
+                int lastUndoIndex = undoList.size() - 1;
+                wireworld.setWorld(undoList.get(lastUndoIndex));
+                undoList.remove(lastUndoIndex);
+
+                window.graphicWorld.setNewGraphicWorld(wireworld.getWorld());
+            }
+        }
+    };
 
     public WireworldManager() {
-        window = new Window(mainEventManager, editorEventManager, canvasEventManager);
+        window = new Window(mainEventManager, editorEventManager, canvasEventManager, undoAction);
         window.worldEditor.initializeCustomElementsNames(dataManager.factory.getAvailableCustomElements().keySet());
-
         restartInterface();
 
         // placeholder initialization not to leave empty space at start
@@ -197,7 +213,6 @@ public class WireworldManager {
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
-                worldData.elements.addAll(addedElements);
                 wireworld.resetWireworld();
 
                 window.menu.unlockNavigationFields();
@@ -206,8 +221,6 @@ public class WireworldManager {
                 // in case provided number of iterations equals 0
                 checkIfFinishedIterating();
             }
-        } else {
-            JOptionPane.showMessageDialog(window, "Current world data is set to none!");
         }
     }
 
@@ -235,7 +248,7 @@ public class WireworldManager {
 
         lastClickedPoint = null;
         drawableElement = null;
-        addedElements.clear();
+        undoList.clear();
     }
 
     private void initializeNewWorld() {

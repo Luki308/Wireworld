@@ -4,14 +4,7 @@ import java.awt.*;
 
 
 public class GridCanvas extends StandardCanvas {
-   /* may be useful if border setting is necessary every initialize
-    @Override
-    public void initialize(int squareSize, World world) {
-        super.initialize(squareSize, world);
 
-        setBorder(GUI.THIN_BORDER);
-    }
-    */
     public GridCanvas(){
         setBorder(GUI.THIN_BORDER);
     }

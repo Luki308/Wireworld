@@ -1,9 +1,12 @@
 package jimp2.wireworld.z8.window;
 
+import jimp2.wireworld.z8.WireworldManager;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
+import java.awt.event.*;
+
+import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 
 
 public class Window extends JFrame {
@@ -13,7 +16,7 @@ public class Window extends JFrame {
     public GraphicWorld graphicWorld;
 
 
-    public Window(ActionListener mainManager, ActionListener editorManager, MouseAdapter canvasManager) {
+    public Window(ActionListener mainManager, ActionListener editorManager, MouseAdapter canvasManager, Action undoAction) {
         menu = new Menu(mainManager);
         worldEditor = new WorldEditor(editorManager);
         graphicWorld = new GraphicWorld(canvasManager);
@@ -37,5 +40,8 @@ public class Window extends JFrame {
         add(rightPanel, BorderLayout.EAST);
 
         setLayout(new BorderLayout());
+
+        rightPanel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control Z"), WireworldManager.UNDO_ACTION);
+        rightPanel.getActionMap().put(WireworldManager.UNDO_ACTION, undoAction);
     }
 }
