@@ -69,7 +69,8 @@ public class FactoryOfCustomElements {
                 System.err.println("Wrong data in custom element file (input point)");
                 return;
             }
-            CustomElement customElement = new CustomElement(width, height, filename, inConnectorPoint);
+            String nameWithoutExtension = filename.substring(0, filename.length() - 4);
+            CustomElement customElement = new CustomElement(width, height, nameWithoutExtension, inConnectorPoint);
 
             //reading table
             boolean stoppedReading = false;
@@ -98,7 +99,7 @@ public class FactoryOfCustomElements {
                 row++;
             }
             if (!stoppedReading)
-                availableCustomElements.put(filename.substring(0, filename.length() - 4), customElement);
+                availableCustomElements.put(nameWithoutExtension, customElement);
 
         } catch (FileNotFoundException e) {
             System.err.println("There is problem with reading " + filename + " file in CustomElement");

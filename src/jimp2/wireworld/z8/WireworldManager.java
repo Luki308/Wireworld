@@ -1,6 +1,7 @@
 package jimp2.wireworld.z8;
 
 import jimp2.wireworld.z8.datamangment.CellElement;
+import jimp2.wireworld.z8.datamangment.Element;
 import jimp2.wireworld.z8.datamangment.WorldData;
 import jimp2.wireworld.z8.window.GUI;
 import jimp2.wireworld.z8.window.Window;
@@ -13,7 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -125,6 +127,8 @@ public class WireworldManager {
                 drawableElement.insertIntoWorld(wireworld.getWorld());
                 window.graphicWorld.drawWorld();
 
+                startingWorld = wireworld.getWorld();
+
                 worldData.elements.add(drawableElement);
                 editorEventManager.actionPerformed(lastClickedEditorButtonEvent);
             }
@@ -141,6 +145,7 @@ public class WireworldManager {
                 wireworld.setWorld(undoList.get(lastUndoIndex));
                 undoList.remove(lastUndoIndex);
 
+                startingWorld = wireworld.getWorld();
                 window.graphicWorld.setNewGraphicWorld(wireworld.getWorld());
             }
         }
@@ -186,12 +191,7 @@ public class WireworldManager {
     }
 
     private void saveAsInputFile() {
-        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
-        jFileChooser.setDialogTitle("Select input .json file");
-        jFileChooser.showSaveDialog(null);
-        File saveFile = jFileChooser.getSelectedFile();
-
-       dataManager.writeIterationToFile(whichIteration, startingWorld , wireworld.getWorld(), worldData.elements, saveFile);
+       dataManager.writeIterationToFile(whichIteration, startingWorld , wireworld.getWorld(), worldData.elements);
     }
 
     private void saveAsNewCustomElement() {
@@ -223,7 +223,10 @@ public class WireworldManager {
             iterationsNumber = window.menu.getIterationNumber();
 
             if (iterationsNumber >= 0) {
+                whichIteration = 0;
+
                 wireworld.resetWireworld();
+                startingWorld = wireworld.getWorld();
 
                 window.menu.unlockNavigationFields();
                 window.worldEditor.lockEditor();
@@ -264,6 +267,7 @@ public class WireworldManager {
     private void initializeNewWorld() {
         wireworld.initializeWorld(worldData);
         window.graphicWorld.initialize(wireworld.getWorld());
+        startingWorld = wireworld.getWorld();
     }
 
     private void newWorld(Dimension size) {
